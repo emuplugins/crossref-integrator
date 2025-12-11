@@ -1,0 +1,103 @@
+/* DETALHES DO LIVRO */
+
+.postbox .inside {
+    padding: .7em !important
+}
+
+/* DOI */
+
+.crossref-doi-field {
+    display: inline-block;
+    width: 270px;
+    padding: 0 0.7em;
+    height: 40px;
+    font-size: 1em;
+    border: solid #17171757 1px;
+    border-radius: 0;
+    line-height: normal;
+    color: black;
+}
+
+.crossref-doi-msg {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+
+
+
+.button-effects {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 .7em #bd0000a0;
+    animation: pulsar-sombra 2s infinite;
+    border-radius: 10px;
+    background-color: #c20020 !important;
+    color: white !important;
+    font-weight: 500;
+    border: none !important
+}
+
+.button-effects:hover {
+    transform: scale(1.05);
+}
+
+@keyframes pulsar-sombra {
+    0% {
+        box-shadow: 0 0 0 0em #bd0000a0;
+    }
+
+    100% {
+        box-shadow: 0 0 0 .7em #fff0;
+    }
+}
+
+.button-effects:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -20em;
+    width: 30em;
+    height: 10em;
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: .2;
+    transform: rotate(75deg);
+    filter: blur(2em);
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes shine-smaller {
+    0% {
+        left: -20em;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+.button-effects:before {
+    animation: shine-smaller 1.2s ease-in-out infinite;
+}
+
+
+.cf-block-preview .cf-field__label, .cf-html .cf-field__label, .cf-separator .cf-field__label {
+    display: block!important;
+}
+
+[data-doi="crossref"]{
+    width:100%!important;
+}
+
+.cf-hidden{
+    display:none
+}
+
+.crossref-disabled {
+    filter: grayscale(100%) brightness(90%);
+    opacity:.6
+
+}
