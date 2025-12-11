@@ -12,6 +12,7 @@
 // Constantes de diretório do plugin
 define('CROSSREF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('CROSSREF_PLUGIN_URL', plugin_dir_url(__FILE__));
+require_once(CROSSREF_PLUGIN_DIR . '/carbon-fields/carbon-fields-plugin.php');
 
 function crossref_verify_fields() {
     $doi_link     = get_option('_crossref_doi_deposit_link');
@@ -30,7 +31,6 @@ function crossref_verify_fields() {
 add_action('after_setup_theme', 'crb_load');
 function crb_load()
 {
-    require_once(CROSSREF_PLUGIN_DIR . '/carbon-fields/carbon-fields-plugin.php');
     require_once(CROSSREF_PLUGIN_DIR . '/includes/option-page.php');
 
     // Campos preenchidos, então carregamos os arquivos necessários
@@ -108,9 +108,3 @@ function crossref_integrator_assets($hook)
     );
 }
 add_action('admin_enqueue_scripts', 'crossref_integrator_assets');
-
-
-// Load backend files
-if (is_admin()) {
-    require_once CROSSREF_PLUGIN_DIR . 'update-handler.php';
-}
