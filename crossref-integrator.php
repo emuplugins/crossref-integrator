@@ -31,9 +31,7 @@ function crossref_verify_fields() {
 add_action('after_setup_theme', 'crb_load');
 function crb_load()
 {
-    require_once('vendor/autoload.php');
-    \Carbon_Fields\Carbon_Fields::boot();
-
+    require_once(CROSSREF_PLUGIN_DIR . '/carbon-fields/carbon-fields-plugin.php');
     require_once(CROSSREF_PLUGIN_DIR . '/includes/option-page.php');
 
     // Campos preenchidos, então carregamos os arquivos necessários
