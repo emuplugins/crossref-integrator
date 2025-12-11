@@ -103,3 +103,21 @@
     transition:all 1.4s!important
 
 }
+
+
+
+
+[name="carbon_fields_compact_input[_jats_abstract]"]{
+
+    field-sizing:content;
+    min-height:200px
+
+}
+
+.cf-field__help{
+    text-wrap: balance;
+}
+
+.cf-complex__placeholder-label.cf-complex__placeholder-label {
+    margin: 0 0 10px 0 !important;
+}

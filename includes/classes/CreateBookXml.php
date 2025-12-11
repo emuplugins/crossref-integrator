@@ -21,6 +21,7 @@ class CreateBookXML
             'registrant' => get_post_meta($bookId, '_registrant', true),
             'publisher' => get_post_meta($bookId, '_publisher', true),
             'contributors' => carbon_get_post_meta($bookId, 'contributors') ?: [],
+            'citation_list' => carbon_get_post_meta($bookId, 'citation_list') ?: [],
         ];
 
         self::valida($bookId, $d);
@@ -58,6 +59,7 @@ class CreateBookXML
                 'language' => get_post_meta($chapterId, '_language', true),
                 'resource' => get_post_meta($bookId, '_resource', true), // pega do pai automático
                 'contributors' => carbon_get_post_meta($chapterId, 'contributors') ?: [],
+                'citation_list' => carbon_get_post_meta($chapterId, 'citation_list') ?: [],
                 'first_page' => get_post_meta($chapterId, '_first_page', true),
                 'last_page' => get_post_meta($chapterId, '_last_page', true),
                 'component_number' => get_post_meta($chapterId, '_component_number', true),
@@ -67,7 +69,7 @@ class CreateBookXML
             $book->appendChild($chapter);
         }
 
-        
+
         $body->appendChild($book);
 
         $doiBatch->appendChild($body);
@@ -135,15 +137,15 @@ class CreateBookXML
     {
         $head = $xml->createElement('head');
 
-        $batchId = carbon_get_theme_option( 'crossref_doi_prefix' ) . '-' . $d['post_ID'] . '-' . date('YmdHis');
+        $batchId = carbon_get_theme_option('crossref_doi_prefix') . '-' . $d['post_ID'] . '-' . date('YmdHis');
 
         $head->appendChild($xml->createElement('doi_batch_id', $batchId));
         $head->appendChild($xml->createElement('timestamp', date('YmdHis')));
 
         // Depositor
         $depositor = $xml->createElement('depositor');
-        $depositor->appendChild($xml->createElement('depositor_name', carbon_get_theme_option( 'crossref_depositor' )));
-        $depositor->appendChild($xml->createElement('email_address', carbon_get_theme_option( 'crossref_contact_email' )));
+        $depositor->appendChild($xml->createElement('depositor_name', carbon_get_theme_option('crossref_depositor')));
+        $depositor->appendChild($xml->createElement('email_address', carbon_get_theme_option('crossref_contact_email')));
         $head->appendChild($depositor);
 
         $head->appendChild($xml->createElement('registrant', $d['registrant']));
@@ -199,7 +201,42 @@ class CreateBookXML
 
         $meta->appendChild(self::buildDoiData($xml, $d['doi'], $d['resource']));
 
+        $meta->appendChild(self::buildCitationList($xml, $d['citation_list']));
+
         return $meta;
+    }
+
+    private static function buildCitationList(DOMDocument $xml, array $lista)
+    {
+        $citationList = $xml->createElement('citation_list');
+
+        foreach ($lista as $i => $c) {
+            // Ignora entradas sem 'unstructured_citation' ou DOI
+            if (empty($c['unstructured_citation'])) {
+                continue;
+            }
+
+            $citation = $xml->createElement('citation');
+            $citation->setAttribute('key', 'ref' . ($i + 1));
+
+            // unstructured_citation
+            if (!empty($c['unstructured_citation'])) {
+                $unstructured = $xml->createElement('unstructured_citation');
+                $unstructuredText = $xml->createTextNode($c['unstructured_citation']);
+                $unstructured->appendChild($unstructuredText);
+                $citation->appendChild($unstructured);
+            }
+
+            // DOI
+            if (!empty($c['doi'])) {
+                $doiNode = $xml->createElement('doi', $c['doi']);
+                $citation->appendChild($doiNode);
+            }
+
+            $citationList->appendChild($citation);
+        }
+
+        return $citationList;
     }
 
     // ----------------------------------------------------------------------
@@ -410,6 +447,9 @@ class CreateBookXML
         if (!empty($d['doi'])) {
             $chapter->appendChild(self::buildDoiData($xml, $d['doi'], $d['resource'] ?? ''));
         }
+
+        
+        $chapter->appendChild(self::buildCitationList($xml, $d['citation_list']));
 
         return $chapter;
     }

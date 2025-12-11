@@ -50,16 +50,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         })
 
-                        setTimeout(() => {
                             newBtn.classList.add('crossref-disabled')
-                        }, 200)
+                      
                     }
                 }
             });
         });
 
+        document.querySelectorAll('label.cf-field__label').forEach(label => {
+            if (!label.textContent.trim()) {
+                label.remove();
+            }
+        });
 
 
-    })
+    },200)
 })
 
