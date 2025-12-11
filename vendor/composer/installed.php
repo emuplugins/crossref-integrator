@@ -3,7 +3,7 @@
         'name' => 'crossref/integrator',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '48f37b1a5617e3d4c1b50cb59097083f986f8d5b',
+        'reference' => '131da93ea9aee6655d74279d232761dc28acf163',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'crossref/integrator' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '48f37b1a5617e3d4c1b50cb59097083f986f8d5b',
+            'reference' => '131da93ea9aee6655d74279d232761dc28acf163',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
