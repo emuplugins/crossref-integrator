@@ -7,7 +7,6 @@
  * Author: Tonny Santana
  * Author URI: https://angardagency.com
  * License: GPL2
- * Text Domain: crossref-integrator
  */
 
 // Constantes de diretório do plugin
