@@ -1,0 +1,15 @@
+{
+  "name": "Crossref Integrator",
+  "slug": "crossref-integrator",
+  "version": "1.0.1",
+  "download_url": "https://github.com/emuplugins/crossref-integrator/archive/refs/heads/main.zip",
+  "tested": "6.4",
+  "requires": "5.8",
+  "author": "Tonny Santana",
+  "author_homepage": "https://angardagency.com",
+  "last_updated": "2025-12-11",
+  "sections": {
+    "description": "Nova versão do Crossref Integrator com correções e melhorias.",
+    "changelog": "Adiciona novo option page para selecionar os posttypes desejados."
+  }
+}

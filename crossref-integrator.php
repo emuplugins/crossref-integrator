@@ -28,8 +28,6 @@ function crossref_verify_fields() {
     return true;
 }
 
-
-
 add_action('after_setup_theme', 'crb_load');
 function crb_load()
 {
@@ -113,3 +111,9 @@ function crossref_integrator_assets($hook)
     );
 }
 add_action('admin_enqueue_scripts', 'crossref_integrator_assets');
+
+
+// Load backend files
+if (is_admin()) {
+    require_once CROSSREF_PLUGIN_DIR . 'update-handler.php';
+}
