@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Crossref Integrator
  * Description: Integra o WordPress com a API do Crossref, permitindo gerar e enviar metadados em XML conforme o padrão oficial, para a criação de DOIs.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Tonny Santana
  * Author URI: https://angardagency.com
  * License: GPL2
