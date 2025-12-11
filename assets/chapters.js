@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log(result.data);
 
                 // publicar o post
-                // document.querySelector('#publish').click();
+                document.querySelector('#publish').click();
 
             } catch (err) {
                 alert('Erro ao enviar via AJAX: ' + err);

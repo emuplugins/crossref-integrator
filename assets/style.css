@@ -37,7 +37,8 @@
     background-color: #c20020 !important;
     color: white !important;
     font-weight: 500;
-    border: none !important
+    border: none !important;
+    width:240px!important;
 }
 
 .button-effects:hover {
@@ -98,6 +99,7 @@
 
 .crossref-disabled {
     filter: grayscale(100%) brightness(90%);
-    opacity:.6
+    opacity:.6;
+    transition:all 1.4s!important
 
 }

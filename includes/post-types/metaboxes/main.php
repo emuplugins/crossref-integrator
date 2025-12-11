@@ -1,5 +1,6 @@
 <?php
 
+
 if (!defined('ABSPATH')) exit;
 
 use Carbon_Fields\Container;
@@ -7,12 +8,14 @@ use Carbon_Fields\Field;
 
 add_action('carbon_fields_register_fields', function () {
 
+    if(!crossref_verify_fields()) return;
+
     Container::make('post_meta', 'Digital Object Identifier')
         ->where('post_type', 'IN', ['books', 'chapters'])
         ->add_fields([
             Field::make('text', 'doi', 'Número DOI')
                 ->set_attribute('maxLength', 26)
-                ->set_attribute('placeholder', '10.48209/000-00-0000-000-0')
+                ->set_attribute('placeholder', carbon_get_theme_option('crossref_doi_prefix') . '000-00-0000-000-0')
                 ->set_attribute('type', 'text')
                 ->set_attribute('readOnly', true)
                 ->set_attribute('data-doi', 'crossref')
@@ -51,11 +54,15 @@ add_action('carbon_fields_register_fields', function () {
     Container::make('post_meta', 'Detalhes do Livro')
         ->where('post_type', '=', 'books')
         ->add_fields([
+            Field::make('text', 'registrant', 'Registrante')->set_width(33)
+                ->set_help_text('Organização responsável pela informação sendo registrada.'),
+            Field::make('text', 'publisher', 'Publicador')->set_width(33)
+                ->set_help_text('Nome da pessoa ou entidade que está enviando o conteúdo a Crossref.'),
+
             Field::make('textarea', 'jats_abstract', 'Resumo')
                 ->set_required(true),
 
-            Field::make('text', 'isbn_e', 'ISBN (Versão Eletrônica)')
-                ->set_required(true)->set_width(33),
+            Field::make('text', 'isbn_e', 'ISBN (Versão Eletrônica)')->set_width(33),
 
             Field::make('text', 'isbn_p', 'ISBN (Versão Impressa)')->set_width(33),
 
@@ -140,19 +147,12 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_default_value(1)->set_width(25),
             Field::make('textarea', 'jats_abstract', 'Resumo')->set_attribute('data-optional', 'true'),
 
-            Field::make('text', 'isbn_e', 'ISBN (Versão Eletrônica)')->set_required(true)->set_width(25),
-            Field::make('text', 'isbn_p', 'ISBN (Versão Impressa)')->set_width(25),
-
-
-
-
-
             Field::make('date', 'online_publication_date', 'Data de Publicação (Versão Eletrônica)')
                 ->set_storage_format('Y-m-d')
-                ->set_required(true)->set_width(25),
+                ->set_required(true)->set_width(33),
 
             Field::make('date', 'print_publication_date', 'Data de Publicação (Versão Impressa)')
-                ->set_storage_format('Y-m-d')->set_width(25),
+                ->set_storage_format('Y-m-d')->set_width(33),
 
             Field::make('select', 'language', 'Idioma')
                 ->set_options([
@@ -168,7 +168,7 @@ add_action('carbon_fields_register_fields', function () {
                     'ar' => 'Árabe',
                 ])
                 ->set_default_value('pt')
-                ->set_required(true)->set_width(50),
+                ->set_required(true)->set_width(33),
         ]);
 
 

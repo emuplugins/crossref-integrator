@@ -137,19 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // agora, enviar somente os campos do seu mapa:
 
             data.append('post_ID', document.getElementById('post_ID').value);
-            data.append('post_title', document.getElementById('title').value);
 
-            data.append('doi', document.querySelector('[name="carbon_fields_compact_input[_doi]"]').value);
-
-            // Carbon Fields (pegando somente valores)
-            data.append('jats_abstract', document.querySelector('[name="carbon_fields_compact_input[_jats_abstract]"]').value);
-            data.append('isbn_e', document.querySelector('[name="carbon_fields_compact_input[_isbn_e]"]').value);
-            data.append('isbn_p', document.querySelector('[name="carbon_fields_compact_input[_isbn_p]"]').value);
-            data.append('edition_number', document.querySelector('[name="carbon_fields_compact_input[_edition_number]"]').value);
-            data.append('online_publication_date', document.querySelector('[name="carbon_fields_compact_input[_online_publication_date]"]').value);
-            data.append('print_publication_date', document.querySelector('[name="carbon_fields_compact_input[_print_publication_date]"]').value);
-            data.append('language', document.querySelector('[name="carbon_fields_compact_input[_language]"]').value);
-            data.append('resource', document.querySelector('[name="carbon_fields_compact_input[_resource]"]').value);
 
             // envio
             try {

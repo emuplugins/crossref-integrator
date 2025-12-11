@@ -4,6 +4,8 @@ if (!defined('ABSPATH')) exit;
 
 function crossref_register_chapters_cpt() {
 
+    if(!crossref_verify_fields()) return;
+
     $labels = array(
         'name'               => 'Chapters',
         'singular_name'      => 'Chapter',

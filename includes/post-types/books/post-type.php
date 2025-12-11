@@ -4,6 +4,10 @@ if (!defined('ABSPATH')) exit;
 
 function crossref_register_books_cpt() {
 
+    
+    if(!crossref_verify_fields()) return;
+
+
     $labels = array(
         'name'               => 'Books',
         'singular_name'      => 'Book',

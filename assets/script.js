@@ -38,18 +38,21 @@ document.addEventListener("DOMContentLoaded", () => {
                     const btn = document.querySelector('#crossref_submit_doi');
                     isDirty = true;
                     if (btn) {
-                        // Adiciona a classe visual de desabilitado
-                        btn.classList.add('crossref-disabled');
 
                         // Substitui o botão por um clone
                         const newBtn = btn.cloneNode(true);
                         newBtn.textContent = 'Salve as alterações localmente'; // altera o texto
                         btn.parentNode.replaceChild(newBtn, btn);
 
+
                         newBtn.addEventListener('click', () => {
                             document.querySelector('#publish').click();
 
                         })
+
+                        setTimeout(() => {
+                            newBtn.classList.add('crossref-disabled')
+                        }, 200)
                     }
                 }
             });

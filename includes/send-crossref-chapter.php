@@ -36,10 +36,34 @@ function handler_send_crossref_chapter()
         $xmlString
     );
 
-    // // ============================
-    // // Retornar sucesso
-    // // ============================
-    wp_send_json_success([
-        'message'  => $xmlString,
+    // Gera o “arquivo virtual” em memória
+    $tmpFile = 'data://text/plain;base64,' . base64_encode($xmlString);
+
+    $postFields = [
+        'operation'     => 'doMDUpload',
+        'login_id'      => carbon_get_theme_option( 'crossref_login_id' ),
+        'login_passwd'  => carbon_get_theme_option( 'crossref_login_passwd' ),
+        'fname'         => curl_file_create($tmpFile, 'application/xml', 'book.xml')
+    ];
+
+    $ch = curl_init(carbon_get_theme_option( 'crossref_doi_deposit_link' ));
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $postFields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYPEER => true
     ]);
+
+    $response = curl_exec($ch);
+    $error    = curl_error($ch);
+    curl_close($ch);
+
+    if ($error) {
+        wp_send_json_error(['message' => $error]);
+    } else {
+        wp_send_json_success([
+            'message'  => 'Arquivo enviado',
+            'response' => $response
+        ]);
+    }
 }

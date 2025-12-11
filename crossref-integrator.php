@@ -14,6 +14,20 @@
 define('CROSSREF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('CROSSREF_PLUGIN_URL', plugin_dir_url(__FILE__));
 
+function crossref_verify_fields() {
+    $doi_link     = get_option('_crossref_doi_deposit_link');
+    $login_id     = get_option('_crossref_login_id');
+    $login_passwd = get_option('_crossref_login_passwd');
+    $doi_prefix   = get_option('_crossref_doi_prefix');
+    $depositor    = get_option('_crossref_depositor');
+
+    if (empty($doi_link) || empty($login_id) || empty($login_passwd) || empty($doi_prefix) || empty($depositor)) {
+        return false;
+    }
+
+    return true;
+}
+
 
 
 add_action('after_setup_theme', 'crb_load');
@@ -22,13 +36,13 @@ function crb_load()
     require_once('vendor/autoload.php');
     \Carbon_Fields\Carbon_Fields::boot();
 
+    require_once(CROSSREF_PLUGIN_DIR . '/includes/option-page.php');
+
+    // Campos preenchidos, então carregamos os arquivos necessários
     require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/chapters/post-type.php');
     require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/books/post-type.php');
-
     require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/metaboxes/main.php');
 }
-
-
 
 
 

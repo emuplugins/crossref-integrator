@@ -18,8 +18,12 @@ class CreateBookXML
             'print_publication_date' => get_post_meta($bookId, '_print_publication_date', true),
             'language' => get_post_meta($bookId, '_language', true),
             'resource' => get_post_meta($bookId, '_resource', true),
+            'registrant' => get_post_meta($bookId, '_registrant', true),
+            'publisher' => get_post_meta($bookId, '_publisher', true),
             'contributors' => carbon_get_post_meta($bookId, 'contributors') ?: [],
         ];
+
+        self::valida($bookId, $d);
 
         $xml = new DOMDocument('1.0', 'UTF-8');
         $xml->formatOutput = true;
@@ -41,7 +45,6 @@ class CreateBookXML
         $metadata = self::buildBookMetadata($xml, $d);
         $book->appendChild($metadata);
 
-        $body->appendChild($book);
 
         // Capítulo
         if ($chapterId) {
@@ -50,12 +53,10 @@ class CreateBookXML
                 'post_title' => get_the_title($chapterId),
                 'doi' => get_post_meta($chapterId, '_doi', true),
                 'jats_abstract' => get_post_meta($chapterId, '_jats_abstract', true),
-                'isbn_e' => get_post_meta($chapterId, '_isbn_e', true),
-                'isbn_p' => get_post_meta($chapterId, '_isbn_p', true),
                 'online_publication_date' => get_post_meta($chapterId, '_online_publication_date', true),
                 'print_publication_date' => get_post_meta($chapterId, '_print_publication_date', true),
                 'language' => get_post_meta($chapterId, '_language', true),
-                'resource' => get_post_meta($chapterId, '_resource', true),
+                'resource' => get_post_meta($bookId, '_resource', true), // pega do pai automático
                 'contributors' => carbon_get_post_meta($chapterId, 'contributors') ?: [],
                 'first_page' => get_post_meta($chapterId, '_first_page', true),
                 'last_page' => get_post_meta($chapterId, '_last_page', true),
@@ -63,8 +64,11 @@ class CreateBookXML
             ];
 
             $chapter = self::buildChapter($xml, $chapterData);
-            $body->appendChild($chapter);
+            $book->appendChild($chapter);
         }
+
+        
+        $body->appendChild($book);
 
         $doiBatch->appendChild($body);
 
@@ -72,6 +76,36 @@ class CreateBookXML
         $xml->appendChild($doiBatch);
 
         return $xml->saveXML();
+    }
+
+    private static function valida($bookId, $d)
+    {
+        $camposObrigatorios = [
+            'post_title' => 'Título',
+            'doi' => 'DOI',
+            'jats_abstract' => 'Resumo',
+            'edition_number' => 'Número da Edição',
+            'online_publication_date' => 'Data de Publicação Online',
+            'language' => 'Idioma',
+            'resource' => 'Resource',
+            'contributors' => 'Contribuidores',
+            'registrant' => 'Registrante',
+            'publisher' => 'Publicador',
+        ];
+
+        foreach ($camposObrigatorios as $chave => $nomeCampo) {
+            $valor = $d[$chave] ?? null;
+
+            // Para arrays (como contributors), verifica se está vazio
+            if (is_array($valor) && empty($valor)) {
+                throw new Exception("Erro: O campo '{$nomeCampo}' está vazio para o livro ID {$bookId}.");
+            }
+
+            // Para strings/valores simples
+            if (!is_array($valor) && empty($valor)) {
+                throw new Exception("Erro: O campo '{$nomeCampo}' está vazio para o livro ID {$bookId}.");
+            }
+        }
     }
 
 
@@ -101,18 +135,18 @@ class CreateBookXML
     {
         $head = $xml->createElement('head');
 
-        $batchId = 'arcoed-' . $d['post_ID'] . '-' . date('YmdHis');
+        $batchId = carbon_get_theme_option( 'crossref_doi_prefix' ) . '-' . $d['post_ID'] . '-' . date('YmdHis');
 
         $head->appendChild($xml->createElement('doi_batch_id', $batchId));
         $head->appendChild($xml->createElement('timestamp', date('YmdHis')));
 
         // Depositor
         $depositor = $xml->createElement('depositor');
-        $depositor->appendChild($xml->createElement('depositor_name', 'Arco Editores'));
-        $depositor->appendChild($xml->createElement('email_address', 'contato@arcoeditores.com'));
+        $depositor->appendChild($xml->createElement('depositor_name', carbon_get_theme_option( 'crossref_depositor' )));
+        $depositor->appendChild($xml->createElement('email_address', carbon_get_theme_option( 'crossref_contact_email' )));
         $head->appendChild($depositor);
 
-        $head->appendChild($xml->createElement('registrant', 'Arco Editores'));
+        $head->appendChild($xml->createElement('registrant', $d['registrant']));
 
         return $head;
     }
@@ -125,12 +159,18 @@ class CreateBookXML
     private static function buildBookMetadata(DOMDocument $xml, array $d)
     {
         $meta = $xml->createElement('book_metadata');
+
         $meta->setAttribute('language', $d['language']);
 
         $meta->appendChild(self::buildContributors($xml, $d['contributors']));
         $meta->appendChild(self::buildTitles($xml, $d['post_title']));
         $meta->appendChild(self::buildAbstract($xml, $d));
-        $meta->appendChild($xml->createElement('edition_number', $d['edition_number']));
+
+        $edition = isset($d['edition_number']) ? (int)$d['edition_number'] : 0;
+
+        if ($edition >= 1) {
+            $meta->appendChild($xml->createElement('edition_number', $edition));
+        }
 
         if (!empty($d['online_publication_date'])) {
             $online = new DateTime($d['online_publication_date']);
@@ -150,7 +190,13 @@ class CreateBookXML
             $meta->appendChild(self::buildIsbn($xml, $d['isbn_p'], 'print'));
         }
 
-        $meta->appendChild(self::buildPublisher($xml, 'Arco Editores'));
+        if (empty($d['isbn_e']) && empty($d['isbn_p'])) {
+
+            $meta->appendChild(self::buildIsbn($xml, false, ''));
+        }
+
+        $meta->appendChild(self::buildPublisher($xml, $d['publisher']));
+
         $meta->appendChild(self::buildDoiData($xml, $d['doi'], $d['resource']));
 
         return $meta;
@@ -276,6 +322,11 @@ class CreateBookXML
 
     private static function buildIsbn(DOMDocument $xml, string $isbn, string $type)
     {
+        if (!$isbn) {
+            $node = $xml->createElement('noisbn', $isbn);
+            $node->setAttribute('reason', 'monograph');
+            return $node;
+        }
         $node = $xml->createElement('isbn', $isbn);
         $node->setAttribute('media_type', $type);
         return $node;
