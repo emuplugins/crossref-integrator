@@ -1,7 +1,7 @@
 {
   "name": "Crossref Integrator",
   "slug": "crossref-integrator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "download_url": "https://github.com/emuplugins/crossref-integrator/archive/refs/heads/main.zip",
   "tested": "6.4",
   "requires": "5.8",
