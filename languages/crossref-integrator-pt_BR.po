@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 09:56+0000\n"
+"PO-Revision-Date: 2025-12-12 10:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
@@ -183,6 +183,10 @@ msgstr "Clique em \"Enviar DOI para Crossref\" para gerar o XML."
 msgid "Contact Email"
 msgstr "E-mail de contato"
 
+#: includes/post-types/metaboxes/main.php:220
+msgid "Contributor Biography"
+msgstr "Biografia do Contribuidor"
+
 #: includes/post-types/metaboxes/main.php:218
 msgid "Contributor Groups"
 msgstr "Grupos de Contribuintes"
@@ -362,6 +366,10 @@ msgstr "Idioma"
 #: includes/post-types/metaboxes/main.php:162
 msgid "Last Page"
 msgstr "Última Página"
+
+#: includes/post-types/metaboxes/main.php:220
+msgid "Lattes Curriculum (People Only)"
+msgstr "Currículo Lattes (apenas para pessoas)"
 
 #: includes/post-types/metaboxes/main.php:124
 msgid "Link associated with the work. Provides direct and permanent access."
