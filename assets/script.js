@@ -90,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         newBtn.addEventListener('click', () => {
                             document.querySelector('#publish').click();
+                            validarCamposObrigatorios()
                         });
 
                         newBtn.classList.add('crossref-disabled');

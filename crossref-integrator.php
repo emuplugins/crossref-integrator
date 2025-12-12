@@ -68,6 +68,16 @@ function crossref_integrator_assets($hook)
         return;
     }
 
+    
+    // JS geral 
+    wp_enqueue_script(
+        'crossref-base',
+        CROSSREF_PLUGIN_URL . '/assets/script.js',
+        ['jquery'],
+        '4.1.0',
+        true
+    );
+
     // CSS comum
     wp_enqueue_style(
         'crossref-integrator-style',
@@ -115,13 +125,5 @@ function crossref_integrator_assets($hook)
         true
     );
 
-    // JS geral 
-    wp_enqueue_script(
-        'crossref-base',
-        CROSSREF_PLUGIN_URL . '/assets/script.js',
-        ['jquery'],
-        '4.1.0',
-        true
-    );
 }
 add_action('admin_enqueue_scripts', 'crossref_integrator_assets');
