@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 00:53+0000\n"
+"PO-Revision-Date: 2025-12-12 02:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
@@ -227,6 +227,10 @@ msgstr "Editor"
 msgid "English"
 msgstr "Inglês"
 
+#: includes/post-types/chapters/post-type:12
+msgid "Enter your Crossref login ID provided by Crossref."
+msgstr "Insira seu Login ID disponibilizado pela Crossref."
+
 #: includes/send-crossref-book.php:24 includes/send-crossref-chapter.php:25
 msgid "Error generating XML:"
 msgstr "Erro ao gerar XML:"
@@ -384,6 +388,10 @@ msgstr "Data da Publicação (online)"
 msgid "ORCID (People Only)"
 msgstr "ORCID (somente para pessoas)"
 
+#: includes/post-types/chapters/post-type:20
+msgid "Organization responsible for the DOI prefix (usually the publisher)."
+msgstr "Organização responsável pelo prefixo DOI (normalmente a Editora)."
+
 #: includes/post-types/metaboxes/main.php:62
 msgid "Organization responsible for the information being registered."
 msgstr "Organização responsável pelas informações que estão sendo cadastradas."
@@ -395,6 +403,10 @@ msgstr "Livro Pai "
 #: includes/option-page.php:15
 msgid "Password"
 msgstr "Senha"
+
+#: includes/post-types/chapters/post-type:24
+msgid "Password used for depositing DOIs in Crossref."
+msgstr "Senha usada para depositar DOIs na Crossref."
 
 #: includes/post-types/metaboxes/main.php:226
 msgid "People or organizations who contributed to the work."
@@ -441,7 +453,7 @@ msgstr "Russo"
 
 #: includes/post-types/metaboxes/main.php:45
 msgid "Save changes locally"
-msgstr ""
+msgstr "Salvar alterações Localmente"
 
 #: includes/post-types/books/post-type.php:24
 msgid "Search Books"
@@ -458,6 +470,18 @@ msgstr "Selecionar Arquivo"
 #: includes/post-types/metaboxes/main.php:44
 msgid "Send updates to Crossref"
 msgstr "Enviar atualizações para o Crossref"
+
+#: includes/post-types/chapters/post-type:38
+msgid "Slug to be used for book archive URLs, e.g., \"books\"."
+msgstr ""
+"Slug a ser usado para a página de resultados de livros cadastrados (Ex: "
+"livros)."
+
+#: includes/post-types/chapters/post-type:43
+msgid "Slug to be used for chapter URLs, e.g., \"chapters\"."
+msgstr ""
+"Slug a ser usado para a página de resultados de capítulos cadastrados (Ex: "
+"capitulos)."
 
 #: includes/post-types/metaboxes/main.php:97
 #: includes/post-types/metaboxes/main.php:182
@@ -483,6 +507,19 @@ msgstr ""
 #: includes/post-types/metaboxes/main.php:206
 msgid "Surname (People Only)"
 msgstr "Sobrenome (Somente para Pessoas)"
+
+#: includes/post-types/chapters/post-type:16
+msgid "The DOI prefix assigned to your organization, e.g., 10.12345/."
+msgstr "O prefixo DOI atribuído à sua organização, por exemplo, 10.12345/."
+
+#: includes/post-types/chapters/post-type:33
+msgid ""
+"The email that will receive notifications about DOI registration status."
+msgstr "O email que receberá notificações sobre o status de registro de DOIs."
+
+#: includes/post-types/chapters/post-type:28
+msgid "The URL endpoint to deposit DOIs in Crossref."
+msgstr "O endpoint para depositar DOIs na Crossref."
 
 #. Author of the plugin
 msgid "Tonny Santana"

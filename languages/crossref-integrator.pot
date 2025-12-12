@@ -519,3 +519,35 @@ msgstr ""
 #: includes/post-types/metaboxes/main.php:240
 msgid "Work DOI"
 msgstr ""
+
+#: includes/post-types/chapters/post-type:12
+msgid "Enter your Crossref login ID provided by Crossref."
+msgstr ""
+
+#: includes/post-types/chapters/post-type:16
+msgid "The DOI prefix assigned to your organization, e.g., 10.12345/."
+msgstr ""
+
+#: includes/post-types/chapters/post-type:20
+msgid "Organization responsible for the DOI prefix (usually the publisher)."
+msgstr ""
+
+#: includes/post-types/chapters/post-type:24
+msgid "Password used for depositing DOIs in Crossref."
+msgstr ""
+
+#: includes/post-types/chapters/post-type:28
+msgid "The URL endpoint to deposit DOIs in Crossref."
+msgstr ""
+
+#: includes/post-types/chapters/post-type:33
+msgid "The email that will receive notifications about DOI registration status."
+msgstr ""
+
+#: includes/post-types/chapters/post-type:38
+msgid "Slug to be used for book archive URLs, e.g., \"books\"."
+msgstr ""
+
+#: includes/post-types/chapters/post-type:43
+msgid "Slug to be used for chapter URLs, e.g., \"chapters\"."
+msgstr ""
