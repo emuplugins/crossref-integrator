@@ -18,7 +18,7 @@ class CreateBookXML
             'print_publication_date' => get_post_meta($bookId, '_print_publication_date', true),
             'language' => get_post_meta($bookId, '_language', true),
             'resource' => get_post_meta($bookId, '_resource', true),
-            'registrant' => get_post_meta($bookId, '_registrant', true),
+            'registrant' => carbon_get_theme_option('crossref_registrant'),
             'publisher' => get_post_meta($bookId, '_publisher', true),
             'contributors' => carbon_get_post_meta($bookId, 'contributors') ?: [],
             'citation_list' => carbon_get_post_meta($bookId, 'citation_list') ?: [],

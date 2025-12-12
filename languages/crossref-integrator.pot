@@ -88,6 +88,10 @@ msgstr ""
 msgid "Attention, fill in all fields to activate the plugin."
 msgstr ""
 
+#: includes/option-page.php:23
+msgid "Organization, entity, or means responsible for registering the DOI."
+msgstr ""
+
 #: includes/post-types/metaboxes/main.php:212
 msgid "Author"
 msgstr ""
@@ -309,10 +313,6 @@ msgstr ""
 
 #: includes/post-types/metaboxes/main.php:203
 msgid "Given Name"
-msgstr ""
-
-#. Author URI of the plugin
-msgid "https://angardagency.com"
 msgstr ""
 
 #: includes/post-types/books/post-type.php:30

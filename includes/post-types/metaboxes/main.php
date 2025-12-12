@@ -58,12 +58,7 @@ add_action('carbon_fields_register_fields', function () {
     Container::make('post_meta', __('Book Details', 'crossref-integrator'))
         ->where('post_type', '=', 'crossref_books')
         ->add_fields([
-            Field::make('text', 'registrant', __('Registrant', 'crossref-integrator'))
-                ->set_width(33)
-                ->set_help_text(__('Organization that requested the publication of the book, not the publisher.', 'crossref-integrator'))
-                ->set_required(true),
-
-            Field::make('text', 'publisher', __('Publisher Name', 'crossref-integrator'))
+               Field::make('text', 'publisher', __('Publisher Name', 'crossref-integrator'))
                 ->set_width(33)
                 ->set_help_text(__('The company or organization that publishes the book or content.', 'crossref-integrator'))
                 ->set_required(true)->set_default_value(carbon_get_theme_option('crossref_publisher_name')),

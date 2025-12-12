@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 05:02+0000\n"
+"PO-Revision-Date: 2025-12-12 05:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese (Brazil)\n"
 "Language: pt_BR\n"
@@ -413,6 +413,10 @@ msgstr "ORCID (somente para Pessoas)"
 msgid ""
 "Organization that requested the publication of the book, not the publisher."
 msgstr "Organização que solicitou a publicação do livro, não a editora."
+
+#: includes/option-page.php:23
+msgid "Organization, entity, or means responsible for registering the DOI."
+msgstr "Organização, entidade ou meio responsável pelo registro do DOI."
 
 #: includes/post-types/metaboxes/main.php:132
 msgid "Parent Book"

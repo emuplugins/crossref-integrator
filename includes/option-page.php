@@ -9,6 +9,10 @@ function crossref_options_page()
     Container::make('theme_options', __('Crossref', 'crossref-integrator'))
         ->set_icon('dashicons-admin-generic')
         ->add_fields(array(
+            Field::make('text', 'crossref_publisher_name', __('Publisher Name', 'crossref-integrator'))
+                ->set_width(100)
+                ->set_required(true)
+                ->set_help_text(__('The company or organization that publishes the book or content.', 'crossref-integrator')),
             Field::make('text', 'crossref_login_id', __('Login ID', 'crossref-integrator'))
                 ->set_width(33)
                 ->set_required(true)
@@ -51,10 +55,10 @@ function crossref_options_page()
                 ->set_width(33)
                 ->set_attribute('placeholder', 'chapters')
                 ->set_help_text(__('Slug to be used for chapter URLs, e.g., "chapters".', 'crossref-integrator')),
-            Field::make('text', 'crossref_publisher_name', __('Publisher Name', 'crossref-integrator'))
+            Field::make('text', 'crossref_registrant', __('Registrant', 'crossref-integrator'))
                 ->set_width(33)
                 ->set_required(true)
-                ->set_help_text(__('The company or organization that publishes the book or content.', 'crossref-integrator')),
+                ->set_help_text(__('Organization, entity, or means responsible for registering the DOI.', 'crossref-integrator')),
 
             Field::make('html', 'aviso', ' ')
                 ->set_html('<span style="color:red;">' . __('Attention, fill in all fields to activate the plugin.', 'crossref-integrator') . '</span>'),
