@@ -41,8 +41,8 @@ add_action('carbon_fields_register_fields', function () {
 
                     $html .= '<button type="button" id="crossref_submit_doi" class="button button-effects">'
                         . ($doi
-                            ? __('Save changes locally', 'crossref-integrator')
-                            : __('Send updates to Crossref', 'crossref-integrator'))
+                            ? __('Send updates to Crossref', 'crossref-integrator')
+                            : __('Save changes locally', 'crossref-integrator'))
                         . '</button></div>';
 
                     return $html;
@@ -66,7 +66,7 @@ add_action('carbon_fields_register_fields', function () {
             Field::make('text', 'publisher', __('Publisher Name', 'crossref-integrator'))
                 ->set_width(33)
                 ->set_help_text(__('The company or organization that publishes the book or content.', 'crossref-integrator'))
-                ->set_required(true)->set_default_value( carbon_get_theme_option('crossref_publisher_name')),
+                ->set_required(true)->set_default_value(carbon_get_theme_option('crossref_publisher_name')),
 
 
             Field::make('textarea', 'jats_abstract', __('Abstract (JATS)', 'crossref-integrator'))
@@ -223,11 +223,31 @@ add_action('carbon_fields_register_fields', function () {
                             'translator'        => __('Translator', 'crossref-integrator'),
                         ])
                         ->set_default_value('author')->set_width(15),
+
+                    // --- Repeater de Affiliations ---
+                    Field::make('complex', 'affiliations', __('Affiliations (People Only)', 'crossref-integrator'))
+                        ->set_layout('tabbed-vertical')
+                        ->add_fields([
+                            Field::make('text', 'institution_name', __('Institution Name', 'crossref-integrator'))->set_width(40)->set_required(true),
+                            Field::make('text', 'institution_id', __('Institution ID', 'crossref-integrator'))->set_width(40),
+                            Field::make('select', 'institution_id_type', __('Institution ID Type', 'crossref-integrator'))
+                                ->set_options([
+                                    'ror'      => 'ROR',
+                                    'isni'     => 'ISNI',
+                                    'wikidata' => 'Wikidata',
+                                ])
+                                ->set_default_value('ror')
+                                ->set_width(20),
+                        ])
+                        ->set_min(0)
+                        ->set_help_text(__('List of institutions or organizations associated with this contributor.', 'crossref-integrator')),
+
                 ])
                 ->set_min(1)
                 ->set_header_template('<%- given %>')
                 ->set_help_text(__('People or organizations who contributed to the work.', 'crossref-integrator')),
         ]);
+
 
 
     // ------------------- Citations -------------------

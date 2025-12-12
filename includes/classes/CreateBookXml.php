@@ -251,10 +251,6 @@ class CreateBookXML
         return $citationList;
     }
 
-    // ----------------------------------------------------------------------
-    // CONTRIBUTORS
-    // ----------------------------------------------------------------------
-
     private static function buildContributors(DOMDocument $xml, array $lista)
     {
         $contributors = $xml->createElement('contributors');
@@ -291,15 +287,32 @@ class CreateBookXML
             $person->appendChild($xml->createElement('surname', $surname));
 
             // Afiliacoes
-            if (!empty($c['afiliacoes'])) {
+            if (!empty($c['affiliations']) && is_array($c['affiliations'])) {
                 $affs = $xml->createElement('affiliations');
-                foreach ($c['afiliacoes'] as $inst) {
-                    if (trim($inst) !== '') {
+                foreach ($c['affiliations'] as $inst) {
+                    $institutionName = trim($inst['institution_name'] ?? '');
+                    $institutionId   = trim($inst['institution_id'] ?? '');
+                    $institutionType = trim($inst['institution_id_type'] ?? '');
+
+                    if ($institutionName !== '' || $institutionId !== '') {
                         $instNode = $xml->createElement('institution');
-                        $instNode->appendChild($xml->createElement('institution_name', $inst));
+
+                        if ($institutionName !== '') {
+                            $instNode->appendChild($xml->createElement('institution_name', $institutionName));
+                        }
+
+                        if ($institutionId !== '') {
+                            $idNode = $xml->createElement('institution_id', $institutionId);
+                            if ($institutionType !== '') {
+                                $idNode->setAttribute('type', $institutionType);
+                            }
+                            $instNode->appendChild($idNode);
+                        }
+
                         $affs->appendChild($instNode);
                     }
                 }
+
                 if ($affs->childNodes->length > 0) {
                     $person->appendChild($affs);
                 }
@@ -315,6 +328,7 @@ class CreateBookXML
 
         return $contributors;
     }
+
 
 
     // ----------------------------------------------------------------------
