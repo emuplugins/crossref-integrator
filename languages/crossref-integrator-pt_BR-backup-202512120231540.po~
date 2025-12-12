@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 02:31+0000\n"
+"PO-Revision-Date: 2025-12-12 02:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
@@ -28,7 +28,7 @@ msgstr "Resumo (JATS Abstract)"
 
 #: includes/send-crossref-book.php:14 includes/send-crossref-chapter.php:14
 msgid "Access denied (invalid nonce)."
-msgstr "Acesso negado (nonce inválido). "
+msgstr "Acesso negado (nonce inválido)."
 
 #: includes/post-types/metaboxes/main.php:24
 msgid "Actions"
