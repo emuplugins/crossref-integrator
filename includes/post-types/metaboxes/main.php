@@ -203,15 +203,15 @@ add_action('carbon_fields_register_fields', function () {
                     // Role definido no grupo, aplicável a todos os contribuintes
                     Field::make('select', 'role', __('Role', 'crossref-integrator'))
                         ->set_options([
-                            'author'            => __('Author', 'crossref-integrator'),
-                            'editor'            => __('Editor', 'crossref-integrator'),
-                            'chair'             => __('Chair', 'crossref-integrator'),
-                            'reviewer'          => __('Reviewer', 'crossref-integrator'),
-                            'review-assistant'  => __('Review Assistant', 'crossref-integrator'),
-                            'stats-reviewer'    => __('Statistics Reviewer', 'crossref-integrator'),
-                            'reviewer-external' => __('External Reviewer', 'crossref-integrator'),
-                            'reader'            => __('Reader', 'crossref-integrator'),
-                            'translator'        => __('Translator', 'crossref-integrator'),
+                            'author'            => __('Authors', 'crossref-integrator'),
+                            'editor'            => __('Editors', 'crossref-integrator'),
+                            'chair'             => __('Chairs', 'crossref-integrator'),
+                            'reviewer'          => __('Reviewers', 'crossref-integrator'),
+                            'review-assistant'  => __('Review Assistants', 'crossref-integrator'),
+                            'stats-reviewer'    => __('Statistics Reviewers', 'crossref-integrator'),
+                            'reviewer-external' => __('External Reviewers', 'crossref-integrator'),
+                            'reader'            => __('Readers', 'crossref-integrator'),
+                            'translator'        => __('Translators', 'crossref-integrator'),
                         ])
                         ->set_default_value('author')->set_width(50),
 

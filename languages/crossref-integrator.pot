@@ -93,7 +93,7 @@ msgid "Organization, entity, or means responsible for registering the DOI."
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:212
-msgid "Author"
+msgid "Authors"
 msgstr ""
 
 #: includes/post-types/books/post-type.php:15
@@ -140,7 +140,7 @@ msgid "Books Slug"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:214
-msgid "Chair"
+msgid "Chairs"
 msgstr ""
 
 #: includes/post-types/chapters/post-type.php:15
@@ -243,7 +243,7 @@ msgid "Edition number of this work."
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:213
-msgid "Editor"
+msgid "Editors"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:96
@@ -266,7 +266,7 @@ msgid "The field '%s' is required."
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:218
-msgid "External Reviewer"
+msgid "External Reviewers"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:218
@@ -449,7 +449,7 @@ msgid "Publisher Name"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:219
-msgid "Reader"
+msgid "Readers"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:61
@@ -457,11 +457,11 @@ msgid "Registrant"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:216
-msgid "Review Assistant"
+msgid "Review Assistants"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:215
-msgid "Reviewer"
+msgid "Reviewers"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:210
@@ -495,7 +495,7 @@ msgid "Spanish"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:217
-msgid "Statistics Reviewer"
+msgid "Statistics Reviewers"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:169
@@ -517,7 +517,7 @@ msgid "Tonny Santana"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:220
-msgid "Translator"
+msgid "Translators"
 msgstr ""
 
 #: includes/post-types/books/post-type.php:31
