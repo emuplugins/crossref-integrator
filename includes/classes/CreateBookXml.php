@@ -6,6 +6,7 @@ class CreateBookXML
 {
     public static function generate($bookId, $chapterId = false)
     {
+        $groups = carbon_get_post_meta($bookId, 'contributor_groups'); // pega os grupos do meta
         $d = [
             'post_ID' => $bookId,
             'post_title' => get_the_title($bookId),
@@ -20,7 +21,7 @@ class CreateBookXML
             'resource' => get_post_meta($bookId, '_resource', true),
             'registrant' => carbon_get_theme_option('crossref_registrant'),
             'publisher' => get_post_meta($bookId, '_publisher', true),
-            'contributors' => carbon_get_post_meta($bookId, 'contributors') ?: [],
+            'contributors' => self::flattenContributorGroups($groups) ?: [],
             'citation_list' => carbon_get_post_meta($bookId, 'citation_list') ?: [],
         ];
 
@@ -46,9 +47,10 @@ class CreateBookXML
         $metadata = self::buildBookMetadata($xml, $d);
         $book->appendChild($metadata);
 
-
+        
         // Capítulo
         if ($chapterId) {
+            $groups = carbon_get_post_meta($chapterId, 'contributor_groups'); // pega os grupos do meta
             $chapterData = [
                 'post_ID' => $chapterId,
                 'post_title' => get_the_title($chapterId),
@@ -58,7 +60,7 @@ class CreateBookXML
                 'print_publication_date' => get_post_meta($chapterId, '_print_publication_date', true),
                 'language' => get_post_meta($chapterId, '_language', true),
                 'resource' => get_post_meta($bookId, '_resource', true), // pega do pai automático
-                'contributors' => carbon_get_post_meta($chapterId, 'contributors') ?: [],
+                'contributors' => self::flattenContributorGroups($groups) ?: [],
                 'citation_list' => carbon_get_post_meta($chapterId, 'citation_list') ?: [],
                 'first_page' => get_post_meta($chapterId, '_first_page', true),
                 'last_page' => get_post_meta($chapterId, '_last_page', true),
@@ -327,6 +329,22 @@ class CreateBookXML
         }
 
         return $contributors;
+    }
+
+
+    private static function flattenContributorGroups(array $groups): array
+    {
+        $flat = [];
+
+        foreach ($groups as $group) {
+            if (!empty($group['contributors']) && is_array($group['contributors'])) {
+                foreach ($group['contributors'] as $contributor) {
+                    $flat[] = $contributor;
+                }
+            }
+        }
+
+        return $flat;
     }
 
 

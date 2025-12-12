@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 06:13+0000\n"
+"PO-Revision-Date: 2025-12-12 09:46+0000\n"
 "Last-Translator: \n"
-"Language-Team: Portuguese (Brazil)\n"
+"Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -181,6 +181,10 @@ msgstr "Clique em \"Enviar DOI para Crossref\" para gerar o XML."
 msgid "Contact Email"
 msgstr "E-mail de contato"
 
+#: includes/post-types/metaboxes/main.php:218
+msgid "Contributor Groups"
+msgstr "Grupos de Contribuintes"
+
 #: includes/post-types/metaboxes/main.php:197
 msgid "Contributors"
 msgstr "Colaboradores"
@@ -247,12 +251,6 @@ msgstr "Erro ao gerar XML:"
 msgid "Error sending file:"
 msgstr "Erro ao enviar arquivo:"
 
-#: includes/classes/CreateBookXml.php:105
-#: includes/classes/CreateBookXml.php:116
-#, php-format
-msgid "Error: The field '%s' is empty for book ID %d."
-msgstr "Erro: o campo '%s' está vazio para o ID do livro %d ."
-
 #: includes/post-types/metaboxes/main.php:218
 msgid "External Reviewer"
 msgstr "Revisor externo"
@@ -294,6 +292,10 @@ msgstr "Alemão"
 #: includes/post-types/metaboxes/main.php:203
 msgid "Given Name"
 msgstr "Primeiro Nome"
+
+#: includes/post-types/metaboxes/main.php:218
+msgid "Group Title"
+msgstr ""
 
 #: includes/post-types/books/post-type.php:30
 msgid "Insert into book"
@@ -536,6 +538,12 @@ msgstr "O prefixo DOI atribuído à sua organização, por exemplo, 10.12345/."
 msgid ""
 "The email that will receive notifications about DOI registration status."
 msgstr "O email que receberá notificações sobre o status de registro de DOIs."
+
+#: includes/classes/CreateBookXml.php:105
+#: includes/classes/CreateBookXml.php:116
+#, php-format
+msgid "The field '%s' is required."
+msgstr "O campo '%s' é obrigatório."
 
 #: includes/post-types/chapters/post-type:28
 msgid "The URL endpoint to deposit DOIs in Crossref."

@@ -269,6 +269,14 @@ msgstr ""
 msgid "External Reviewer"
 msgstr ""
 
+#: includes/post-types/metaboxes/main.php:218
+msgid "Contributor Groups"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:218
+msgid "Group Title"
+msgstr ""
+
 #: includes/send-crossref-book.php:62 includes/send-crossref-chapter.php:63
 msgid "File successfully sent."
 msgstr ""
