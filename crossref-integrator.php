@@ -37,8 +37,10 @@ function crossref_verify_fields()
     $login_passwd = get_option('_crossref_login_passwd');
     $doi_prefix   = get_option('_crossref_doi_prefix');
     $depositor    = get_option('_crossref_depositor');
+    $registrant    = get_option('_crossref_registrant');
+    $email    = get_option('_crossref_contact_email');
 
-    if (empty($doi_link) || empty($login_id) || empty($login_passwd) || empty($doi_prefix) || empty($depositor)) {
+    if (empty($doi_link) || empty($login_id) || empty($login_passwd) || empty($doi_prefix) || empty($depositor) || empty($registrant) || empty($email) )  {
         return false;
     }
 
