@@ -26,6 +26,26 @@ msgstr ""
 msgid "Abstract (JATS)"
 msgstr ""
 
+#: includes/post-types/metaboxes/main.php:228
+msgid "Affiliations (People Only)"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:231
+msgid "Institution Name"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:232
+msgid "Institution id"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:233
+msgid "Institution ID Type"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:243
+msgid "List of institutions or organizations associated with this contributor."
+msgstr ""
+
 #: includes/send-crossref-book.php:14 includes/send-crossref-chapter.php:14
 msgid "Access denied (invalid nonce)."
 msgstr ""
