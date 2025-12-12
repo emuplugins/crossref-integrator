@@ -74,8 +74,8 @@ function crossref_integrator_assets($hook)
         'crossref-base',
         CROSSREF_PLUGIN_URL . '/assets/script.js',
         ['jquery'],
-        '4.1.0',
-        true
+        filemtime(CROSSREF_PLUGIN_DIR . 'assets/books.js'),
+            true
     );
 
     // CSS comum
