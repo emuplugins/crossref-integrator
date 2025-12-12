@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 02:42+0000\n"
+"PO-Revision-Date: 2025-12-12 03:20+0000\n"
 "Last-Translator: \n"
 "Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
@@ -231,6 +231,10 @@ msgstr "Inglês"
 msgid "Enter your Crossref login ID provided by Crossref."
 msgstr "Insira seu Login ID disponibilizado pela Crossref."
 
+#: includes/post-types/chapters/post-type:20
+msgid "Entity (person or organization) responsible for the DOI prefix."
+msgstr "Entidade (pessoa ou organização) responsável pelo prefixo DOI."
+
 #: includes/send-crossref-book.php:24 includes/send-crossref-chapter.php:25
 msgid "Error generating XML:"
 msgstr "Erro ao gerar XML:"
@@ -351,10 +355,6 @@ msgstr "Link para depositar DOIs no Crossref"
 msgid "Login ID"
 msgstr "Login ID"
 
-#: includes/post-types/metaboxes/main.php:66
-msgid "Name of the person or entity submitting the content to Crossref."
-msgstr "Nome da pessoa ou entidade que envia o conteúdo ao Crossref."
-
 #: includes/post-types/books/post-type.php:21
 msgid "New Book"
 msgstr "Novo Livro"
@@ -388,13 +388,10 @@ msgstr "Data da Publicação (online)"
 msgid "ORCID (People Only)"
 msgstr "ORCID (somente para pessoas)"
 
-#: includes/post-types/chapters/post-type:20
-msgid "Organization responsible for the DOI prefix (usually the publisher)."
-msgstr "Organização responsável pelo prefixo DOI (normalmente a Editora)."
-
 #: includes/post-types/metaboxes/main.php:62
-msgid "Organization responsible for the information being registered."
-msgstr "Organização responsável pelas informações que estão sendo cadastradas."
+msgid ""
+"Organization that requested the publication of the book, not the publisher."
+msgstr "Organização que solicitou a publicação do livro, não a editora."
 
 #: includes/post-types/metaboxes/main.php:132
 msgid "Parent Book"
@@ -423,8 +420,8 @@ msgid "Print Publication Date"
 msgstr "Data da Publicação (impresso)"
 
 #: includes/post-types/metaboxes/main.php:65
-msgid "Publisher"
-msgstr "Editora"
+msgid "Publisher Name"
+msgstr "Nome da Editora"
 
 #: includes/post-types/metaboxes/main.php:219
 msgid "Reader"
@@ -473,15 +470,11 @@ msgstr "Enviar atualizações para o Crossref"
 
 #: includes/post-types/chapters/post-type:38
 msgid "Slug to be used for book archive URLs, e.g., \"books\"."
-msgstr ""
-"Slug a ser usado para a página de resultados de livros cadastrados (Ex: "
-"livros)."
+msgstr "Slug a ser usado para a página de livros."
 
 #: includes/post-types/chapters/post-type:43
 msgid "Slug to be used for chapter URLs, e.g., \"chapters\"."
-msgstr ""
-"Slug a ser usado para a página de resultados de capítulos cadastrados (Ex: "
-"capitulos)."
+msgstr "Slug a ser usado para a página de capítulos."
 
 #: includes/post-types/metaboxes/main.php:97
 #: includes/post-types/metaboxes/main.php:182
@@ -507,6 +500,10 @@ msgstr ""
 #: includes/post-types/metaboxes/main.php:206
 msgid "Surname (People Only)"
 msgstr "Sobrenome (Somente para Pessoas)"
+
+#: includes/post-types/metaboxes/main.php:66
+msgid "The company or organization that publishes the book or content."
+msgstr "A empresa ou organização que publica o livro ou o conteúdo."
 
 #: includes/post-types/chapters/post-type:16
 msgid "The DOI prefix assigned to your organization, e.g., 10.12345/."

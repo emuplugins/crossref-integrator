@@ -354,7 +354,7 @@ msgid "Login ID"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:66
-msgid "Name of the person or entity submitting the content to Crossref."
+msgid "The company or organization that publishes the book or content."
 msgstr ""
 
 #: includes/post-types/books/post-type.php:21
@@ -391,7 +391,7 @@ msgid "ORCID (People Only)"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:62
-msgid "Organization responsible for the information being registered."
+msgid "Organization that requested the publication of the book, not the publisher."
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:132
@@ -417,7 +417,7 @@ msgid "Print Publication Date"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:65
-msgid "Publisher"
+msgid "Publisher Name"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:219
@@ -529,7 +529,7 @@ msgid "The DOI prefix assigned to your organization, e.g., 10.12345/."
 msgstr ""
 
 #: includes/post-types/chapters/post-type:20
-msgid "Organization responsible for the DOI prefix (usually the publisher)."
+msgid "Entity (person or organization) responsible for the DOI prefix."
 msgstr ""
 
 #: includes/post-types/chapters/post-type:24

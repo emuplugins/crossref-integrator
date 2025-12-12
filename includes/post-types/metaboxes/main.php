@@ -36,12 +36,12 @@ add_action('carbon_fields_register_fields', function () {
                     if ($mostrar_gerador) {
                         $html .= '<button type="button" id="gerar_doi" class="button">'
                             . __('Generate New', 'crossref-integrator') .
-                        '</button>';
+                            '</button>';
                     }
 
                     $html .= '<button type="button" id="crossref_submit_doi" class="button button-effects">'
-                        . ($doi 
-                            ? __('Save changes locally', 'crossref-integrator') 
+                        . ($doi
+                            ? __('Save changes locally', 'crossref-integrator')
                             : __('Send updates to Crossref', 'crossref-integrator'))
                         . '</button></div>';
 
@@ -58,13 +58,16 @@ add_action('carbon_fields_register_fields', function () {
     Container::make('post_meta', __('Book Details', 'crossref-integrator'))
         ->where('post_type', '=', 'crossref_books')
         ->add_fields([
-            Field::make('text', 'registrant', __('Registrant', 'crossref-integrator'))->set_width(33)
-                ->set_help_text(__('Organization responsible for the information being registered.', 'crossref-integrator'))
+            Field::make('text', 'registrant', __('Registrant', 'crossref-integrator'))
+                ->set_width(33)
+                ->set_help_text(__('Organization that requested the publication of the book, not the publisher.', 'crossref-integrator'))
                 ->set_required(true),
 
-            Field::make('text', 'publisher', __('Publisher', 'crossref-integrator'))->set_width(33)
-                ->set_help_text(__('Name of the person or entity submitting the content to Crossref.', 'crossref-integrator'))
-                ->set_required(true),
+            Field::make('text', 'publisher', __('Publisher Name', 'crossref-integrator'))
+                ->set_width(33)
+                ->set_help_text(__('The company or organization that publishes the book or content.', 'crossref-integrator'))
+                ->set_required(true)->set_default_value( carbon_get_theme_option('crossref_publisher_name')),
+
 
             Field::make('textarea', 'jats_abstract', __('Abstract (JATS)', 'crossref-integrator'))
                 ->set_required(true)
@@ -120,7 +123,7 @@ add_action('carbon_fields_register_fields', function () {
             Field::make('html', 'crossref_doi_msg', '')
                 ->set_html('<button type="button" class="button" id="crossref_resource_file_select">'
                     . __('Select File', 'crossref-integrator') .
-                '</button>')
+                    '</button>')
                 ->set_help_text(__('Link associated with the work. Provides direct and permanent access.', 'crossref-integrator')),
         ]);
 

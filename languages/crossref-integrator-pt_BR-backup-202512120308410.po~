@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 02:40+0000\n"
+"PO-Revision-Date: 2025-12-12 03:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
@@ -188,7 +188,7 @@ msgstr "CrossRef Integrator"
 
 #: includes/option-page.php:17
 msgid "Depositor Name"
-msgstr "Nome do submissor"
+msgstr "Nome do Depositante"
 
 #: includes/post-types/metaboxes/main.php:13
 msgid "Digital Object Identifier"
@@ -352,8 +352,8 @@ msgid "Login ID"
 msgstr "Login ID"
 
 #: includes/post-types/metaboxes/main.php:66
-msgid "Name of the person or entity submitting the content to Crossref."
-msgstr "Nome da pessoa ou entidade que envia o conteúdo ao Crossref."
+msgid "Name of the Publisher."
+msgstr "Nome da Editora responsável."
 
 #: includes/post-types/books/post-type.php:21
 msgid "New Book"
@@ -393,8 +393,9 @@ msgid "Organization responsible for the DOI prefix (usually the publisher)."
 msgstr "Organização responsável pelo prefixo DOI (normalmente a Editora)."
 
 #: includes/post-types/metaboxes/main.php:62
-msgid "Organization responsible for the information being registered."
-msgstr "Organização responsável pelas informações que estão sendo cadastradas."
+msgid ""
+"Organization that requested the publication of the book, not the publisher."
+msgstr "Organização que solicitou a publicação do livro, não a editora."
 
 #: includes/post-types/metaboxes/main.php:132
 msgid "Parent Book"
@@ -423,16 +424,16 @@ msgid "Print Publication Date"
 msgstr "Data da Publicação (impresso)"
 
 #: includes/post-types/metaboxes/main.php:65
-msgid "Publisher"
-msgstr "Editora"
+msgid "Publisher Name"
+msgstr "Nome da Editora"
 
 #: includes/post-types/metaboxes/main.php:219
 msgid "Reader"
 msgstr "Leitor"
 
 #: includes/post-types/metaboxes/main.php:61
-msgid "Registrant"
-msgstr "Registrante"
+msgid "Responsible Organization"
+msgstr "Organização Responsável"
 
 #: includes/post-types/metaboxes/main.php:216
 msgid "Review Assistant"

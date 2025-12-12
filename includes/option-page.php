@@ -23,7 +23,7 @@ function crossref_options_page()
             Field::make('text', 'crossref_depositor', __('Depositor Name', 'crossref-integrator'))
                 ->set_width(33)
                 ->set_required(true)
-                ->set_help_text(__('Organization responsible for the DOI prefix (usually the publisher).', 'crossref-integrator')),
+                ->set_help_text(__('Entity (person or organization) responsible for the DOI prefix.', 'crossref-integrator')),
 
             Field::make('text', 'crossref_login_passwd', __('Password', 'crossref-integrator'))
                 ->set_width(33)
@@ -43,14 +43,18 @@ function crossref_options_page()
                 ->set_attribute('autocomplete', 'off'),
 
             Field::make('text', 'crossref_books_slug', __('Books Slug', 'crossref-integrator'))
-                ->set_width(25)
+                ->set_width(33)
                 ->set_attribute('placeholder', 'books')
                 ->set_help_text(__('Slug to be used for book archive URLs, e.g., "books".', 'crossref-integrator')),
 
             Field::make('text', 'crossref_chapters_slug', __('Chapters Slug', 'crossref-integrator'))
-                ->set_width(25)
+                ->set_width(33)
                 ->set_attribute('placeholder', 'chapters')
                 ->set_help_text(__('Slug to be used for chapter URLs, e.g., "chapters".', 'crossref-integrator')),
+            Field::make('text', 'crossref_publisher_name', __('Publisher Name', 'crossref-integrator'))
+                ->set_width(33)
+                ->set_required(true)
+                ->set_help_text(__('The company or organization that publishes the book or content.', 'crossref-integrator')),
 
             Field::make('html', 'aviso', ' ')
                 ->set_html('<span style="color:red;">' . __('Attention, fill in all fields to activate the plugin.', 'crossref-integrator') . '</span>'),
