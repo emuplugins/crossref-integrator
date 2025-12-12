@@ -262,7 +262,7 @@ msgstr ""
 #: includes/classes/CreateBookXml.php:105
 #: includes/classes/CreateBookXml.php:116
 #, php-format
-msgid "Error: The field '%s' is empty for book ID %d."
+msgid "The field '%s' is required."
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:218

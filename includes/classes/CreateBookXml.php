@@ -102,7 +102,7 @@ class CreateBookXML
             if (is_array($valor) && empty($valor)) {
                 throw new Exception(
                     sprintf(
-                        __("Error: The field '%s' is empty for book ID %d.", 'crossref-integrator'),
+                        __("The field '%s' is required.", 'crossref-integrator'),
                         $nomeCampo,
                         $bookId
                     )
@@ -113,7 +113,7 @@ class CreateBookXML
             if (!is_array($valor) && empty($valor)) {
                 throw new Exception(
                     sprintf(
-                        __("Error: The field '%s' is empty for book ID %d.", 'crossref-integrator'),
+                        __("The field '%s' is required.", 'crossref-integrator'),
                         $nomeCampo,
                         $bookId
                     )
