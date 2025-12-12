@@ -38,7 +38,7 @@
     color: white !important;
     font-weight: 500;
     border: none !important;
-    width:240px!important;
+    width: 240px !important;
 }
 
 .button-effects:hover {
@@ -85,39 +85,57 @@
 }
 
 
-.cf-block-preview .cf-field__label, .cf-html .cf-field__label, .cf-separator .cf-field__label {
-    display: block!important;
+.cf-block-preview .cf-field__label,
+.cf-html .cf-field__label,
+.cf-separator .cf-field__label {
+    display: block !important;
 }
 
-[data-doi="crossref"]{
-    width:100%!important;
+[data-doi="crossref"] {
+    width: 100% !important;
 }
 
-.cf-hidden{
-    display:none
+.cf-hidden {
+    display: none
 }
 
 .crossref-disabled {
     filter: grayscale(100%) brightness(90%);
-    opacity:.6;
-    transition:all 1.4s!important
-
+    opacity: .6;
+    transition: all 1.4s !important
 }
 
 
 
 
-[name="carbon_fields_compact_input[_jats_abstract]"]{
+[name="carbon_fields_compact_input[_jats_abstract]"] {
 
-    field-sizing:content;
-    min-height:200px
-
+    field-sizing: content;
+    min-height: 200px
 }
 
-.cf-field__help{
+.cf-field__help {
     text-wrap: balance;
 }
 
 .cf-complex__placeholder-label.cf-complex__placeholder-label {
     margin: 0 0 10px 0 !important;
+}
+
+/* Substitua .menu-item-crossref pelo seletor correto do item de menu */
+#toplevel_page_crb_carbon_fields_container_crossref .wp-menu-image{
+
+    background-image: url("data:image/svg+xml,%3Csvg version='1.2' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 67 96' width='67' height='96'%3E%3Cstyle%3E .s0 %7B fill: %233eb1c8 %7D .s1 %7B fill: %23d8d2c4 %7D .s2 %7B fill: %234f5858 %7D .s3 %7B fill: %23ffc72c %7D .s4 %7B fill: %23ef3340 %7D %3C/style%3E%3Cg%3E%3Cpath fill-rule='evenodd' class='s0' d='m0.8 95.5v-28.7l23.6-7.8 41.8 14.3z'/%3E%3Cpath fill-rule='evenodd' class='s1' d='m42.6 36.8l-41.8 14.4 23.6 7.8 41.8-14.4z'/%3E%3Cpath fill-rule='evenodd' class='s2' d='m24.4 59l41.8-14.4v28.7z'/%3E%3Cpath fill-rule='evenodd' class='s3' d='m66.2 0.3v28.7l-23.6 7.8-41.8-14.3z'/%3E%3Cpath fill-rule='evenodd' class='s4' d='m42.6 36.8l-41.8 14.4v-28.7z'/%3E%3C/g%3E%3C/svg%3E");
+    display: flex;
+
+    margin-right: 8px;
+    /* espaço entre o ícone e o texto */
+    vertical-align: middle;
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &::before {
+        content:"";
+    }
 }

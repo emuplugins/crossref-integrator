@@ -7,11 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el && el.value.trim() === '') {
             el.removeAttribute('readonly');
         }
-        // Permite apenas números, hífens, pontos e barras no campo DOI
-        el?.addEventListener("input", function () {
-
-            this.value = this.value.replace(/[^0-9\-./]/g, "");
-        });
 
         jQuery(document).ready(function ($) {
             $('.cf-select__input').select2({ placeholder: 'Escolha uma opção', allowClear: true });

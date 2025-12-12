@@ -7,14 +7,31 @@
  * Author: Tonny Santana
  * Author URI: https://angardagency.com
  * License: GPL2
+ * Text Domain: crossref-integrator
+ * Domain Path: /languages
  */
 
 // Constantes de diretório do plugin
 define('CROSSREF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('CROSSREF_PLUGIN_URL', plugin_dir_url(__FILE__));
+
+
+
+// Carregar text domain
+add_action('plugins_loaded', function () {
+    load_plugin_textdomain(
+        'crossref-integrator',
+        false,
+        dirname(plugin_basename(__FILE__)) . '/languages'
+    );
+});
+
+
 require_once(CROSSREF_PLUGIN_DIR . '/carbon-fields/carbon-fields-plugin.php');
 
-function crossref_verify_fields() {
+function crossref_verify_fields()
+{
+
     $doi_link     = get_option('_crossref_doi_deposit_link');
     $login_id     = get_option('_crossref_login_id');
     $login_passwd = get_option('_crossref_login_passwd');
@@ -33,7 +50,7 @@ function crb_load()
 {
     require_once(CROSSREF_PLUGIN_DIR . '/includes/option-page.php');
 
-    // Campos preenchidos, então carregamos os arquivos necessários
+    // Campos obrigatórios preenchidos
     require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/chapters/post-type.php');
     require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/books/post-type.php');
     require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/metaboxes/main.php');
@@ -47,10 +64,9 @@ function crossref_integrator_assets($hook)
     global $post_type;
 
     $screen = get_current_screen();
-    if ($screen && $screen->base !== 'post') {
+    if (!is_admin()) {
         return;
     }
-
 
     // CSS comum
     wp_enqueue_style(
@@ -60,8 +76,8 @@ function crossref_integrator_assets($hook)
         filemtime(CROSSREF_PLUGIN_DIR . 'assets/style.css')
     );
 
-    // JS específico por post type
-    if ($post_type === 'books') {
+    // JS para livros
+    if ($post_type === 'crossref_books') {
         wp_enqueue_script(
             'crossref-integrator-books',
             CROSSREF_PLUGIN_URL . 'assets/books.js',
@@ -71,7 +87,8 @@ function crossref_integrator_assets($hook)
         );
     }
 
-    if ($post_type === 'chapters') {
+    // JS para capítulos
+    if ($post_type === 'crossref_chapters') {
         wp_enqueue_script(
             'crossref-integrator-chapters',
             CROSSREF_PLUGIN_URL . 'assets/chapters.js',
@@ -81,7 +98,7 @@ function crossref_integrator_assets($hook)
         );
     }
 
-    // CSS do Select2 (comum)
+    // CSS do Select2
     wp_enqueue_style(
         'select2-css',
         CROSSREF_PLUGIN_URL . '/assets/select2.min.css',
@@ -89,7 +106,7 @@ function crossref_integrator_assets($hook)
         '4.1.0'
     );
 
-    // JS do Select2 (comum)
+    // JS do Select2
     wp_enqueue_script(
         'select2-js',
         CROSSREF_PLUGIN_URL . '/assets/select2.min.js',

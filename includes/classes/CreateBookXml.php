@@ -100,12 +100,24 @@ class CreateBookXML
 
             // Para arrays (como contributors), verifica se está vazio
             if (is_array($valor) && empty($valor)) {
-                throw new Exception("Erro: O campo '{$nomeCampo}' está vazio para o livro ID {$bookId}.");
+                throw new Exception(
+                    sprintf(
+                        __("Error: The field '%s' is empty for book ID %d.", 'crossref-integrator'),
+                        $nomeCampo,
+                        $bookId
+                    )
+                );
             }
 
             // Para strings/valores simples
             if (!is_array($valor) && empty($valor)) {
-                throw new Exception("Erro: O campo '{$nomeCampo}' está vazio para o livro ID {$bookId}.");
+                throw new Exception(
+                    sprintf(
+                        __("Error: The field '%s' is empty for book ID %d.", 'crossref-integrator'),
+                        $nomeCampo,
+                        $bookId
+                    )
+                );
             }
         }
     }
@@ -448,7 +460,7 @@ class CreateBookXML
             $chapter->appendChild(self::buildDoiData($xml, $d['doi'], $d['resource'] ?? ''));
         }
 
-        
+
         $chapter->appendChild(self::buildCitationList($xml, $d['citation_list']));
 
         return $chapter;

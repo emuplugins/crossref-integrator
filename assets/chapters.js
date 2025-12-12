@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const result = await ajaxResponse.json();
 
                 if (!ajaxResponse.ok || result.success === false) {
-                    console.log(result.data?.message )
+                    console.log(result.data?.message)
                     msgDiv.innerHTML =
                         '<span style="color:red;">' +
                         (result.data?.message || 'Erro ao enviar.') +
@@ -169,3 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 })
+
+
+
+
+

@@ -1,0 +1,521 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Crossref Integrator\n"
+"POT-Creation-Date: 2025-12-12 00:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: assets\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+"X-Poedit-SearchPathExcluded-2: node_modules\n"
+"\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: includes/post-types/metaboxes/main.php:69
+#: includes/post-types/metaboxes/main.php:168
+msgid "Abstract (JATS)"
+msgstr ""
+
+#: includes/send-crossref-book.php:14 includes/send-crossref-chapter.php:14
+msgid "Access denied (invalid nonce)."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:24
+msgid "Actions"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:18
+#: includes/post-types/chapters/post-type.php:16
+msgid "Add New"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:19
+msgid "Add New Book"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:17
+msgid "Add New chapter"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:27
+msgid "All Books"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:25
+msgid "All chapters"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:104
+#: includes/post-types/metaboxes/main.php:189
+msgid "Arabic"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:244
+msgid "Articles, books, and other content cited by the registered item."
+msgstr ""
+
+#: includes/option-page.php:23
+msgid "Attention, fill in all fields to activate the plugin."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:212
+msgid "Author"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:15
+#: includes/post-types/books/post-type.php:17
+#: includes/post-types/chapters/post-type.php:13
+msgid "Book"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:28
+msgid "Book Archives"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:29
+msgid "Book Attributes"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:58
+msgid "Book Details"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:112
+msgid "Book File"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:115
+msgid "Book File (DOI Resource)"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:14
+#: includes/post-types/books/post-type.php:16
+msgid "Books"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:32
+msgid "Books list"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:33
+msgid "Books list navigation"
+msgstr ""
+
+#: includes/option-page.php:19
+msgid "Books Slug"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:214
+msgid "Chair"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:15
+msgid "Chapter"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:26
+msgid "Chapter Archives"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:27
+msgid "Chapter Attributes"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:129
+msgid "Chapter Details"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:150
+msgid "Chapter Number"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:12
+#: includes/post-types/chapters/post-type.php:14
+msgid "Chapters"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:30
+msgid "Chapters list"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:31
+msgid "Chapters list navigation"
+msgstr ""
+
+#: includes/option-page.php:20
+msgid "Chapters Slug"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:101
+#: includes/post-types/metaboxes/main.php:186
+msgid "Chinese"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:237
+msgid "Citation"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:231
+msgid "Citations"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:262
+msgid "Click “Send DOI to Crossref” to generate the XML."
+msgstr ""
+
+#: includes/option-page.php:18
+msgid "Contact Email"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:197
+msgid "Contributors"
+msgstr ""
+
+#. Name of the plugin
+#: includes/option-page.php:10
+msgid "Crossref Integrator"
+msgstr ""
+
+#: includes/option-page.php:17
+msgid "Depositor Name"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:13
+msgid "Digital Object Identifier"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:16
+msgid "DOI Number"
+msgstr ""
+
+#: includes/option-page.php:16
+msgid "DOI Prefix"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:20
+msgid "Edit Book"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:18
+msgid "Edit chapter"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:79
+msgid "Edition"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:83
+msgid "Edition number of this work."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:213
+msgid "Editor"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:96
+#: includes/post-types/metaboxes/main.php:181
+msgid "English"
+msgstr ""
+
+#: includes/send-crossref-book.php:24 includes/send-crossref-chapter.php:25
+msgid "Error generating XML:"
+msgstr ""
+
+#: includes/send-crossref-book.php:59 includes/send-crossref-chapter.php:60
+msgid "Error sending file:"
+msgstr ""
+
+#: includes/classes/CreateBookXml.php:105
+#: includes/classes/CreateBookXml.php:116
+#, php-format
+msgid "Error: The field '%s' is empty for book ID %d."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:218
+msgid "External Reviewer"
+msgstr ""
+
+#: includes/send-crossref-book.php:62 includes/send-crossref-chapter.php:63
+msgid "File successfully sent."
+msgstr ""
+
+#: includes/post-types/books/post-type.php:34
+msgid "Filter books list"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:32
+msgid "Filter chapters list"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:45
+msgid "Save changes locally"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:45
+msgid "Send updates to Crossref"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:156
+msgid "First Page"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:98
+#: includes/post-types/metaboxes/main.php:183
+msgid "French"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:38
+msgid "Generate New"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:249
+msgid "Generated XML"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:99
+#: includes/post-types/metaboxes/main.php:184
+msgid "German"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:203
+msgid "Given Name"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://angardagency.com"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:30
+msgid "Insert into book"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:28
+msgid "Insert into chapter"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Integra o WordPress com a API do Crossref, permitindo gerar e enviar "
+"metadados em XML conforme o padrão oficial, para a criação de DOIs."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:74
+#: includes/post-types/metaboxes/main.php:77
+msgid "International standard that uniquely identifies this work."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:73
+msgid "ISBN (Electronic Version)"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:76
+msgid "ISBN (Print Version)"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:100
+#: includes/post-types/metaboxes/main.php:185
+msgid "Italian"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:102
+#: includes/post-types/metaboxes/main.php:187
+msgid "Japanese"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:93
+#: includes/post-types/metaboxes/main.php:178
+msgid "Language"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:162
+msgid "Last Page"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:124
+msgid "Link associated with the work. Provides direct and permanent access."
+msgstr ""
+
+#: includes/option-page.php:13
+msgid "Link for depositing DOIs in Crossref"
+msgstr ""
+
+#: includes/option-page.php:14
+msgid "Login ID"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:66
+msgid "Name of the person or entity submitting the content to Crossref."
+msgstr ""
+
+#: includes/post-types/books/post-type.php:21
+msgid "New Book"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:19
+msgid "New chapter"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:25
+msgid "No books found"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:26
+msgid "No books found in Trash"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:23
+msgid "No chapters found"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:24
+msgid "No chapters found in Trash"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:86
+#: includes/post-types/metaboxes/main.php:171
+msgid "Online Publication Date"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:208
+msgid "ORCID (People Only)"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:62
+msgid "Organization responsible for the information being registered."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:132
+msgid "Parent Book"
+msgstr ""
+
+#: includes/option-page.php:15
+msgid "Password"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:226
+msgid "People or organizations who contributed to the work."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:95
+#: includes/post-types/metaboxes/main.php:180
+msgid "Portuguese"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:90
+#: includes/post-types/metaboxes/main.php:175
+msgid "Print Publication Date"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:65
+msgid "Publisher"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:219
+msgid "Reader"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:61
+msgid "Registrant"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:216
+msgid "Review Assistant"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:215
+msgid "Reviewer"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:210
+msgid "Role"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:103
+#: includes/post-types/metaboxes/main.php:188
+msgid "Russian"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:24
+msgid "Search Books"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:22
+msgid "Search chapters"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:122
+msgid "Select File"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:44
+msgid "Send updates to Crossref"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:97
+#: includes/post-types/metaboxes/main.php:182
+msgid "Spanish"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:217
+msgid "Statistics Reviewer"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:169
+msgid "Structured abstract in JATS format, or plain text."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:71
+msgid ""
+"Structured abstract in JATS format, or plain text. May include paragraphs "
+"and semantic markup."
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:206
+msgid "Surname (People Only)"
+msgstr ""
+
+#. Author of the plugin
+msgid "Tonny Santana"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:220
+msgid "Translator"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:31
+msgid "Uploaded to this book"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:29
+msgid "Uploaded to this chapter"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:22
+msgid "View Book"
+msgstr ""
+
+#: includes/post-types/books/post-type.php:23
+msgid "View Books"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:20
+msgid "View chapter"
+msgstr ""
+
+#: includes/post-types/chapters/post-type.php:21
+msgid "View chapters"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:240
+msgid "Work DOI"
+msgstr ""
