@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 02:37+0000\n"
+"PO-Revision-Date: 2025-12-12 02:31+0000\n"
 "Last-Translator: \n"
 "Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
@@ -37,11 +37,11 @@ msgstr "Ações"
 #: includes/post-types/books/post-type.php:18
 #: includes/post-types/chapters/post-type.php:16
 msgid "Add New"
-msgstr "Adicionar novo"
+msgstr "Adicionar Novo"
 
 #: includes/post-types/books/post-type.php:19
 msgid "Add New Book"
-msgstr "Adicionar novo livro"
+msgstr "Adicionar Novo Livro"
 
 #: includes/post-types/chapters/post-type.php:17
 msgid "Add New chapter"
@@ -49,7 +49,7 @@ msgstr "Adicionar novo capítulo"
 
 #: includes/post-types/books/post-type.php:27
 msgid "All Books"
-msgstr "Todos os livros"
+msgstr "Todos Os Livros"
 
 #: includes/post-types/chapters/post-type.php:25
 msgid "All chapters"
@@ -80,19 +80,19 @@ msgstr "Livro"
 
 #: includes/post-types/books/post-type.php:28
 msgid "Book Archives"
-msgstr "Arquivos de livros"
+msgstr "Arquivos De Livros"
 
 #: includes/post-types/books/post-type.php:29
 msgid "Book Attributes"
-msgstr "Atributos do livro"
+msgstr "Atributos Do Livro"
 
 #: includes/post-types/metaboxes/main.php:58
 msgid "Book Details"
-msgstr "Detalhes do livro"
+msgstr "Detalhes Do Livro"
 
 #: includes/post-types/metaboxes/main.php:112
 msgid "Book File"
-msgstr "Arquivo do livro"
+msgstr "Arquivo do Livro"
 
 #: includes/post-types/metaboxes/main.php:115
 msgid "Book File (DOI Resource)"
@@ -175,7 +175,7 @@ msgstr "Clique em \"Enviar DOI para Crossref\" para gerar o XML."
 
 #: includes/option-page.php:18
 msgid "Contact Email"
-msgstr "E-mail de contato"
+msgstr "E-Mail De Contato"
 
 #: includes/post-types/metaboxes/main.php:197
 msgid "Contributors"
@@ -188,11 +188,11 @@ msgstr "CrossRef Integrator"
 
 #: includes/option-page.php:17
 msgid "Depositor Name"
-msgstr "Nome do depositante"
+msgstr "Nome Do Depositante"
 
 #: includes/post-types/metaboxes/main.php:13
 msgid "Digital Object Identifier"
-msgstr "Identificador de objeto digital"
+msgstr "Identificador De Objeto Digital"
 
 #: includes/post-types/metaboxes/main.php:16
 msgid "DOI Number"
@@ -247,7 +247,7 @@ msgstr "Erro: o campo '%s' está vazio para o ID do livro %d ."
 
 #: includes/post-types/metaboxes/main.php:218
 msgid "External Reviewer"
-msgstr "Revisor externo"
+msgstr "Revisor Externo"
 
 #: includes/send-crossref-book.php:62 includes/send-crossref-chapter.php:63
 msgid "File successfully sent."
@@ -310,7 +310,7 @@ msgstr ""
 #: includes/post-types/metaboxes/main.php:74
 #: includes/post-types/metaboxes/main.php:77
 msgid "International standard that uniquely identifies this work."
-msgstr "Norma internacional que identifica de forma única este trabalho."
+msgstr "Norma internacional que identifica de forma única Este trabalho."
 
 #: includes/post-types/metaboxes/main.php:73
 msgid "ISBN (Electronic Version)"
@@ -539,11 +539,11 @@ msgstr "Enviado para este capítulo"
 
 #: includes/post-types/books/post-type.php:22
 msgid "View Book"
-msgstr "Ver livro"
+msgstr "Ver Livro"
 
 #: includes/post-types/books/post-type.php:23
 msgid "View Books"
-msgstr "Ver livros"
+msgstr "Ver Livros"
 
 #: includes/post-types/chapters/post-type.php:20
 msgid "View chapter"
