@@ -112,8 +112,8 @@ function crossref_integrator_assets($hook)
     wp_enqueue_style(
         'select2-css',
         CROSSREF_PLUGIN_URL . '/assets/select2.min.css',
-        [],
-        '4.1.0'
+        filemtime(CROSSREF_PLUGIN_DIR . 'assets/books.js'),
+            true
     );
 
     // JS do Select2
@@ -121,8 +121,8 @@ function crossref_integrator_assets($hook)
         'select2-js',
         CROSSREF_PLUGIN_URL . '/assets/select2.min.js',
         ['jquery'],
-        '4.1.0',
-        true
+        filemtime(CROSSREF_PLUGIN_DIR . 'assets/books.js'),
+            true
     );
 
 }
