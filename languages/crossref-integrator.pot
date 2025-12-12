@@ -520,6 +520,14 @@ msgstr ""
 msgid "Translators"
 msgstr ""
 
+#: includes/post-types/metaboxes/main.php:220
+msgid "Lattes Curriculum (People Only)"
+msgstr ""
+
+#: includes/post-types/metaboxes/main.php:220
+msgid "Contributor Biography"
+msgstr ""
+
 #: includes/post-types/books/post-type.php:31
 msgid "Uploaded to this book"
 msgstr ""

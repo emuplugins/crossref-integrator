@@ -111,7 +111,7 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'crossref_books')
         ->add_fields([
             Field::make('text', 'resource', __('Book File (DOI Resource)', 'crossref-integrator'))
-                ->set_required(true),
+                ->set_required(true)->set_attribute('type', 'url'),
 
             Field::make('hidden', 'resource_id'),
 
@@ -220,7 +220,10 @@ add_action('carbon_fields_register_fields', function () {
                         ->add_fields([
                             Field::make('text', 'given', __('Given Name', 'crossref-integrator'))->set_required(true)->set_width(25),
                             Field::make('text', 'surname', __('Surname (People Only)', 'crossref-integrator'))->set_width(25),
-                            Field::make('text', 'orcid', __('ORCID (People Only)', 'crossref-integrator'))->set_width(25),
+                            Field::make('text', 'orcid', __('ORCID (People Only)', 'crossref-integrator'))->set_width(25)->set_attribute('type', 'url'),
+                            Field::make('text', 'lattes', __('Lattes Curriculum (People Only)', 'crossref-integrator'))->set_width(25)->set_attribute('type', 'url'),
+                            Field::make('rich_text', 'bio', __('Contributor Biography', 'crossref-integrator'))->set_width(25),
+
 
                             Field::make('complex', 'affiliations', __('Affiliations (People Only)', 'crossref-integrator'))
                                 ->set_layout('tabbed-vertical')

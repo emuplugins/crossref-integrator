@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 09:47+0000\n"
+"PO-Revision-Date: 2025-12-12 09:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
@@ -73,8 +73,9 @@ msgid "Attention, fill in all fields to activate the plugin."
 msgstr "Atenção, preencha todos os campos para ativar o plugin."
 
 #: includes/post-types/metaboxes/main.php:212
-msgid "Author"
-msgstr "Autor"
+#| msgid "Author"
+msgid "Authors"
+msgstr "Autores"
 
 #: includes/post-types/books/post-type.php:15
 #: includes/post-types/books/post-type.php:17
@@ -120,8 +121,9 @@ msgid "Books Slug"
 msgstr "Slug dos Livros"
 
 #: includes/post-types/metaboxes/main.php:214
-msgid "Chair"
-msgstr "Presidente"
+#| msgid "Chair"
+msgid "Chairs"
+msgstr "Presidentes"
 
 #: includes/post-types/chapters/post-type.php:15
 msgid "Chapter"
@@ -227,8 +229,9 @@ msgid "Edition number of this work."
 msgstr "Número da edição desta obra."
 
 #: includes/post-types/metaboxes/main.php:213
-msgid "Editor"
-msgstr "Editor"
+#| msgid "Editor"
+msgid "Editors"
+msgstr "Editores"
 
 #: includes/post-types/metaboxes/main.php:96
 #: includes/post-types/metaboxes/main.php:181
@@ -252,8 +255,9 @@ msgid "Error sending file:"
 msgstr "Erro ao enviar arquivo:"
 
 #: includes/post-types/metaboxes/main.php:218
-msgid "External Reviewer"
-msgstr "Revisor externo"
+#| msgid "External Reviewer"
+msgid "External Reviewers"
+msgstr "Revisores externos"
 
 #: includes/send-crossref-book.php:62 includes/send-crossref-chapter.php:63
 msgid "File successfully sent."
@@ -449,20 +453,23 @@ msgid "Publisher Name"
 msgstr "Nome da Editora"
 
 #: includes/post-types/metaboxes/main.php:219
-msgid "Reader"
-msgstr "Leitor"
+#| msgid "Reader"
+msgid "Readers"
+msgstr "Leitores"
 
 #: includes/post-types/metaboxes/main.php:61
 msgid "Registrant"
 msgstr "Registrante"
 
 #: includes/post-types/metaboxes/main.php:216
-msgid "Review Assistant"
-msgstr "Assistente De Revisão"
+#| msgid "Review Assistant"
+msgid "Review Assistants"
+msgstr "Assistentes de revisão"
 
 #: includes/post-types/metaboxes/main.php:215
-msgid "Reviewer"
-msgstr "Revisor"
+#| msgid "Reviewer"
+msgid "Reviewers"
+msgstr "Revisores"
 
 #: includes/post-types/metaboxes/main.php:210
 msgid "Role"
@@ -507,8 +514,9 @@ msgid "Spanish"
 msgstr "Espanhol"
 
 #: includes/post-types/metaboxes/main.php:217
-msgid "Statistics Reviewer"
-msgstr "Revisor De Estatísticas"
+#| msgid "Statistics Reviewer"
+msgid "Statistics Reviewers"
+msgstr "Revisores de estatísticas"
 
 #: includes/post-types/metaboxes/main.php:169
 msgid "Structured abstract in JATS format, or plain text."
@@ -554,8 +562,9 @@ msgid "Tonny Santana"
 msgstr "Tonny Santana"
 
 #: includes/post-types/metaboxes/main.php:220
-msgid "Translator"
-msgstr "Tradutor"
+#| msgid "Translator"
+msgid "Translators"
+msgstr "Tradutores"
 
 #: includes/post-types/books/post-type.php:31
 msgid "Uploaded to this book"
