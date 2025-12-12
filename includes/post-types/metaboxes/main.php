@@ -167,8 +167,7 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_help_text(__('Structured abstract in JATS format, or plain text.', 'crossref-integrator')),
 
             Field::make('date', 'online_publication_date', __('Online Publication Date', 'crossref-integrator'))
-                ->set_storage_format('Y-m-d')
-                ->set_required(true)->set_width(33),
+                ->set_storage_format('Y-m-d')->set_width(33),
 
             Field::make('date', 'print_publication_date', __('Print Publication Date', 'crossref-integrator'))
                 ->set_storage_format('Y-m-d')->set_width(33),

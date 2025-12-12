@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 06:04+0000\n"
+"PO-Revision-Date: 2025-12-12 06:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese (Brazil)\n"
 "Language: pt_BR\n"
@@ -295,10 +295,6 @@ msgstr "Alemão"
 msgid "Given Name"
 msgstr "Primeiro Nome"
 
-#. Author URI of the plugin
-msgid "https://angardagency.com"
-msgstr ""
-
 #: includes/post-types/books/post-type.php:30
 msgid "Insert into book"
 msgstr "Inserir no livro"
@@ -308,7 +304,9 @@ msgid "Insert into chapter"
 msgstr "Inserir no capítulo"
 
 #: includes/post-types/metaboxes/main.php:232
-msgid "Institution id"
+#, fuzzy
+#| msgid "Institution id"
+msgid "Institution ID"
 msgstr "Identificador da instituição"
 
 #: includes/post-types/metaboxes/main.php:233

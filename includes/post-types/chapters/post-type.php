@@ -10,7 +10,7 @@ function crossref_register_chapters_cpt()
 
     $labels = array(
         'name'                  => __('Chapters', 'crossref-integrator'),
-        'singular_name'         => __('Book', 'crossref-integrator'),
+        'singular_name'         => __('Chapter', 'crossref-integrator'),
         'menu_name'             => __('Chapters', 'crossref-integrator'),
         'name_admin_bar'        => __('Chapter', 'crossref-integrator'),
         'add_new'               => __('Add New', 'crossref-integrator'),

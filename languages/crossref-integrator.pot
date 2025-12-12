@@ -35,7 +35,7 @@ msgid "Institution Name"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:232
-msgid "Institution id"
+msgid "Institution ID"
 msgstr ""
 
 #: includes/post-types/metaboxes/main.php:233
