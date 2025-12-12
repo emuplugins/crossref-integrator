@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 05:44+0000\n"
+"PO-Revision-Date: 2025-12-12 06:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese (Brazil)\n"
 "Language: pt_BR\n"
@@ -121,7 +121,7 @@ msgstr "Slug dos Livros"
 
 #: includes/post-types/metaboxes/main.php:214
 msgid "Chair"
-msgstr "Cadeira"
+msgstr "Presidente"
 
 #: includes/post-types/chapters/post-type.php:15
 msgid "Chapter"

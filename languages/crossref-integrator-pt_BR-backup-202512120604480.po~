@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 03:16+0000\n"
+"PO-Revision-Date: 2025-12-12 05:44+0000\n"
 "Last-Translator: \n"
-"Language-Team: Português do Brasil\n"
+"Language-Team: Portuguese (Brazil)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,6 +46,10 @@ msgstr "Adicionar novo livro"
 #: includes/post-types/chapters/post-type.php:17
 msgid "Add New chapter"
 msgstr "Adicionar novo capítulo"
+
+#: includes/post-types/metaboxes/main.php:228
+msgid "Affiliations (People Only)"
+msgstr "Afiliações (somente para Pessoas)"
 
 #: includes/post-types/books/post-type.php:27
 msgid "All Books"
@@ -184,7 +188,7 @@ msgstr "Colaboradores"
 #. Name of the plugin
 #: includes/option-page.php:10
 msgid "Crossref Integrator"
-msgstr "CrossRef Integrator"
+msgstr "Integrador Crossref"
 
 #: includes/option-page.php:17
 msgid "Depositor Name"
@@ -303,12 +307,24 @@ msgstr "Inserir no livro"
 msgid "Insert into chapter"
 msgstr "Inserir no capítulo"
 
+#: includes/post-types/metaboxes/main.php:232
+msgid "Institution id"
+msgstr "Identificador da instituição"
+
+#: includes/post-types/metaboxes/main.php:233
+msgid "Institution ID Type"
+msgstr "Tipo do Identificador"
+
+#: includes/post-types/metaboxes/main.php:231
+msgid "Institution Name"
+msgstr "Nome da Instituição"
+
 #. Description of the plugin
 msgid ""
 "Integra o WordPress com a API do Crossref, permitindo gerar e enviar "
 "metadados em XML conforme o padrão oficial, para a criação de DOIs."
 msgstr ""
-"Integra o WordPress com a API do Crossref, permitindo gerar e enviar "
+"Integra o WordPress com a API daCrossref, permitindo gerar e enviar "
 "metadados em XML conforme o padr mitsubo oficial, para a cria loubo de dois."
 
 #: includes/post-types/metaboxes/main.php:74
@@ -349,7 +365,12 @@ msgstr "Link associado à obra. Fornece acesso direto e permanente."
 
 #: includes/option-page.php:13
 msgid "Link for depositing DOIs in Crossref"
-msgstr "Link para depositar DOIs no Crossref"
+msgstr "Link para depositar DOIs na Crossref"
+
+#: includes/post-types/metaboxes/main.php:243
+msgid "List of institutions or organizations associated with this contributor."
+msgstr ""
+"Lista de instituições ou organizações associadas com este contribuinte."
 
 #: includes/option-page.php:14
 msgid "Login ID"
@@ -386,12 +407,16 @@ msgstr "Data da Publicação (online)"
 
 #: includes/post-types/metaboxes/main.php:208
 msgid "ORCID (People Only)"
-msgstr "ORCID (somente para pessoas)"
+msgstr "ORCID (somente para Pessoas)"
 
 #: includes/post-types/metaboxes/main.php:62
 msgid ""
 "Organization that requested the publication of the book, not the publisher."
 msgstr "Organização que solicitou a publicação do livro, não a editora."
+
+#: includes/option-page.php:23
+msgid "Organization, entity, or means responsible for registering the DOI."
+msgstr "Organização, entidade ou meio responsável pelo registro do DOI."
 
 #: includes/post-types/metaboxes/main.php:132
 msgid "Parent Book"
@@ -466,19 +491,15 @@ msgstr "Selecionar Arquivo"
 
 #: includes/post-types/metaboxes/main.php:44
 msgid "Send updates to Crossref"
-msgstr "Enviar atualizações para o Crossref"
+msgstr "Enviar atualizações para a Crossref"
 
 #: includes/post-types/chapters/post-type:38
 msgid "Slug to be used for book archive URLs, e.g., \"books\"."
-msgstr ""
-"Slug a ser usado para a página de resultados de livros cadastrados (Ex: "
-"livros)."
+msgstr "Slug a ser usado para a página de livros."
 
 #: includes/post-types/chapters/post-type:43
 msgid "Slug to be used for chapter URLs, e.g., \"chapters\"."
-msgstr ""
-"Slug a ser usado para a página de resultados de capítulos cadastrados (Ex: "
-"capitulos)."
+msgstr "Slug a ser usado para a página de capítulos."
 
 #: includes/post-types/metaboxes/main.php:97
 #: includes/post-types/metaboxes/main.php:182
@@ -503,7 +524,7 @@ msgstr ""
 
 #: includes/post-types/metaboxes/main.php:206
 msgid "Surname (People Only)"
-msgstr "Sobrenome (Somente para Pessoas)"
+msgstr "Sobrenome (somente para Pessoas)"
 
 #: includes/post-types/metaboxes/main.php:66
 msgid "The company or organization that publishes the book or content."
