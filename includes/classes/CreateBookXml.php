@@ -47,7 +47,7 @@ class CreateBookXML
         $metadata = self::buildBookMetadata($xml, $d);
         $book->appendChild($metadata);
 
-        
+
         // Capítulo
         if ($chapterId) {
             $groups = carbon_get_post_meta($chapterId, 'contributor_groups'); // pega os grupos do meta
@@ -337,8 +337,10 @@ class CreateBookXML
         $flat = [];
 
         foreach ($groups as $group) {
+            $role = $group['role'] ?? 'author'; // role do grupo
             if (!empty($group['contributors']) && is_array($group['contributors'])) {
                 foreach ($group['contributors'] as $contributor) {
+                    $contributor['role'] = $role; // aplica a role do grupo
                     $flat[] = $contributor;
                 }
             }

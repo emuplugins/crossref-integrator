@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 09:46+0000\n"
+"PO-Revision-Date: 2025-12-12 09:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
@@ -295,7 +295,7 @@ msgstr "Primeiro Nome"
 
 #: includes/post-types/metaboxes/main.php:218
 msgid "Group Title"
-msgstr ""
+msgstr "Título do grupo"
 
 #: includes/post-types/books/post-type.php:30
 msgid "Insert into book"

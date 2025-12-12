@@ -198,7 +198,22 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_layout('tabbed-horizontal')
                 ->add_fields([
                     Field::make('text', 'group_title', __('Group Title', 'crossref-integrator'))
-                        ->set_required(true),
+                        ->set_required(true)->set_width(50),
+
+                    // Role definido no grupo, aplicável a todos os contribuintes
+                    Field::make('select', 'role', __('Role', 'crossref-integrator'))
+                        ->set_options([
+                            'author'            => __('Author', 'crossref-integrator'),
+                            'editor'            => __('Editor', 'crossref-integrator'),
+                            'chair'             => __('Chair', 'crossref-integrator'),
+                            'reviewer'          => __('Reviewer', 'crossref-integrator'),
+                            'review-assistant'  => __('Review Assistant', 'crossref-integrator'),
+                            'stats-reviewer'    => __('Statistics Reviewer', 'crossref-integrator'),
+                            'reviewer-external' => __('External Reviewer', 'crossref-integrator'),
+                            'reader'            => __('Reader', 'crossref-integrator'),
+                            'translator'        => __('Translator', 'crossref-integrator'),
+                        ])
+                        ->set_default_value('author')->set_width(50),
 
                     Field::make('complex', 'contributors', __('Contributors', 'crossref-integrator'))
                         ->set_layout('tabbed-horizontal')
@@ -206,19 +221,6 @@ add_action('carbon_fields_register_fields', function () {
                             Field::make('text', 'given', __('Given Name', 'crossref-integrator'))->set_required(true)->set_width(25),
                             Field::make('text', 'surname', __('Surname (People Only)', 'crossref-integrator'))->set_width(25),
                             Field::make('text', 'orcid', __('ORCID (People Only)', 'crossref-integrator'))->set_width(25),
-                            Field::make('select', 'role', __('Role', 'crossref-integrator'))
-                                ->set_options([
-                                    'author'            => __('Author', 'crossref-integrator'),
-                                    'editor'            => __('Editor', 'crossref-integrator'),
-                                    'chair'             => __('Chair', 'crossref-integrator'),
-                                    'reviewer'          => __('Reviewer', 'crossref-integrator'),
-                                    'review-assistant'  => __('Review Assistant', 'crossref-integrator'),
-                                    'stats-reviewer'    => __('Statistics Reviewer', 'crossref-integrator'),
-                                    'reviewer-external' => __('External Reviewer', 'crossref-integrator'),
-                                    'reader'            => __('Reader', 'crossref-integrator'),
-                                    'translator'        => __('Translator', 'crossref-integrator'),
-                                ])
-                                ->set_default_value('author')->set_width(15),
 
                             Field::make('complex', 'affiliations', __('Affiliations (People Only)', 'crossref-integrator'))
                                 ->set_layout('tabbed-vertical')
@@ -246,6 +248,7 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_header_template('<%- group_title %>')
                 ->set_help_text(__('Groups of contributors for this work.', 'crossref-integrator')),
         ]);
+
 
 
 

@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 04:52+0000\n"
+"PO-Revision-Date: 2025-12-12 09:46+0000\n"
 "Last-Translator: \n"
-"Language-Team: Portuguese (Brazil)\n"
+"Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -121,7 +121,7 @@ msgstr "Slug dos Livros"
 
 #: includes/post-types/metaboxes/main.php:214
 msgid "Chair"
-msgstr "Cadeira"
+msgstr "Presidente"
 
 #: includes/post-types/chapters/post-type.php:15
 msgid "Chapter"
@@ -181,6 +181,10 @@ msgstr "Clique em \"Enviar DOI para Crossref\" para gerar o XML."
 msgid "Contact Email"
 msgstr "E-mail de contato"
 
+#: includes/post-types/metaboxes/main.php:218
+msgid "Contributor Groups"
+msgstr "Grupos de Contribuintes"
+
 #: includes/post-types/metaboxes/main.php:197
 msgid "Contributors"
 msgstr "Colaboradores"
@@ -188,7 +192,7 @@ msgstr "Colaboradores"
 #. Name of the plugin
 #: includes/option-page.php:10
 msgid "Crossref Integrator"
-msgstr "CrossRef Integrator"
+msgstr "Integrador Crossref"
 
 #: includes/option-page.php:17
 msgid "Depositor Name"
@@ -247,12 +251,6 @@ msgstr "Erro ao gerar XML:"
 msgid "Error sending file:"
 msgstr "Erro ao enviar arquivo:"
 
-#: includes/classes/CreateBookXml.php:105
-#: includes/classes/CreateBookXml.php:116
-#, php-format
-msgid "Error: The field '%s' is empty for book ID %d."
-msgstr "Erro: o campo '%s' está vazio para o ID do livro %d ."
-
 #: includes/post-types/metaboxes/main.php:218
 msgid "External Reviewer"
 msgstr "Revisor externo"
@@ -295,8 +293,8 @@ msgstr "Alemão"
 msgid "Given Name"
 msgstr "Primeiro Nome"
 
-#. Author URI of the plugin
-msgid "https://angardagency.com"
+#: includes/post-types/metaboxes/main.php:218
+msgid "Group Title"
 msgstr ""
 
 #: includes/post-types/books/post-type.php:30
@@ -308,7 +306,9 @@ msgid "Insert into chapter"
 msgstr "Inserir no capítulo"
 
 #: includes/post-types/metaboxes/main.php:232
-msgid "Institution id"
+#, fuzzy
+#| msgid "Institution id"
+msgid "Institution ID"
 msgstr "Identificador da instituição"
 
 #: includes/post-types/metaboxes/main.php:233
@@ -324,7 +324,7 @@ msgid ""
 "Integra o WordPress com a API do Crossref, permitindo gerar e enviar "
 "metadados em XML conforme o padrão oficial, para a criação de DOIs."
 msgstr ""
-"Integra o WordPress com a API do Crossref, permitindo gerar e enviar "
+"Integra o WordPress com a API daCrossref, permitindo gerar e enviar "
 "metadados em XML conforme o padr mitsubo oficial, para a cria loubo de dois."
 
 #: includes/post-types/metaboxes/main.php:74
@@ -365,7 +365,7 @@ msgstr "Link associado à obra. Fornece acesso direto e permanente."
 
 #: includes/option-page.php:13
 msgid "Link for depositing DOIs in Crossref"
-msgstr "Link para depositar DOIs no Crossref"
+msgstr "Link para depositar DOIs na Crossref"
 
 #: includes/post-types/metaboxes/main.php:243
 msgid "List of institutions or organizations associated with this contributor."
@@ -413,6 +413,10 @@ msgstr "ORCID (somente para Pessoas)"
 msgid ""
 "Organization that requested the publication of the book, not the publisher."
 msgstr "Organização que solicitou a publicação do livro, não a editora."
+
+#: includes/option-page.php:23
+msgid "Organization, entity, or means responsible for registering the DOI."
+msgstr "Organização, entidade ou meio responsável pelo registro do DOI."
 
 #: includes/post-types/metaboxes/main.php:132
 msgid "Parent Book"
@@ -487,7 +491,7 @@ msgstr "Selecionar Arquivo"
 
 #: includes/post-types/metaboxes/main.php:44
 msgid "Send updates to Crossref"
-msgstr "Enviar atualizações para o Crossref"
+msgstr "Enviar atualizações para a Crossref"
 
 #: includes/post-types/chapters/post-type:38
 msgid "Slug to be used for book archive URLs, e.g., \"books\"."
@@ -534,6 +538,12 @@ msgstr "O prefixo DOI atribuído à sua organização, por exemplo, 10.12345/."
 msgid ""
 "The email that will receive notifications about DOI registration status."
 msgstr "O email que receberá notificações sobre o status de registro de DOIs."
+
+#: includes/classes/CreateBookXml.php:105
+#: includes/classes/CreateBookXml.php:116
+#, php-format
+msgid "The field '%s' is required."
+msgstr "O campo '%s' é obrigatório."
 
 #: includes/post-types/chapters/post-type:28
 msgid "The URL endpoint to deposit DOIs in Crossref."
