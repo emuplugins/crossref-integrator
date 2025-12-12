@@ -39,7 +39,7 @@ add_action('carbon_fields_register_fields', function () {
                             '</button>';
                     }
 
-                    $html .= '<button type="button" id="crossref_submit_doi" class="button button-effects">'
+                    $html .= '<button type="button" id="crossref_submit_doi" class="button button-effects '. ($doi ? '' : 'crossref-disabled') .'">'
                         . ($doi
                             ? __('Send updates to Crossref', 'crossref-integrator')
                             : __('Save changes locally', 'crossref-integrator'))
