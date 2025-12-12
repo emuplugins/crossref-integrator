@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crossref Integrator\n"
 "POT-Creation-Date: 2025-12-12 00:35+0000\n"
-"PO-Revision-Date: 2025-12-12 02:28+0000\n"
+"PO-Revision-Date: 2025-12-12 02:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: Português do Brasil\n"
 "Language: pt_BR\n"
@@ -28,7 +28,7 @@ msgstr "Resumo (JATS Abstract)"
 
 #: includes/send-crossref-book.php:14 includes/send-crossref-chapter.php:14
 msgid "Access denied (invalid nonce)."
-msgstr "Acesso negado (nonce inválido)."
+msgstr "Acesso negado (nonce inválido). "
 
 #: includes/post-types/metaboxes/main.php:24
 msgid "Actions"
@@ -37,11 +37,11 @@ msgstr "Ações"
 #: includes/post-types/books/post-type.php:18
 #: includes/post-types/chapters/post-type.php:16
 msgid "Add New"
-msgstr "Adicionar Novo"
+msgstr "Adicionar novo"
 
 #: includes/post-types/books/post-type.php:19
 msgid "Add New Book"
-msgstr "Adicionar Novo Livro"
+msgstr "Adicionar novo livro"
 
 #: includes/post-types/chapters/post-type.php:17
 msgid "Add New chapter"
@@ -49,7 +49,7 @@ msgstr "Adicionar novo capítulo"
 
 #: includes/post-types/books/post-type.php:27
 msgid "All Books"
-msgstr "Todos Os Livros"
+msgstr "Todos os livros"
 
 #: includes/post-types/chapters/post-type.php:25
 msgid "All chapters"
@@ -80,19 +80,19 @@ msgstr "Livro"
 
 #: includes/post-types/books/post-type.php:28
 msgid "Book Archives"
-msgstr "Arquivos De Livros"
+msgstr "Arquivos de livros"
 
 #: includes/post-types/books/post-type.php:29
 msgid "Book Attributes"
-msgstr "Atributos Do Livro"
+msgstr "Atributos do livro"
 
 #: includes/post-types/metaboxes/main.php:58
 msgid "Book Details"
-msgstr "Detalhes Do Livro"
+msgstr "Detalhes do livro"
 
 #: includes/post-types/metaboxes/main.php:112
 msgid "Book File"
-msgstr "Arquivo do Livro"
+msgstr "Arquivo do livro"
 
 #: includes/post-types/metaboxes/main.php:115
 msgid "Book File (DOI Resource)"
@@ -175,7 +175,7 @@ msgstr "Clique em \"Enviar DOI para Crossref\" para gerar o XML."
 
 #: includes/option-page.php:18
 msgid "Contact Email"
-msgstr "E-Mail De Contato"
+msgstr "E-mail de contato"
 
 #: includes/post-types/metaboxes/main.php:197
 msgid "Contributors"
@@ -188,11 +188,11 @@ msgstr "CrossRef Integrator"
 
 #: includes/option-page.php:17
 msgid "Depositor Name"
-msgstr "Nome Do Depositante"
+msgstr "Submissor do DOI"
 
 #: includes/post-types/metaboxes/main.php:13
 msgid "Digital Object Identifier"
-msgstr "Identificador De Objeto Digital"
+msgstr "Identificador de objeto digital"
 
 #: includes/post-types/metaboxes/main.php:16
 msgid "DOI Number"
@@ -247,7 +247,7 @@ msgstr "Erro: o campo '%s' está vazio para o ID do livro %d ."
 
 #: includes/post-types/metaboxes/main.php:218
 msgid "External Reviewer"
-msgstr "Revisor Externo"
+msgstr "Revisor externo"
 
 #: includes/send-crossref-book.php:62 includes/send-crossref-chapter.php:63
 msgid "File successfully sent."
@@ -310,7 +310,7 @@ msgstr ""
 #: includes/post-types/metaboxes/main.php:74
 #: includes/post-types/metaboxes/main.php:77
 msgid "International standard that uniquely identifies this work."
-msgstr "Norma internacional que identifica de forma única Este trabalho."
+msgstr "Norma internacional que identifica de forma única este trabalho."
 
 #: includes/post-types/metaboxes/main.php:73
 msgid "ISBN (Electronic Version)"
@@ -539,11 +539,11 @@ msgstr "Enviado para este capítulo"
 
 #: includes/post-types/books/post-type.php:22
 msgid "View Book"
-msgstr "Ver Livro"
+msgstr "Ver livro"
 
 #: includes/post-types/books/post-type.php:23
 msgid "View Books"
-msgstr "Ver Livros"
+msgstr "Ver livros"
 
 #: includes/post-types/chapters/post-type.php:20
 msgid "View chapter"
