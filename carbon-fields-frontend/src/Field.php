@@ -1,0 +1,321 @@
+<?php
+
+namespace Carbon_Fields\Frontend;
+
+class Field
+{
+    protected string $type;
+    protected string $name;
+    protected string $label;
+
+    // (adicionar junto às propriedades da classe)
+    protected int $min = 0;
+
+
+    protected array $attributes = [];
+    protected mixed $default_value = null;
+    protected array $initial_values = [];
+
+    protected array $fields = [];
+
+    // Caminho do campo para salvar
+    // É somado a cada nivel de campos 
+    // inicia como $this->name . '[$index]'
+    protected string $path = '';
+
+
+
+    // set functions
+    protected string $layout = 'tabbed-horizontal';
+    protected bool $required = false;
+    protected int $width = 100;
+    protected int $depth = 0;
+    protected int $index = 0;
+    protected mixed $header_template = false;
+    protected string $help_text = '';
+    protected array $options = [];
+
+    protected function __construct(string $type, string $name, string $label)
+    {
+        $this->type  = $type;
+        $this->name  = $name;
+        $this->label = $label;
+
+        $this->path = '[' . $this->name . '][' . $this->index . ']';
+    }
+
+    public static function make(string $type, string $name, string $label): self
+    {
+        return new self($type, $name, $label);
+    }
+
+    public function set_attribute(string $key, mixed $value): self
+    {
+        $this->attributes[$key] = $value;
+        return $this;
+    }
+
+    // alterar a função set_min para gravar o valor
+    public function set_min(int $value): self
+    {
+        $this->min = max(0, (int) $value);
+        return $this;
+    }
+
+    public function set_default_values(array $values): self
+    {
+        $this->initial_values = $values;
+        return $this;
+    }
+
+    public function set_width($number)
+    {
+        $this->width = $number;
+        return $this;
+    }
+
+    public function set_help_text(string $text): self
+    {
+        $this->help_text = $text;
+        return $this;
+    }
+
+    public function set_required($value = false)
+    {
+        $this->required = $value;
+        return $this;
+    }
+
+
+    public function set_options(array $options): self
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+    public function set_layout($value)
+    {
+        $this->layout = $value;
+        return $this;
+    }
+
+    // Apenas use se você sabe o que está fazendo
+    public function set_depth($value)
+    {
+        $this->depth = $value;
+        return $this;
+    }
+
+    // Usado para quando um complex field tem subcampos, essa função adiciona o path do complex field, em seus subcampos, e assim consecutivamente
+    public function set_path(string $base = ''): self
+    {
+        $this->path = $base . '[' . $this->name . '][' . $this->index . ']';
+        return $this;
+    }
+
+    public function set_index($value)
+    {
+        $this->index = $value;
+        return $this;
+    }
+
+    public function set_header_template($value)
+    {
+        $cleaned = trim(str_replace(['<', '>', '%', '-'], '', $value));
+
+        $this->header_template = trim($cleaned);
+        return $this;
+    }
+
+    public function add_fields($field)
+    {
+        $this->fields = [...$this->fields, ...((array)$field)];
+        return $this;
+    }
+
+    public function set_default_value(mixed $value): self
+    {
+        $this->default_value = $value;
+        return $this;
+    }
+
+    public function render(): string
+    {
+        $html = '<div class="crossref-field" style="width:' . $this->width . '%">';
+
+        if ($this->type === 'complex') {
+            $html .= $this->fieldComplex();
+        } else {
+            // qualquer outro tipo usa fieldInput (inclui select, textarea, inputs, etc.)
+            $html .= $this->fieldInput();
+        }
+
+        if (!empty($this->help_text)) {
+            $html .= '<small class="carbon-fields-frontend-help">' . htmlspecialchars($this->help_text, ENT_QUOTES, 'UTF-8') . '</small>';
+        }
+
+        $html .= '</div>';
+
+        return $html;
+    }
+
+
+
+    protected function fieldComplex()
+    {
+        // Identificador único para o complex
+        $dataComplexID = 'complex-' . md5($this->name . uniqid('', true));
+
+        // Define os itens a partir de initial_values
+        $items = !empty($this->initial_values) ? $this->initial_values : [];
+
+        // Se não houver items mas houver min definido (ou required), crie items vazios
+        if (empty($items) && ($this->required || $this->min > 0)) {
+            $count = max(1, $this->min);
+            for ($m = 0; $m < $count; $m++) {
+                $emptyItem = [];
+                foreach ($this->fields as $subField) {
+                    $emptyItem[$subField->name] = $subField->default_value ?? null;
+                }
+                $items[] = $emptyItem;
+            }
+        }
+
+
+        // Início do HTML
+        $html  = '<div class="carbon-fields-frontend-complex-field ' . $this->layout . '"';
+        $html .= ' data-name="' . htmlspecialchars($this->name, ENT_QUOTES, 'UTF-8') . '"';
+        $html .= $this->header_template ? ' header-template="' . htmlspecialchars($this->header_template, ENT_QUOTES, 'UTF-8') . '"' : '';
+        $html .= ' data-complex-id="' . htmlspecialchars($dataComplexID, ENT_QUOTES, 'UTF-8') . '"';
+        $html .= ' data-depth="' . $this->depth . '"';
+        $html .= ' data-complex-min="' . $this->min . '"';
+        $html .= $this->required ? ' data-complex-required="true"' : '';
+        $html .= '>';
+
+
+        // Label do campo
+        $html .= '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label, ENT_QUOTES, 'UTF-8') . '</label>';
+
+        /* TABS */
+        $html .= '<ul class="carbon-fields-frontend-complex-tabs">';
+        $tabIndex = 0; // índice local do loop
+        foreach ($items as $item) {
+            $tabTitle = $this->header_template && isset($item[$this->header_template]) ? $item[$this->header_template] : $tabIndex + 1;
+
+            $active = $tabIndex === 0 ? ' active' : '';
+            $html .= '<li class="carbon-fields-frontend-complex-tab' . $active . '" data-index="' . $tabIndex . '">'
+                . htmlspecialchars($tabTitle, ENT_QUOTES, 'UTF-8') . '</li>';
+            $tabIndex++;
+        }
+        $html .= '<li class="carbon-fields-frontend-complex-tab-add" data-action="add">+</li>';
+        $html .= '</ul>';
+
+        /* ITENS */
+        $html .= '<div class="carbon-fields-frontend-complex-items">';
+        $tabIndex = 0;
+        foreach ($items as $item) {
+            $activeClass = $tabIndex === 0 ? ' active' : '';
+            $html .= '<div class="carbon-fields-frontend-complex-item' . $activeClass . '" data-index="' . $tabIndex . '" data-depth="' . $this->depth . '">';
+            foreach ($this->fields as $subField) {
+                if (isset($item[$subField->name])) {
+                    $subField->set_default_value($item[$subField->name]);
+                }
+                $subField->set_index($tabIndex); // ainda mantém para o path
+                $subField->set_path($this->path);
+                $html .= $subField->render();
+            }
+            $html .= '<div class="carbon-fields-frontend-complex-remove-wrapper">
+            <button type="button" class="carbon-fields-frontend-complex-remove">Remover</button>
+        </div>';
+            $html .= '</div>';
+            $tabIndex++;
+        }
+
+        // TEMPLATE INVISÍVEL
+        $html .= '<div class="carbon-fields-frontend-complex-item carbon-fields-frontend-template" data-index="__INDEX__" data-template-for="' . htmlspecialchars($dataComplexID, ENT_QUOTES, 'UTF-8') . '" data-depth="' . ($this->depth + 1) . '">';
+
+        foreach ($this->fields as $subField) {
+            $subField->set_path($this->path);
+            $subField->set_default_value(''); // valor vazio no template
+            $subField->set_default_values([]); // valor vazio no template
+
+            if ($subField->get_fields()['type'] === 'complex') {
+
+                $subField->set_required(false); // valor vazio no template
+            }
+
+
+            $html .= $subField->render();
+        }
+
+        $html .= '<div class="carbon-fields-frontend-complex-remove-wrapper">
+    <button type="button" class="carbon-fields-frontend-complex-remove">Remover</button>
+</div>';
+
+        $html .= '</div>'; // fim do template
+
+
+
+        $html .= '</div>'; // .carbon-fields-frontend-complex-items
+
+        // Apenas exibe a mensagem de "nenhum item" 
+        $html .= '<div class="carbon-fields-frontend-complex-add-first">
+            <p>Este item ainda não tem nenhum registro.</p>
+            <button type="button" data-action="add">Adicionar ' . (isset($this->singular_name) ? $this->singular_name : '') . '</button>
+        </div>';
+
+        $html .= '</div>'; // .carbon-fields-frontend-complex-field
+
+        return $html;
+    }
+
+
+
+    protected function fieldInput()
+    {
+        $name = $this->path;
+        $value = $this->default_value ?? '';
+        $required = $this->required ? 'required' : '';
+
+        // Monta atributos adicionais
+        $attrStr = '';
+        foreach ($this->attributes as $key => $val) {
+            $attrStr .= ' ' . htmlspecialchars($key) . '="' . htmlspecialchars($val) . '"';
+        }
+
+        if ($this->type === 'select') {
+            $html = '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label) .  ($required ? '<span style="color:red"> *</span>' : '') .'</label>';
+            $html .= '<select name="' . htmlspecialchars($name) . '" ' . $required . ' ' . $attrStr . '>';
+            foreach ($this->options as $key => $label) {
+                $selected = $key == $value ? 'selected' : '';
+                $html .= '<option value="' . htmlspecialchars($key) . '" ' . $selected . '>' . htmlspecialchars($label) . '</option>';
+            }
+            $html .= '</select>';
+            return $html;
+        }
+
+        if ($this->type === 'textarea') {
+            return '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label) .  ($required ? '<span style="color:red"> *</span>' : '') . '</label>
+                <textarea name="' . htmlspecialchars($name) . '" ' . $attrStr . '>' . htmlspecialchars($value). '</textarea>';
+        }
+
+        // Campos de input normais (text, number, date, etc.)
+        return '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label) .  ($required ? '<span style="color:red"> *</span>' : '')  .'</label>' .
+            '<input type="' . htmlspecialchars($this->type) . '" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" ' . $required . ' ' . $attrStr . '>';
+    }
+
+
+    public function get_fields()
+    {
+        return [
+            'name' => $this->name,
+            'type' => $this->type,
+            'default_value' => $this->default_value,
+            'fields' => $this->fields,
+            'options' => $this->options ?? [],
+            'help_text' => $this->help_text ?? '',
+            'min' => $this->min,
+            'layout' => $this->layout ?? '',
+        ];
+    }
+}

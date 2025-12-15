@@ -1,0 +1,187 @@
+.carbon-fields-frontend-form {
+    --border-color: #d1d1d1ff;
+    --containers-background: #fff;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    & input,
+    & select,
+    & textarea {
+        width: 100%;
+    }
+
+    & .crossref-field {
+        width: 100%;
+        flex-grow: 1;
+    }
+
+    & .carbon-fields-frontend-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 16px;
+        border: 1px solid var(--border-color);
+        padding: 16px;
+    }
+
+    & * {
+        transition: border-color 0.5s ease;
+    }
+}
+
+/* ===== complex fields ===== */
+.carbon-fields-frontend-complex-field {
+    flex-wrap: wrap;
+    background: var(--containers-background);
+    margin-bottom: 16px;
+}
+
+.carbon-fields-frontend-complex-items {
+    background: var(--containers-background);
+}
+
+/* ===== TABS ===== */
+.carbon-fields-frontend-complex-tabs {
+    display: flex;
+    gap: 12px;
+    padding: 0;
+    list-style: none;
+}
+
+.carbon-fields-frontend-complex-tab,
+.carbon-fields-frontend-complex-tab-add {
+    padding: 6px 10px;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    background: #f5f5f5;
+}
+
+.carbon-fields-frontend-complex-tab.active {
+    background: var(--containers-background);
+    font-weight: bold;
+    position: relative;
+
+    &:after {
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: var(--containers-background);
+        content: "";
+    }
+}
+
+/* ===== complex item contents ===== */
+.carbon-fields-frontend-complex-item {
+    display: none;
+    border: 1px solid var(--border-color);
+    padding: 18px;
+    background: var(--containers-background);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.carbon-fields-frontend-complex-item.active {
+    display: flex;
+}
+
+.carbon-fields-frontend-label {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+/* ===== Layout por profundidade ===== */
+.carbon-fields-frontend-complex-field.tabbed-horizontal {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.carbon-fields-frontend-complex-field.tabbed-vertical {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+
+    & .carbon-fields-frontend-complex-tabs {
+        display: flex;
+        flex-direction: column;
+        width: 25%;
+    }
+
+    & .carbon-fields-frontend-complex-tab,
+    & .carbon-fields-frontend-complex-tab-add {
+        border-bottom: 1px solid var(--border-color);
+        word-break: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        position: relative;
+    }
+
+    & .carbon-fields-frontend-complex-items {
+        flex-grow: 1;
+        width: 25%;
+    }
+}
+
+/* ===== Remover botão ===== */
+.carbon-fields-frontend-complex-remove-wrapper {
+    width: 100%;
+    margin-top: 8px;
+    display: flex;
+    justify-content: right;
+}
+
+/* ===== Comportamento de adicionar ===== */
+.carbon-fields-frontend-complex-add-first {
+    display: none;
+    width: 100%;
+}
+
+.carbon-fields-frontend-complex-field:has(> .carbon-fields-frontend-complex-items > .carbon-fields-frontend-complex-item:only-child) {
+    &>.carbon-fields-frontend-complex-tabs>.carbon-fields-frontend-complex-tab-add {
+        display: none;
+    }
+
+    & .carbon-fields-frontend-complex-add-first {
+        display: block;
+    }
+}
+
+/* ===== Input, Select, Textarea ===== */
+input,
+select,
+textarea {
+    border: none !important;
+    outline: 1px solid var(--border-color);
+    line-height: 1.2em;
+    font-size:1em;
+    height:50px;
+    &.required {
+        outline: 1px solid #ff4343ff;
+        background-color: #fcf2f2ff;
+    }
+}
+
+.required {
+    transition: background-color 0.5s ease;
+
+    &>.carbon-fields-frontend-complex-tabs>.carbon-fields-frontend-complex-tab.active,
+    >.carbon-fields-frontend-complex-items>.carbon-fields-frontend-complex-item {
+        border-color: #ff4343ff !important;
+        --containers-background: #fcf2f2ff;
+    }
+}
+
+
+.carbon-fields-frontend-complex-tabs,
+.carbon-fields-frontend-complex-items {
+
+    &:not(:has(.active)) {
+        display: none !important;
+    }
+
+}

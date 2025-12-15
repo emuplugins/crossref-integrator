@@ -110,7 +110,7 @@ class CrossrefFormBuilder
 
         $repeaterId = 'repeater-' . md5($field['name'] . uniqid('', true));
         $createInitialItem = false;
-        $tabTitle = ++ $index ;
+        $tabTitle = ++$index;
 
         // se há um campo que corresponde ao title_bind e tem valor, usamos esse valor como gatilho
         if ($hasFields && $titleBind) {
@@ -633,17 +633,20 @@ function crossref_frontend_chapter_form_shortcode($atts = [], $content = null)
             }
 
             function removeRepeaterItem(button) {
-                const item = button.closest('.crossref-repeater-item');
-                const repeater = button.closest('.crossref-repeater');
+                const item = button.closest('.carbon-fields-frontend-complex-item');
+                const repeater = button.closest('.carbon-fields-frontend-complex-field');
                 if (!item || !repeater) return;
 
-                const itemsWrap = repeater.querySelector(':scope > .crossref-repeater-items');
+                const itemsWrap = repeater.querySelector(':scope > .carbon-fields-frontend-complex-items');
                 if (!itemsWrap) return;
 
-                const realItems = itemsWrap.querySelectorAll(':scope > .crossref-repeater-item:not(.crossref-template)');
-
-                if (realItems.length === 1 && repeater.getAttribute('data-repeater-required')) {
-
+                // apenas itens reais (exclui o template)
+                const realItems = itemsWrap.querySelectorAll(':scope > .carbon-fields-frontend-complex-item:not(.carbon-fields-frontend-template)');
+                const minAttr = repeater.getAttribute('data-complex-min');
+                const min = minAttr ? parseInt(minAttr, 10) : 0;
+                
+                // se houver menos ou igual ao min, bloqueia remoção e pisca (indica obrigatoriedade)
+                if (realItems.length <= min) {
                     const blinkTimes = 2; // número de piscadas
                     const interval = 150; // duração de cada estado em ms
                     let count = 0;
@@ -651,25 +654,21 @@ function crossref_frontend_chapter_form_shortcode($atts = [], $content = null)
                     const blink = () => {
                         repeater.classList.toggle('required'); // alterna a classe
                         count++;
-                        if (count < blinkTimes * 2) { // *2 porque alterna on/off
-                            setTimeout(blink, interval);
-                        }
+                        if (count < blinkTimes * 2) setTimeout(blink, interval);
                     };
 
                     blink();
-
-                    return;
+                    return; // não remove
                 }
 
-
-                // remove item
+                // remove o item normalmente
                 item.remove();
 
                 // reindexa itens e abas
                 reindexRepeater(repeater);
 
                 // ativa primeiro item real restante
-                const firstItem = itemsWrap.querySelector(':scope > .crossref-repeater-item:not(.crossref-template)');
+                const firstItem = itemsWrap.querySelector(':scope > .carbon-fields-frontend-complex-item:not(.carbon-fields-frontend-template)');
                 if (firstItem) activateTab(repeater, String(firstItem.dataset.index));
             }
 
