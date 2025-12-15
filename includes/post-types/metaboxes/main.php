@@ -217,13 +217,24 @@ add_action('carbon_fields_register_fields', function () {
 
                     Field::make('complex', 'contributors', __('Contributors', 'crossref-integrator'))
                         ->set_layout('tabbed-horizontal')
-                        ->add_fields([
+                        ->add_fields('organization', [
+                            Field::make('text', 'given', __('Organization Name', 'crossref-integrator'))->set_required(true)->set_width(33),
+                            Field::make('text', 'institution_id', __('Institution ID', 'crossref-integrator'))->set_width(33),
+                            Field::make('select', 'institution_id_type', __('Institution ID Type', 'crossref-integrator'))
+                                ->set_options([
+                                    'ror'      => 'ROR',
+                                    'isni'     => 'ISNI',
+                                    'wikidata' => 'Wikidata',
+                                ])
+                                ->set_default_value('ror')
+                                ->set_width(33),
+                        ])
+                        ->add_fields('person', [
                             Field::make('text', 'given', __('Given Name', 'crossref-integrator'))->set_required(true)->set_width(25),
-                            Field::make('text', 'surname', __('Surname (People Only)', 'crossref-integrator'))->set_width(25),
-                            Field::make('text', 'orcid', __('ORCID (People Only)', 'crossref-integrator'))->set_width(25),
-                            Field::make('text', 'lattes', __('Lattes Curriculum (People Only)', 'crossref-integrator'))->set_width(25),
+                            Field::make('text', 'surname', __('Surname', 'crossref-integrator'))->set_width(25),
+                            Field::make('text', 'orcid', __('ORCID', 'crossref-integrator'))->set_width(25),
+                            Field::make('text', 'lattes', __('Lattes Curriculum', 'crossref-integrator'))->set_width(25),
                             Field::make('rich_text', 'bio', __('Contributor Biography', 'crossref-integrator'))->set_width(25),
-
 
                             Field::make('complex', 'affiliations', __('Affiliations (People Only)', 'crossref-integrator'))
                                 ->set_layout('tabbed-vertical')
@@ -241,11 +252,11 @@ add_action('carbon_fields_register_fields', function () {
                                 ])
                                 ->set_min(0)
                                 ->set_help_text(__('List of institutions or organizations associated with this contributor.', 'crossref-integrator')),
-
                         ])
                         ->set_min(1)
                         ->set_header_template('<%- given %>')
-                        ->set_help_text(__('People or organizations who contributed to the work.', 'crossref-integrator')),
+                        ->set_help_text(__('People or organizations who contributed to the work.', 'crossref-integrator'))
+
                 ])
                 ->set_min(1)
                 ->set_header_template('<%- group_title %>')

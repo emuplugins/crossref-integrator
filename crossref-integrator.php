@@ -28,6 +28,7 @@ add_action('plugins_loaded', function () {
 
 
 require_once(CROSSREF_PLUGIN_DIR . '/carbon-fields/carbon-fields-plugin.php');
+require_once(CROSSREF_PLUGIN_DIR . '/repeater.php');
 
 function crossref_verify_fields()
 {
