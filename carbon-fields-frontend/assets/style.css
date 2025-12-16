@@ -11,8 +11,9 @@
     --field-border-radius: .4em;
     --tab-padding: .4em 1.2em;
     --tab-gap: 12px;
-    --fields-gap: 2em 1em;
+    --fields-gap: 1.2em 1em;
 }
+
 
 
 @keyframes rotate {
@@ -102,10 +103,12 @@
         }
     }
 
-
     & .crossref-field {
         width: 100%;
         flex-grow: 1;
+        gap: .5em;
+        display: flex;
+        flex-direction: column;
     }
 
     & .carbon-fields-frontend-container {
@@ -121,7 +124,7 @@
 
     & .carbon-fields-frontend-label {
         width: 100%;
-        margin-bottom: 12px;
+        font-weight: 500;
     }
 }
 
@@ -193,33 +196,35 @@
     flex-direction: column;
 }
 
-.carbon-fields-frontend-complex-field.tabbed-vertical {
-    display: flex;
-    flex-direction: row;
-    gap: var(--fields-gap);
+@media (min-width:700px) {
+    .carbon-fields-frontend-complex-field.tabbed-vertical {
+        display: flex;
+        flex-direction: row;
+        gap: var(--fields-gap);
 
-    & .carbon-fields-frontend-complex-tabs {
-        flex-direction: column;
-        width: 25%;
-    }
-
-    & .carbon-fields-frontend-complex-tab,
-    & .carbon-fields-frontend-complex-tab-add {
-        word-break: break-word;
-        overflow-wrap: break-word;
-        hyphens: auto;
-        border-bottom: 1px solid var(--border-color) !important;
-
-        border-radius: var(--field-border-radius);
-
-        &:after {
-            all: unset;
+        & .carbon-fields-frontend-complex-tabs {
+            flex-direction: column;
+            width: 25%;
         }
-    }
 
-    & .carbon-fields-frontend-complex-items {
-        flex-grow: 1;
-        width: 35%;
+        & .carbon-fields-frontend-complex-tab,
+        & .carbon-fields-frontend-complex-tab-add {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            border-bottom: 1px solid var(--border-color) !important;
+
+            border-radius: var(--field-border-radius);
+
+            &:after {
+                all: unset;
+            }
+        }
+
+        & .carbon-fields-frontend-complex-items {
+            flex-grow: 1;
+            width: 35%;
+        }
     }
 }
 
@@ -253,6 +258,13 @@
 .carbon-fields-frontend-complex-add-first {
     display: none;
     width: 100%;
+    gap:var(--fields-gap);
+
+    & p {
+        font-size:.8em;
+        opacity: .8;
+
+    }
 }
 
 .carbon-fields-frontend-complex-field:has(> .carbon-fields-frontend-complex-items > .carbon-fields-frontend-complex-item:only-child) {
@@ -261,7 +273,8 @@
     }
 
     & .carbon-fields-frontend-complex-add-first {
-        display: block;
+        display: flex;
+        flex-direction: column;
     }
 }
 
@@ -285,7 +298,7 @@ button.carbon-fields-frontend-btn {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
     color: white;
-
+    border-radius: var(--field-border-radius);
     &:hover {
         border-color: var(--primary-color);
         background-color: color-mix(in srgb, var(--primary-color) 80%, black 20%);
@@ -345,8 +358,9 @@ button.carbon-fields-frontend-btn {
         pointer-events: all;
         color: black;
         width: 350px;
+        max-width: 100%;
         height: fit-content;
-        border-radius: 1em;
+        border-radius: .5em;
         overflow: hidden;
         animation: noticeIn 0.25s ease-out;
         flex-shrink: 0;
@@ -499,4 +513,38 @@ button.carbon-fields-frontend-btn {
     & svg.info-icon {
         color: var(--color-danger);
     }
+}
+
+
+
+@media (max-width:700px) {
+    :root {
+        --container-padding: .8em;
+    }
+
+    .carbon-fields-frontend-form {
+        font-size: 13.5px;
+    }
+
+    .carbon-fields-frontend-containers {
+        & .crossref-field {
+            gap: .5em;
+            min-width: 40%;
+            min-width: 40%;
+
+            & label {
+                margin: 0
+            }
+        }
+    }
+
+    .carbon-fields-frontend-help {
+        font-size: .8em;
+        line-height: 1.3em;
+    }
+
+    .carbon-fields-frontend-notice-title {
+        font-size:.9em;
+    }
+
 }
