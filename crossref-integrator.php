@@ -59,6 +59,7 @@ function crb_load()
     // Campos obrigatórios preenchidos
     require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/chapters/post-type.php');
     require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/books/post-type.php');
+    require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/submission-calls/post-type.php');
     require_once(CROSSREF_PLUGIN_DIR . '/includes/post-types/metaboxes/main.php');
 }
 

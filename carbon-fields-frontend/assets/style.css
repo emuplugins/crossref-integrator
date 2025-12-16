@@ -149,6 +149,7 @@
     padding: var(--container-padding);
     background: var(--container-bg);
     animation: fadeIn 0.4s ease-in forwards;
+    margin-top: -1px;
 }
 
 .carbon-fields-frontend-complex-item.active {
@@ -156,12 +157,14 @@
 }
 
 /* ===== Tabs ===== */
-.carbon-fields-frontend-complex-tabs {
+.carbon-fields-frontend-complex-tab-list {
     display: flex;
-    gap: var(--tab-gap);
+    gap: 0 var(--tab-gap);
     padding: 0;
     list-style: none;
     margin: 0;
+    flex-wrap: wrap;
+    width: fit-content;
 }
 
 .carbon-fields-frontend-complex-tab,
@@ -169,14 +172,28 @@
     padding: var(--tab-padding);
     cursor: pointer;
     border: 1px solid var(--border-color);
-    border-bottom: none;
     background: #f5f5f5;
     border-radius: var(--field-border-radius) var(--field-border-radius) 0 0;
+    width: fit-content;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 200px;
+    text-align: center;
+    text-overflow: ellipsis;
+
+
+    &.carbon-fields-frontend-complex-tab-add {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color) !important;
+        z-index: 1;
+    }
 }
 
 .carbon-fields-frontend-complex-tab.active {
     background: var(--container-bg);
     font-weight: bold;
+
     position: relative;
 }
 
@@ -188,12 +205,29 @@
     width: 100%;
     height: 5px;
     background: var(--container-bg);
+    z-index: 1;
 }
 
 /* ===== Layout Horizontal / Vertical ===== */
 .carbon-fields-frontend-complex-field.tabbed-horizontal {
     display: flex;
     flex-direction: column;
+
+    & .carbon-fields-frontend-complex-tabs {
+        display: inline-flex;
+        flex-direction: row;
+
+        & .carbon-fields-frontend-complex-tab-list {
+            flex-direction: row
+        }
+
+        & .carbon-fields-frontend-complex-tab-add {
+            width: 50px;
+
+            height: fit-content;
+            align-self: flex-end;
+        }
+    }
 }
 
 @media (min-width:700px) {
@@ -203,16 +237,31 @@
         gap: var(--fields-gap);
 
         & .carbon-fields-frontend-complex-tabs {
+            display: flex;
             flex-direction: column;
-            width: 25%;
+            width: 20%;
+
+            & .carbon-fields-frontend-complex-tab-list {
+                flex-direction: column;
+                width: 100%;
+                max-width: 100%;
+                gap: var(--tab-gap)
+            }
+
+            & .carbon-fields-frontend-complex-tab-add {
+                width: 100%;
+            }
+
         }
+
 
         & .carbon-fields-frontend-complex-tab,
         & .carbon-fields-frontend-complex-tab-add {
-            word-break: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
-            border-bottom: 1px solid var(--border-color) !important;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+            text-overflow: ellipsis;
 
             border-radius: var(--field-border-radius);
 
@@ -258,17 +307,24 @@
 .carbon-fields-frontend-complex-add-first {
     display: none;
     width: 100%;
-    gap:var(--fields-gap);
+    gap: var(--fields-gap);
 
     & p {
-        font-size:.8em;
+        font-size: .8em;
         opacity: .8;
 
     }
 }
 
+.carbon-fields-frontend-complex-tabs {
+    display: flex;
+    flex-direction: row;
+    gap: var(--tab-gap)
+}
+
 .carbon-fields-frontend-complex-field:has(> .carbon-fields-frontend-complex-items > .carbon-fields-frontend-complex-item:only-child) {
-    &>.carbon-fields-frontend-complex-tabs>.carbon-fields-frontend-complex-tab-add {
+
+    &>.carbon-fields-frontend-complex-tabs {
         display: none;
     }
 
@@ -279,7 +335,7 @@
 }
 
 /* ===== Hide empty tabs/items ===== */
-.carbon-fields-frontend-complex-tabs,
+.carbon-fields-frontend-complex-tab-list,
 .carbon-fields-frontend-complex-items {
     &:not(:has(.active)) {
         display: none !important;
@@ -299,6 +355,7 @@ button.carbon-fields-frontend-btn {
     border-color: var(--primary-color);
     color: white;
     border-radius: var(--field-border-radius);
+
     &:hover {
         border-color: var(--primary-color);
         background-color: color-mix(in srgb, var(--primary-color) 80%, black 20%);
@@ -309,7 +366,7 @@ button.carbon-fields-frontend-btn {
 .required {
     transition: background-color 0.5s ease;
 
-    &>.carbon-fields-frontend-complex-tabs>.carbon-fields-frontend-complex-tab.active,
+    &>.carbon-fields-frontend-complex-tabs>.carbon-fields-frontend-complex-tab-list>.carbon-fields-frontend-complex-tab.active,
     >.carbon-fields-frontend-complex-items>.carbon-fields-frontend-complex-item {
         border-color: #ff4343ff !important;
         --container-bg: #fcf2f2ff !important;
@@ -544,7 +601,7 @@ button.carbon-fields-frontend-btn {
     }
 
     .carbon-fields-frontend-notice-title {
-        font-size:.9em;
+        font-size: .9em;
     }
 
 }

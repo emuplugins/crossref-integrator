@@ -139,3 +139,7 @@
         content:"";
     }
 }
+
+.cf-file__browse_new{
+    z-index: 1;
+}

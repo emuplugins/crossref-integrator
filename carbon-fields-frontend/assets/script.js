@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
             child.tagName !== 'TEMPLATE' && !child.classList.contains('carbon-fields-frontend-template')
         );
 
-        const tabsWrap = repeater.querySelector(':scope > .carbon-fields-frontend-complex-tabs');
+        const tabsWrap = repeater.querySelector(':scope > .carbon-fields-frontend-complex-tabs > .carbon-fields-frontend-complex-tab-list');
         if (!tabsWrap) return;
         const tabAdd = tabsWrap.querySelector('[data-action="add"]');
 
@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!repeater) return;
         const idx = String(index);
 
-        const tabs = Array.from(repeater.querySelectorAll(':scope > .carbon-fields-frontend-complex-tabs > .carbon-fields-frontend-complex-tab:not([data-action="add"])'));
+        const tabs = Array.from(repeater.querySelectorAll(':scope > .carbon-fields-frontend-complex-tabs > .carbon-fields-frontend-complex-tab-list > .carbon-fields-frontend-complex-tab:not([data-action="add"])'));
         const items = Array.from(repeater.querySelectorAll(':scope > .carbon-fields-frontend-complex-items > .carbon-fields-frontend-complex-item')).filter(el =>
             el.tagName !== 'TEMPLATE' && !el.classList.contains('carbon-fields-frontend-complex-template')
         );

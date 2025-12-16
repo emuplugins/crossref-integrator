@@ -87,8 +87,12 @@ class Field
     }
 
 
-    public function set_options(array $options): self
+    public function set_options(callable|array $options): self
     {
+        if (is_callable($options)) {
+            $options = $options(); // executa o callable e retorna o array
+        }
+
         $this->options = $options;
         return $this;
     }
@@ -208,7 +212,8 @@ class Field
         $html .= '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label, ENT_QUOTES, 'UTF-8') . '</label>';
 
         /* TABS */
-        $html .= '<ul class="carbon-fields-frontend-complex-tabs">';
+        $html .= '<div class="carbon-fields-frontend-complex-tabs">';
+        $html .= '<ul class="carbon-fields-frontend-complex-tab-list">';
         $tabIndex = 0; // índice local do loop
         foreach ($items as $item) {
             $tabTitle = $this->header_template && isset($item[$this->header_template]) ? $item[$this->header_template] : $tabIndex + 1;
@@ -218,8 +223,9 @@ class Field
                 . htmlspecialchars($tabTitle, ENT_QUOTES, 'UTF-8') . '</li>';
             $tabIndex++;
         }
-        $html .= '<li class="carbon-fields-frontend-complex-tab-add" data-action="add">+</li>';
         $html .= '</ul>';
+        $html .= '<div class="carbon-fields-frontend-complex-tab-add" data-action="add">+</div>';
+        $html .= '</div>';
 
         /* ITENS */
         $html .= '<div class="carbon-fields-frontend-complex-items">';
@@ -253,6 +259,7 @@ class Field
 
             $subField->set_path($this->path, $isLast);
             $subField->set_default_values([]); // valor vazio no template
+            $subField->set_default_value(''); // valor vazio no template
 
             $html .= $subField->render();
         }

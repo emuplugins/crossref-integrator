@@ -1622,16 +1622,16 @@ span.flatpickr-weekday {
   text-overflow: ellipsis;
 }
 
-.cf-file__browse {
+. {
   position: relative;
 }
-.cf-file__content ~ .cf-file__browse {
+.cf-file__content ~ . {
   margin-bottom: 29px;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.1s linear, opacity 0.1s linear;
 }
-.cf-file__inner:hover .cf-file__content ~ .cf-file__browse {
+.cf-file__inner:hover .cf-file__content ~ . {
   visibility: visible;
   opacity: 1;
 }

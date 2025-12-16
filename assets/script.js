@@ -191,3 +191,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }, 200);
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    document.querySelectorAll('.cf-file .cf-file__inner').forEach(function (field) {
+
+        const fieldBtn = field.querySelector('button.cf-file__browse_new');
+        const input = field.querySelector('input[type="hidden"]');
+        if (!fieldBtn || !input) return;
+
+        // evita bind duplicado caso este script seja executado mais de uma vez
+        if (fieldBtn.dataset.cfBound === '1') return;
+        fieldBtn.dataset.cfBound = '1';
+
+        // cria um frame por campo (reutilizável)
+        const frame = wp.media({
+            title: 'Selecionar arquivo',
+            button: { text: 'Usar este arquivo' },
+            multiple: false,
+            library: {
+                type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            }
+        });
+
+        frame.on('open', function () {
+            const currentId = input.value ? parseInt(input.value, 10) : null;
+            if (!currentId) return;
+
+            const selection = frame.state().get('selection');
+            const attachment = wp.media.attachment(currentId);
+            // fetch pode ser assíncrono; após fetch, adiciona à seleção
+            attachment.fetch();
+            selection.add(attachment);
+        });
+
+        frame.on('select', function () {
+            const selected = frame.state().get('selection').first();
+            if (!selected) return;
+            const attachment = selected.toJSON();
+
+            input.value = attachment.id;
+
+            const name = field.querySelector('.cf-file__name');
+            if (name) {
+                name.textContent = attachment.filename || attachment.title || '';
+                name.title = name.textContent;
+            }
+
+            const preview = field.querySelector('.cf-file__preview img');
+            if (preview) preview.src = attachment.icon || attachment.url || '';
+        });
+
+        fieldBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            frame.open();
+        });
+
+    });
+
+});
