@@ -281,7 +281,7 @@ Container::make('form', 'Contribuintes')
                         Field::make('url', 'lattes', 'Currículo Lattes')
                             ->set_width(20),
 
-                        Field::make('textarea', 'bio', 'Biografia')
+                        Field::make('rich_text', 'bio', 'Biografia')
                             ->set_width(100),
 
                         Field::make('complex', 'affiliations', 'Afiliações')
@@ -512,7 +512,7 @@ Container::make('form', 'Detalhes da Chamada')
                 'ebook' => 'Ebook Completo',
             ]),
 
-        Field::make('textarea', 'submission_call_abstract', 'Resumo')
+        Field::make('rich_text', 'submission_call_abstract', 'Resumo')
             ->set_help_text(
                 'Resumo estruturado em texto simples. Pode conter parágrafos e marcação semântica. Máximo de 1200 caracteres.'
             )

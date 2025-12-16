@@ -160,6 +160,8 @@ class Field
 
         if ($this->type === 'complex') {
             $html .= $this->fieldComplex();
+        } elseif ($this->type === 'rich_text') {
+            $html .= $this->fieldRichText();
         } else {
             // qualquer outro tipo usa fieldInput (inclui select, textarea, inputs, etc.)
             $html .= $this->fieldInput();
@@ -170,6 +172,46 @@ class Field
         }
 
         $html .= '</div>';
+
+        return $html;
+    }
+
+    protected function fieldRichText()
+    {
+        $name = $this->path;
+        $value = $this->default_value ?? '';
+        $required = $this->required ? 'required' : '';
+
+        // Monta atributos adicionais
+        $attrStr = '';
+        foreach ($this->attributes as $key => $val) {
+            $attrStr .= ' ' . htmlspecialchars($key) . '="' . htmlspecialchars($val) . '"';
+        }
+
+        // Label
+        $html  = '<label class="carbon-fields-frontend-label">'
+            . htmlspecialchars($this->label)
+            . ($required ? '<span style="color:red"> *</span>' : '')
+            . '</label>';
+
+        // Garante que os scripts do editor estejam carregados
+        if (!is_admin()) {
+            wp_enqueue_editor();
+        }
+
+        $editor_id = 'carbon_fields_frontend_' . md5($name); // id único
+        $settings = [
+            'textarea_name' => 'carbon_fields_frontend' . $name,
+            'textarea_rows' => 8,
+            'media_buttons' => true,
+            'teeny'         => false,
+            'tinymce'       => ['wpautop' => true, 'toolbar1' => 'bold,italic,link,unlink,bulletedlist,numberedlist'],
+            'quicktags'     => false, // remove aba Code/Text
+        ];
+
+        ob_start();
+        wp_editor($value, $editor_id, $settings);
+        $html .= ob_get_clean();
 
         return $html;
     }
