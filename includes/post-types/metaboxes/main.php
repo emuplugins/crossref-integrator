@@ -9,6 +9,32 @@ add_action('carbon_fields_register_fields', function () {
 
     if (!crossref_verify_fields()) return;
 
+
+    Container::make('post_meta', 'Sobre o Lead')
+        ->where('post_type', 'IN', ['crossref_books', 'crossref_chapters'])
+        ->add_fields([
+            Field::make('text', 'lead_name', 'Nome e Sobrenome')
+                ->set_attribute('placeholder', 'João Santos da Silva')
+                ->set_width(100),
+
+            Field::make('text', 'lead_email', 'Email')
+                ->set_attribute('placeholder', 'contato@gmail.com')
+                ->set_required(true)
+                ->set_width(40),
+
+            Field::make('text', 'lead_phone', 'Telefone / Celular')
+                ->set_attribute('placeholder', '+55 11 9 0000-0000')
+                ->set_width(40),
+
+            Field::make('text', 'lead_lattes', 'Currículo Lattes')
+                ->set_attribute('placeholder', 'https://lattes.cnpq.br/0000000000000000')
+                ->set_width(40),
+
+            Field::make('text', 'lead_cpf', 'CPF')
+                ->set_attribute('placeholder', '000.000.000-00')
+                ->set_width(40),
+        ]);
+
     // ------------------- DOI -------------------
     Container::make('post_meta', __('Digital Object Identifier', 'crossref-integrator'))
         ->where('post_type', 'IN', ['crossref_books', 'crossref_chapters'])
@@ -271,7 +297,7 @@ add_action('carbon_fields_register_fields', function () {
     Container::make('post_meta', __('Citations', 'crossref-integrator'))
         ->where('post_type', 'IN', ['crossref_books', 'crossref_chapters'])
         ->add_fields([
-            Field::make('complex', 'citation_list', ' ')
+            Field::make('complex', 'citations', ' ')
                 ->set_layout('tabbed-horizontal')
                 ->add_fields([
                     Field::make('text', 'unstructured_citation', __('Citation', 'crossref-integrator'))

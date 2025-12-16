@@ -9,6 +9,9 @@ class Form
     protected string $id;
     protected string $name;
 
+    // Aqui armazenamos a função externa
+    protected $ajaxCallback = null;
+
     protected function __construct(string $id, string $form_name)
     {
         $this->id   = $id;
@@ -20,15 +23,10 @@ class Form
             [$this, 'render']
         );
 
-        add_action('wp_ajax_nopriv_carbon_fields_frontend_form' . $id, [$this, 'ajaxRequest']);
-        add_action('wp_ajax_carbon_fields_frontend_form' . $id, [$this, 'ajaxRequest']);
+        add_action('wp_ajax_nopriv_carbon_fields_frontend_form_' . $id, [$this, 'ajaxRequest']);
+        add_action('wp_ajax_carbon_fields_frontend_form_' . $id, [$this, 'ajaxRequest']);
 
         add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
-    }
-
-    public function ajaxRequest()
-    {
-        // Logica de envio aqui
     }
 
     // Função publica para construir a classe
@@ -65,23 +63,44 @@ class Form
         $containers = Container::forForm($this->id);
 
         $html  = '<form method="post" id="form_'.$this->id.'" class="carbon-fields-frontend-form">';
-        $html .= '<h3>' . esc_html($this->name) . '</h3>';
+
+        $html .= '<div class="carbon-fields-frontend-containers">';
 
         foreach ($containers as $container) {
-
+            
             $html .= '<fieldset class="carbon-fields-frontend-container">';
             $html .= '<legend>' . esc_html($container->getName()) . '</legend>';
-
+            
             foreach ($container->getFields() as $field) {
                 $html .= $field->render();
             }
-
+            
             $html .= '</fieldset>';
         }
 
-        $html .= '<button type="submit">Enviar Formulário</button>';
-        $html .= '</form>';
+        $html .= '</div>';
+        
+        $html .= '<button class="carbon-fields-frontend-btn" type="submit">Enviar Formulário</button>';
+        $html .= '</form><div class="carbon-fields-frontend-notice-wrapper"></div>';
 
         return $html;
+    }
+
+    // Método para registrar um callback externo
+    public function setAjaxCallback(callable $callback): self
+    {
+        $this->ajaxCallback = $callback;
+        return $this;
+    }
+
+     public function ajaxRequest()
+    {
+        if ($this->ajaxCallback) {
+            // Executa a função externa
+            call_user_func($this->ajaxCallback, $_POST);
+        } else {
+            // Lógica padrão caso não tenha callback
+            wp_send_json_error(['message' => 'Nenhuma função definida para o Ajax']);
+        }
     }
 }
