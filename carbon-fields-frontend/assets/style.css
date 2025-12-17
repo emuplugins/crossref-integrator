@@ -39,11 +39,10 @@
 
 /* ===== Formulário ===== */
 .carbon-fields-frontend-form {
-    font-size: 16px;
+
     display: flex;
     flex-direction: column;
     gap: var(--fields-gap);
-    font-family: sans-serif;
 
     &::after {
         content: "";
@@ -74,11 +73,6 @@
 
     transition: filter .4s;
 
-    & legend {
-        font-size: 1.5em;
-        padding: 0 .7em;
-        font-weight: 600;
-    }
 
     & input,
     & select,
@@ -103,10 +97,9 @@
         }
     }
 
-    & .crossref-field {
+    & .carbon-fields-frontend-field {
         width: 100%;
         flex-grow: 1;
-        gap: .5em;
         display: flex;
         flex-direction: column;
     }
@@ -118,13 +111,23 @@
         gap: var(--fields-gap);
         border: 1px solid var(--border-color);
         border-radius: var(--field-border-radius);
-        padding: var(--container-padding);
+        padding: 0 1.7em 1.7em 1.7em !important;
         background: var(--container-bg);
+        padding-block: 0;
+
+
+        & legend {
+            font-size: 1.5em;
+            padding: 0 .7em;
+            font-weight: 600;
+            margin-bottom: 1em;
+        }
     }
 
     & .carbon-fields-frontend-label {
         width: 100%;
         font-weight: 500;
+        margin-bottom: 1.2em;
     }
 }
 
@@ -179,7 +182,10 @@
     overflow: hidden;
     max-width: 200px;
     text-align: center;
-    text-overflow: ellipsis;
+
+    &.carbon-fields-frontend-complex-tab {
+        text-overflow: ellipsis;
+    }
 
 
     &.carbon-fields-frontend-complex-tab-add {
@@ -187,6 +193,9 @@
         color: white;
         border-color: var(--primary-color) !important;
         z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 
@@ -245,13 +254,19 @@
                 flex-direction: column;
                 width: 100%;
                 max-width: 100%;
-                gap: var(--tab-gap)
+                gap: var(--tab-gap);
+
+
             }
 
             & .carbon-fields-frontend-complex-tab-add {
                 width: 100%;
             }
 
+        }
+
+        & .carbon-fields-frontend-complex-item {
+            border-radius: var(--field-border-radius)
         }
 
 
@@ -319,7 +334,7 @@
 .carbon-fields-frontend-complex-tabs {
     display: flex;
     flex-direction: row;
-    gap: var(--tab-gap)
+    gap: var(--tab-gap);
 }
 
 .carbon-fields-frontend-complex-field:has(> .carbon-fields-frontend-complex-items > .carbon-fields-frontend-complex-item:only-child) {
@@ -580,11 +595,11 @@ button.carbon-fields-frontend-btn {
     }
 
     .carbon-fields-frontend-form {
-        font-size: 13.5px;
+        font-size: .92em;
     }
 
     .carbon-fields-frontend-containers {
-        & .crossref-field {
+        & .carbon-fields-frontend-field {
             gap: .5em;
             min-width: 40%;
             min-width: 40%;
@@ -604,4 +619,11 @@ button.carbon-fields-frontend-btn {
         font-size: .9em;
     }
 
+}
+
+.carbon-fields-frontend-help {
+    font-size: .8em;
+    line-height: 1.3em;
+
+    margin-top: .9em;
 }

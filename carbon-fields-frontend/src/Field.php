@@ -156,22 +156,27 @@ class Field
 
     public function render(): string
     {
-        $html = '<div class="crossref-field" style="width:' . $this->width . '%">';
-
+        
+        $help_text = !empty($this->help_text) ? ('<small class="carbon-fields-frontend-help">' . htmlspecialchars($this->help_text, ENT_QUOTES, 'UTF-8')) . '</small>' : '';
+        $html = '<div class="carbon-fields-frontend-field" style="width:' . $this->width . '%">';
+        
         if ($this->type === 'complex') {
-            $html .= $this->fieldComplex();
+
+            // Estrutura inicial diferente
+            $html = $this->fieldComplex($help_text);
+
         } elseif ($this->type === 'rich_text') {
             $html .= $this->fieldRichText();
+            $html .= $help_text;
+            $html .= '</div>';
         } else {
             // qualquer outro tipo usa fieldInput (inclui select, textarea, inputs, etc.)
             $html .= $this->fieldInput();
+            $html .= $help_text;
+            $html .= '</div>';
         }
 
-        if (!empty($this->help_text)) {
-            $html .= '<small class="carbon-fields-frontend-help">' . htmlspecialchars($this->help_text, ENT_QUOTES, 'UTF-8') . '</small>';
-        }
 
-        $html .= '</div>';
 
         return $html;
     }
@@ -182,43 +187,28 @@ class Field
         $value = $this->default_value ?? '';
         $required = $this->required ? 'required' : '';
 
-        // Monta atributos adicionais
-        $attrStr = '';
-        foreach ($this->attributes as $key => $val) {
-            $attrStr .= ' ' . htmlspecialchars($key) . '="' . htmlspecialchars($val) . '"';
-        }
-
         // Label
         $html  = '<label class="carbon-fields-frontend-label">'
             . htmlspecialchars($this->label)
             . ($required ? '<span style="color:red"> *</span>' : '')
             . '</label>';
 
-        // Garante que os scripts do editor estejam carregados
+        // Textarea simples
+        $html .= '<textarea name="' . esc_attr($name) . '" class="frontend-richtext" rows="8" ' . $required . '>'
+            . esc_textarea($value)
+            . '</textarea>';
+
+        // Enfileira scripts do editor
         if (!is_admin()) {
-            wp_enqueue_editor();
+            wp_enqueue_editor(); // apenas carrega TinyMCE scripts
         }
-
-        $editor_id = 'carbon_fields_frontend_' . md5($name); // id único
-        $settings = [
-            'textarea_name' => 'carbon_fields_frontend' . $name,
-            'textarea_rows' => 8,
-            'media_buttons' => true,
-            'teeny'         => false,
-            'tinymce'       => ['wpautop' => true, 'toolbar1' => 'bold,italic,link,unlink,bulletedlist,numberedlist'],
-            'quicktags'     => false, // remove aba Code/Text
-        ];
-
-        ob_start();
-        wp_editor($value, $editor_id, $settings);
-        $html .= ob_get_clean();
 
         return $html;
     }
 
 
 
-    protected function fieldComplex()
+    protected function fieldComplex($help_text)
     {
         // Identificador único para o complex
         $dataComplexID = 'complex-' . md5($this->name . uniqid('', true));
@@ -240,7 +230,7 @@ class Field
 
 
         // Início do HTML
-        $html  = '<div class="carbon-fields-frontend-complex-field ' . $this->layout . '"';
+        $html  = '<div class="carbon-fields-frontend-field carbon-fields-frontend-complex-field ' . $this->layout . '"';
         $html .= ' data-name="carbon_fields_frontend' . htmlspecialchars($this->name, ENT_QUOTES, 'UTF-8') . '"';
         $html .= $this->header_template ? ' header-template="' . htmlspecialchars($this->header_template, ENT_QUOTES, 'UTF-8') . '"' : '';
         $html .= ' data-complex-id="' . htmlspecialchars($dataComplexID, ENT_QUOTES, 'UTF-8') . '"';
@@ -323,7 +313,7 @@ class Field
             <button type="button" class="carbon-fields-frontend-btn" data-action="add">Adicionar ' . (isset($this->singular_name) ? $this->singular_name : '') . '</button>
         </div>';
 
-
+        $html .= $help_text;
         $html .= '</div>'; // .carbon-fields-frontend-complex-field
 
         return $html;

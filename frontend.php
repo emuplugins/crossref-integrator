@@ -211,20 +211,17 @@ Container::make('form', 'Detalhes do capítulo')
             ->set_required(true)->set_width(30),
 
 
-        Field::make('text', 'component_number', __('Chapter Number', 'crossref-integrator'))
-            ->set_attribute('type', 'number')
+        Field::make('number', 'component_number', __('Chapter Number', 'crossref-integrator'))
             ->set_attribute('min', 1)
             ->set_attribute('step', 1)
             ->set_default_value(1)->set_width(30),
 
-        Field::make('text', 'first_page', __('First Page', 'crossref-integrator'))
-            ->set_attribute('type', 'number')
+        Field::make('number', 'first_page', __('First Page', 'crossref-integrator'))
             ->set_attribute('min', 1)
             ->set_attribute('step', 1)
             ->set_default_value(1)->set_width(30),
 
-        Field::make('text', 'last_page', __('Last Page', 'crossref-integrator'))
-            ->set_attribute('type', 'number')
+        Field::make('number', 'last_page', __('Last Page', 'crossref-integrator'))
             ->set_attribute('min', 1)
             ->set_attribute('step', 1)
             ->set_default_value(1)->set_width(30),
@@ -318,7 +315,7 @@ Container::make('form', 'Citações')
 
             ->set_header_template('<%- unstructured_citation %>')
             ->add_fields([
-                Field::make('text', 'unstructured_citation', 'Referência')
+                Field::make('rich_text', 'unstructured_citation', 'Referência')
                     ->set_required(true)
                     ->set_width(50),
 

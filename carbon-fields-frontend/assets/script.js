@@ -1,3 +1,21 @@
+function startTinyMce() {
+    console.log('oi')
+    if (typeof tinymce !== 'undefined') {
+        tinymce.init({
+            selector: 'textarea.frontend-richtext',
+            toolbar: 'bold italic underline | bullist numlist | link unlink',
+            menubar: false,
+            plugins: 'lists link',
+            setup: function (editor) {
+                editor.on('change', function () {
+                    editor.save(); // garante que o textarea seja atualizado
+                });
+            }
+        });
+    }
+}
+
+
 /* ===== notifications ===== */
 function addNotice(type = '', title = '', message = '') {
     const wrapper = document.querySelector('.carbon-fields-frontend-notice-wrapper');
@@ -90,6 +108,8 @@ function removeNotice(noticeEl) {
 
 /* ===== form logic (único DOMContentLoaded unificado) ===== */
 document.addEventListener('DOMContentLoaded', function () {
+
+    startTinyMce()
 
     const form = document.querySelector('form.carbon-fields-frontend-form');
     if (!form) return;
@@ -212,6 +232,8 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ===== FUNÇÕES ===== */
 
     function addRepeaterItem(repeater) {
+
+
         const itemsWrap = repeater.querySelector(':scope > .carbon-fields-frontend-complex-items');
         if (!itemsWrap) return;
 
@@ -274,6 +296,8 @@ document.addEventListener('DOMContentLoaded', function () {
         );
         const last = realItems[realItems.length - 1];
         if (last) activateTab(repeater, String(last.dataset.index));
+
+        startTinyMce()
     }
 
     function removeRepeaterItem(button) {
