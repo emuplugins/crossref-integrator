@@ -6,7 +6,7 @@ class Field
 {
     protected string $type;
     protected string $name;
-    protected string $label;
+    protected mixed $label;
 
     // (adicionar junto às propriedades da classe)
     protected int $min = 0;
@@ -38,7 +38,7 @@ class Field
     protected string $help_text = '';
     protected array $options = [];
 
-    protected function __construct(string $type, string $name, string $label)
+    protected function __construct(string $type, string $name, $label = false)
     {
         $this->type  = $type;
         $this->name  = $name;
@@ -211,11 +211,16 @@ class Field
         $value = $this->default_value ?? '';
         $required = $this->required ? 'required' : '';
 
-        // Label
-        $html  = '<label class="carbon-fields-frontend-label">'
-            . htmlspecialchars($this->label)
-            . ($required ? '<span style="color:red"> *</span>' : '')
-            . '</label>';
+        $html = '';
+
+        if ($this->label) {
+
+            // Label
+            $html  .= '<label class="carbon-fields-frontend-label">'
+                . htmlspecialchars($this->label)
+                . ($required ? '<span style="color:red"> *</span>' : '')
+                . '</label>';
+        }
 
         // Textarea simples
         $html .= '<textarea name="carbon_fields_frontend' . esc_attr($name) . '" class="frontend-richtext" rows="8" ' . $required . '>'
@@ -263,9 +268,10 @@ class Field
         $html .= $this->required ? ' data-complex-required="true"' : '';
         $html .= '>';
 
-
-        // Label do campo
-        $html .= '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label, ENT_QUOTES, 'UTF-8') . '</label>';
+        if($this->label) {
+            // Label do campo
+            $html .= '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label, ENT_QUOTES, 'UTF-8') . '</label>';
+        }
 
         /* TABS */
         $html .= '<div class="carbon-fields-frontend-complex-tabs">';
@@ -358,8 +364,12 @@ class Field
             $attrStr .= ' ' . htmlspecialchars($key) . '="' . htmlspecialchars($val) . '"';
         }
 
+        $html = '';
         if ($this->type === 'select') {
-            $html = '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label) .  ($required ? '<span style="color:red"> *</span>' : '') . '</label>';
+            if ($this->label) {
+                $html .= '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label) .  ($required ? '<span style="color:red"> *</span>' : '') . '</label>';
+            }
+
             $html .= '<select name="carbon_fields_frontend' . htmlspecialchars($name) . '" ' . $required . ' ' . $attrStr . '>';
             foreach ($this->options as $key => $label) {
                 $selected = $key == $value ? 'selected' : '';
@@ -370,26 +380,31 @@ class Field
         }
 
         if ($this->type === 'textarea') {
-            return
-                '<label class="carbon-fields-frontend-label">' .
-                htmlspecialchars($this->label) .
-                ($required ? '<span style="color:red"> *</span>' : '') .
-                '</label>' .
-                '<textarea name="carbon_fields_frontend' . htmlspecialchars($name) . '" ' .
-                $attrStr .
-                ($required ? ' required' : '') .
-                '>' .
-                htmlspecialchars($value) .
-                '</textarea>';
+            if ($this->label) {
+                $html .= '<label class="carbon-fields-frontend-label">' .
+                    htmlspecialchars($this->label) .
+                    ($required ? '<span style="color:red"> *</span>' : '') .
+                    '</label>';
+            }
+            $html .= '<textarea name="carbon_fields_frontend' . htmlspecialchars($name) . '" ' . $attrStr . ($required ? ' required' : '') .
+                '>' . htmlspecialchars($value) . '</textarea>';
+
+            return $html;
         }
 
         $mask = $this->mask ? (" data-mask='" . $this->mask . "' ") : "";
         $validation = $this->maskValidation ? (" data-mask-validation='" . $this->maskValidation . "'") : "";
         $mimeTypes = $this->mimeTypes ? (' accept="' . $this->mimeTypes . '" ') : '';
 
-        // Campos de input normais (text, number, date, etc.)
-        return '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label) .  ($required ? '<span style="color:red"> *</span>' : '')  . '</label>' .
+        if ($this->label) {
+
+            $html .= '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label) .  ($required ? '<span style="color:red"> *</span>' : '')  . '</label>';
+        }
+
+        $html .=
             '<input type="' . htmlspecialchars($this->type) . '" name="carbon_fields_frontend' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" ' . $required . ' ' . $attrStr . '" ' . $mask . $validation . $mimeTypes . ' >';
+
+        return $html;
     }
 
 

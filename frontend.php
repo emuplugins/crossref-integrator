@@ -302,10 +302,10 @@ Container::make('form', 'Detalhes do capítulo')
 
 /* ------------------- Contribuintes ------------------- */
 
-Container::make('form', 'Contribuintes')
+Container::make('form', 'Grupos de Contribuintes')
     ->where('id', 'in', ['create_book', 'create_chapter'])
     ->add_fields([
-        Field::make('complex', 'contributor_groups', 'Grupos de Contribuintes')
+        Field::make('complex', 'contributor_groups', '')
             ->set_layout('tabbed-horizontal')
             ->set_min(1)
             ->set_header_template('<%- group_title %>')
@@ -392,10 +392,10 @@ Container::make('form', 'Contribuintes')
 
 /* ------------------- Citações ------------------- */
 
-Container::make('form', 'Citações')
+Container::make('form', 'Obras citadas')
     ->where('id', 'in', ['create_book', 'create_chapter'])
     ->add_fields([
-        Field::make('complex', 'citations', 'Obras citadas')
+        Field::make('complex', 'citations', '')
             ->set_layout('tabbed-horizontal')
 
             ->set_header_template('<%- unstructured_citation %>')
@@ -702,10 +702,10 @@ Container::make('form', 'Detalhes da Chamada')
     ]);
 
 
-Container::make('form', 'Organizadores')
+Container::make('form', 'Comissão Organizadora')
     ->where('id', 'in', ['create_submission_call'])
     ->add_fields([
-        Field::make('complex', 'organizing_committee', 'Integrantes da comissão')
+        Field::make('complex', 'organizing_committee', '')
             ->set_layout('tabbed-horizontal')
 
             ->set_header_template('<%- organizer_name %>')
