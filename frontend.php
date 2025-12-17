@@ -227,7 +227,7 @@ Container::make('form', 'Detalhes do capítulo')
                     'numberposts' => -1,
                     'orderby'     => 'title',
                     'order'       => 'ASC',
-                    'post_status' => ['pending'],
+                    'post_status' => ['publish'],
                 ]);
 
                 $options = [
@@ -235,29 +235,13 @@ Container::make('form', 'Detalhes do capítulo')
                 ];
 
                 foreach ($books as $book) {
-                    $status = $book->post_status;
-
-                    // traduz o status usando o text domain nativo do WP
-                    switch ($status) {
-                        case 'pending':
-                            $status_label = __('Pending', 'default');
-                            break;
-                        case 'publish':
-                            $status_label = __('Published', 'default');
-                            break;
-                        case 'draft':
-                            $status_label = __('Draft', 'default');
-                            break;
-                        default:
-                            $status_label = $status;
-                    }
 
                     $postTitle = mb_substr($book->post_title, 0, 14, 'UTF-8');
                     if (mb_strlen($book->post_title, 'UTF-8') > 14) {
                         $postTitle .= '...';
                     }
 
-                    $options[$book->ID] = $book->ID . ' - ' . substr($postTitle, 0, 14);
+                    $options[$book->ID] = substr($postTitle, 0, 20);
                 }
 
                 return $options;

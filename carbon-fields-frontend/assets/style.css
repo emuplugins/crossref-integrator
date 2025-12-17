@@ -6,11 +6,11 @@
     --primary-color: #4e50d6;
 
     --container-padding: 1.5em;
-    --field-height: 2.6em;
+    --field-height: 3.2em;
     --field-padding: 1.5em;
     --field-border-radius: .4em;
-    --tab-padding: .4em 1.2em;
-    --tab-gap: 12px;
+    --tab-padding: .7em 1.2em;
+    --tab-gap: .3em;
     --fields-gap: 1.2em 1em;
 }
 
@@ -180,7 +180,6 @@
     width: fit-content;
     white-space: nowrap;
     overflow: hidden;
-    max-width: 200px;
     text-align: center;
 
     &.carbon-fields-frontend-complex-tab {
@@ -644,8 +643,7 @@ button.carbon-fields-frontend-btn {
 
 .carbon-fields-frontend-field input[type="file"] {
     width: 100%;
-    padding: 6px;
-    font-size: 14px;
+    padding: .7em;
     font-family: Arial, sans-serif;
     border: 1px solid #999;
     background-color: #fff;
@@ -665,7 +663,7 @@ button.carbon-fields-frontend-btn {
     border-color: var(--primary-color) !important;
     color: white !important;
     border-radius: var(--field-border-radius) !important;
-
+	cursor:pointer;
 
 }
 
@@ -673,20 +671,4 @@ button.carbon-fields-frontend-btn {
     border-color: var(--primary-color) !important;
     background-color: color-mix(in srgb, var(--primary-color) 80%, black 20%) !important;
     color: white !important;
-}
-
-/* Firefox */
-.carbon-fields-frontend-field input[type="file"]::file-selector-button {
-    padding: 6px 12px;
-    margin-right: 10px;
-    border: 1px solid #999;
-    background: #f2f2f2;
-    color: #333;
-    cursor: pointer;
-    font-size: 13px;
-    font-family: Arial, sans-serif;
-}
-
-.carbon-fields-frontend-field input[type="file"]::file-selector-button:hover {
-    background: #e6e6e6;
 }
