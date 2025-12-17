@@ -9,23 +9,45 @@ Form::make('create_book', 'Criar Livro')
 
         $data = $data['carbon_fields_frontend'];
 
-        $file_id = null;
 
-        // Valida e faz upload do arquivo primeiro
-        if (!empty($_FILES['lead_file']) && $_FILES['lead_file']['error'] === 0) {
+        $file_id  = null;
+        $file_url = '';
 
-            $file_ext = strtolower(pathinfo($_FILES['lead_file']['name'], PATHINFO_EXTENSION));
+        // Remover debug que interrompe o fluxo:
+        // wp_send_json_error(['message' => $_FILES]);
+        // return;
 
+        // determina a chave real presente no upload
+        $fieldKey = null;
+        if (isset($_FILES['carbon_fields_frontend']['name']['lead_file'])) {
+            $fieldKey = 'lead_file';
+        }
+
+        if (
+            $fieldKey !== null &&
+            isset($_FILES['carbon_fields_frontend']['error'][$fieldKey]) &&
+            $_FILES['carbon_fields_frontend']['error'][$fieldKey] === UPLOAD_ERR_OK
+        ) {
+            $file = [
+                'name'     => $_FILES['carbon_fields_frontend']['name'][$fieldKey],
+                'type'     => $_FILES['carbon_fields_frontend']['type'][$fieldKey],
+                'tmp_name' => $_FILES['carbon_fields_frontend']['tmp_name'][$fieldKey],
+                'error'    => $_FILES['carbon_fields_frontend']['error'][$fieldKey],
+                'size'     => $_FILES['carbon_fields_frontend']['size'][$fieldKey],
+            ];
+
+            $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             if ($file_ext !== 'docx') {
                 wp_send_json_error(['message' => 'Apenas arquivos .docx são permitidos.']);
                 return;
             }
 
-            require_once(ABSPATH . 'wp-admin/includes/file.php');
-            require_once(ABSPATH . 'wp-admin/includes/media.php');
-            require_once(ABSPATH . 'wp-admin/includes/image.php');
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            require_once ABSPATH . 'wp-admin/includes/media.php';
+            require_once ABSPATH . 'wp-admin/includes/image.php';
 
-            $uploaded = wp_handle_upload($_FILES['lead_file'], ['test_form' => false]);
+            // wp_handle_upload aceita o array com name,tmp_name,...
+            $uploaded = wp_handle_upload($file, ['test_form' => false]);
 
             if (isset($uploaded['error'])) {
                 wp_send_json_error(['message' => $uploaded['error']]);
@@ -34,23 +56,31 @@ Form::make('create_book', 'Criar Livro')
 
             $attachment = [
                 'post_mime_type' => $uploaded['type'],
-                'post_title'     => sanitize_file_name($_FILES['lead_file']['name']),
+                'post_title'     => sanitize_file_name($file['name']),
                 'post_content'   => '',
                 'post_status'    => 'inherit',
             ];
 
-            $attach_id = wp_insert_attachment($attachment, $uploaded['file']);
-            wp_update_attachment_metadata($attach_id, wp_generate_attachment_metadata($attach_id, $uploaded['file']));
+            $file_id = wp_insert_attachment($attachment, $uploaded['file']);
+            if (is_wp_error($file_id) || !$file_id) {
+                wp_send_json_error(['message' => 'Erro ao inserir attachment.']);
+                return;
+            }
 
-            $file_id = $attach_id;
-        } else {
-            wp_send_json_error(['message' => 'Nenhum arquivo enviado.']);
-            return;
+            $meta = wp_generate_attachment_metadata($file_id, $uploaded['file']);
+            if (!is_wp_error($meta)) {
+                wp_update_attachment_metadata($file_id, $meta);
+            }
+
+            $file_url = wp_get_attachment_url($file_id);
         }
 
-        // Cria o post após o arquivo estar válido
+
+        // ===============================
+        // Criação do post
+        // ===============================
         $post_id = wp_insert_post([
-            'post_title'  => sanitize_text_field(($data['lead_name'] ?? '') . ' - ' . ($data['post_title'] ?? '')),
+            'post_title'  => sanitize_text_field(($data['lead_name'] ?? '') . ' - Livro'),
             'post_status' => 'pending',
             'post_type'   => 'crossref_books',
             'post_author' => 0,
@@ -61,17 +91,46 @@ Form::make('create_book', 'Criar Livro')
             return;
         }
 
-        // Salva os metadados
+        // ===============================
+        // Salva metadados
+        // ===============================
         foreach ($data as $meta_key => $value) {
             if ($meta_key !== 'lead_file') {
                 carbon_set_post_meta($post_id, $meta_key, $value);
             }
         }
+        if ($file_id) {
+            carbon_set_post_meta($post_id, 'lead_file', $file_id);
+        }
 
-        // Salva o ID do arquivo
-        carbon_set_post_meta($post_id, 'lead_file', $file_id);
+        // ===============================
+        // Envio de e-mail
+        // ===============================
+        $email_fields = [
+            'Título do Livro' => $data['post_title'] ?? '',
+            'Nome'      => $data['lead_name']   ?? '',
+            'Email'     => $data['lead_email']  ?? '',
+            'Telefone'  => $data['lead_phone']  ?? '',
+            'CPF'       => $data['lead_cpf']    ?? '',
+            'Lattes'    => $data['lead_lattes'] ?? '',
 
-        wp_send_json_success(['message' => 'Livro criado com sucesso.']);
+            'Editar Livro'   => get_edit_post_link($post_id),
+            'Arquivo enviado'   => $file_url,
+        ];
+
+        send_generic_notification([
+            'subject' => 'Novo lead - Publicação de Ebook',
+            'message' => build_lead_email(
+                $email_fields
+            ),
+        ]);
+
+        // ===============================
+        // Retorno AJAX
+        // ===============================
+        wp_send_json_success([
+            'message' => 'Livro criado com sucesso.'
+        ]);
     });
 
 /* ------------------- Sobre Você ------------------- */
@@ -90,18 +149,27 @@ Container::make('form', 'Sobre Você')
             ->set_width(40),
 
         Field::make('text', 'lead_phone', 'Telefone ou celular')
-            ->set_attribute('placeholder', '+55 11 9 0000-0000')
+            ->set_attribute('placeholder', '(11) 00000-0000')
+            ->set_mask('(00) 00000-0000')
             ->set_required(true)
             ->set_width(40),
 
         Field::make('url', 'lead_lattes', 'Currículo Lattes')
             ->set_attribute('placeholder', 'https://lattes.cnpq.br/0000000000000000')
+            ->set_mask('https://lattes.cnpq.br/0000000000000000')
             ->set_width(40),
 
         Field::make('text', 'lead_cpf', 'CPF')
             ->set_attribute('placeholder', '000.000.000-00')
+            ->set_mask('000.000.000-00')
+            ->set_mask_validation('cpf')
             ->set_required(true)
             ->set_width(40),
+
+        Field::make('file', 'lead_file', 'Arquivo Word (.docx)')
+            ->set_required(true)
+            ->set_width(40)
+            ->set_mime_types('.docx')
     ]);
 
 /* ------------------- Detalhes do Livro ------------------- */
@@ -241,10 +309,18 @@ Container::make('form', 'Contribuintes')
             ->set_layout('tabbed-horizontal')
             ->set_min(1)
             ->set_header_template('<%- group_title %>')
+            ->set_default_values(
+                [
+                    [
+                        'group_title' => 'Autores',
+                        'role'        => 'author',
+                    ],
+                ]
+            )
             ->add_fields([
                 Field::make('text', 'group_title', 'Nome do grupo')
                     ->set_required(true)
-                    ->set_width(33)->set_default_value('Autores'),
+                    ->set_width(33),
 
                 Field::make('select', 'role', 'Função do grupo')
                     ->set_width(33)
@@ -267,16 +343,22 @@ Container::make('form', 'Contribuintes')
                     ->add_fields([
                         Field::make('text', 'given', 'Nome')
                             ->set_required(true)
+                            ->set_attribute('placeholder', 'João')
                             ->set_width(20),
 
                         Field::make('text', 'surname', 'Sobrenome')
+                            ->set_attribute('placeholder', 'Santos da Silva')
                             ->set_width(20),
 
-                        Field::make('url', 'orcid', 'ORCID')
+                        Field::make('text', 'orcid', 'ORCID')
+                            ->set_attribute('placeholder', '0000-0002-1825-0097')
+                            ->set_mask('0000-0000-0000-0000')
                             ->set_width(20),
 
                         Field::make('url', 'lattes', 'Currículo Lattes')
-                            ->set_width(20),
+                            ->set_width(20)
+                            ->set_attribute('placeholder', 'https://lattes.cnpq.br/0000000000000000')
+                            ->set_mask('https://lattes.cnpq.br/0000000000000000'),
 
                         Field::make('rich_text', 'bio', 'Biografia')
                             ->set_width(100),
@@ -286,17 +368,19 @@ Container::make('form', 'Contribuintes')
                             ->set_header_template('<%- institution_name %>')
                             ->add_fields([
                                 Field::make('text', 'institution_name', 'Instituição')
+                                    ->set_attribute('placeholder', 'Câmara Brasileira do Livro')
                                     ->set_required(true)
-                                    ->set_width(40),
+                                    ->set_width(100),
 
                                 Field::make('text', 'institution_id', 'ID da instituição')
-                                    ->set_width(40),
+                                    ->set_attribute('placeholder', 'Q10262891')
+                                    ->set_width(20),
 
                                 Field::make('select', 'role', 'Tipo do ID')
                                     ->set_width(20)
                                     ->set_options([
-                                        'ror'      => 'ROR',
                                         'wikidata' => 'Wikidata',
+                                        'ror'      => 'ROR',
                                         'isni'     => 'ISNI',
                                     ]),
                             ]),
@@ -304,6 +388,7 @@ Container::make('form', 'Contribuintes')
             ])
             ->set_help_text('Grupos de contribuintes associados a este capítulo.'),
     ]);
+
 
 /* ------------------- Citações ------------------- */
 
@@ -320,6 +405,7 @@ Container::make('form', 'Citações')
                     ->set_width(50),
 
                 Field::make('text', 'doi', 'DOI da obra')
+                    ->set_attribute('placeholder', '10.00000/000-00-0000-000-0')
                     ->set_width(50),
             ])
             ->set_help_text('Artigos, livros e outros conteúdos citados neste capítulo.'),
@@ -334,53 +420,76 @@ Form::make('create_chapter', 'Criar capítulo')
 
         $data = $data['carbon_fields_frontend'];
 
-        // Verifica se o arquivo foi enviado
-        if (!empty($_FILES['chapter_file']) && $_FILES['chapter_file']['error'] === 0) {
+        $file_id  = null;
+        $file_url = '';
 
-            $file_ext = strtolower(pathinfo($_FILES['chapter_file']['name'], PATHINFO_EXTENSION));
+        // Remover debug que interrompe o fluxo:
+        // wp_send_json_error(['message' => $_FILES]);
+        // return;
 
-            // Valida a extensão do arquivo
+        // determina a chave real presente no upload
+        $fieldKey = null;
+        if (isset($_FILES['carbon_fields_frontend']['name']['lead_file'])) {
+            $fieldKey = 'lead_file';
+        }
+
+        if (
+            $fieldKey !== null &&
+            isset($_FILES['carbon_fields_frontend']['error'][$fieldKey]) &&
+            $_FILES['carbon_fields_frontend']['error'][$fieldKey] === UPLOAD_ERR_OK
+        ) {
+            $file = [
+                'name'     => $_FILES['carbon_fields_frontend']['name'][$fieldKey],
+                'type'     => $_FILES['carbon_fields_frontend']['type'][$fieldKey],
+                'tmp_name' => $_FILES['carbon_fields_frontend']['tmp_name'][$fieldKey],
+                'error'    => $_FILES['carbon_fields_frontend']['error'][$fieldKey],
+                'size'     => $_FILES['carbon_fields_frontend']['size'][$fieldKey],
+            ];
+
+            $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             if ($file_ext !== 'docx') {
                 wp_send_json_error(['message' => 'Apenas arquivos .docx são permitidos.']);
-                return; // Interrompe o processo se o arquivo for inválido
+                return;
             }
 
-            // Realiza o upload do arquivo
-            require_once(ABSPATH . 'wp-admin/includes/file.php');
-            require_once(ABSPATH . 'wp-admin/includes/media.php');
-            require_once(ABSPATH . 'wp-admin/includes/image.php');
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            require_once ABSPATH . 'wp-admin/includes/media.php';
+            require_once ABSPATH . 'wp-admin/includes/image.php';
 
-            $uploaded = wp_handle_upload($_FILES['chapter_file'], ['test_form' => false]);
+            // wp_handle_upload aceita o array com name,tmp_name,...
+            $uploaded = wp_handle_upload($file, ['test_form' => false]);
 
-            // Verifica se houve erro no upload
             if (isset($uploaded['error'])) {
                 wp_send_json_error(['message' => $uploaded['error']]);
-                return; // Interrompe o processo caso o upload falhe
+                return;
             }
 
-            // Cria o anexo para salvar no banco de dados
             $attachment = [
                 'post_mime_type' => $uploaded['type'],
-                'post_title'     => sanitize_file_name($_FILES['chapter_file']['name']),
+                'post_title'     => sanitize_file_name($file['name']),
                 'post_content'   => '',
                 'post_status'    => 'inherit',
             ];
 
-            $attach_id = wp_insert_attachment($attachment, $uploaded['file']);
+            $file_id = wp_insert_attachment($attachment, $uploaded['file']);
+            if (is_wp_error($file_id) || !$file_id) {
+                wp_send_json_error(['message' => 'Erro ao inserir attachment.']);
+                return;
+            }
 
-            // Gera os metadados do arquivo
-            wp_generate_attachment_metadata($attach_id, $uploaded['file']);
-            wp_update_attachment_metadata($attach_id, $attach_data);
+            $meta = wp_generate_attachment_metadata($file_id, $uploaded['file']);
+            if (!is_wp_error($meta)) {
+                wp_update_attachment_metadata($file_id, $meta);
+            }
 
-            // Salva o ID do anexo no campo meta
-            $file_id = $attach_id; // Salva o ID do anexo para posterior uso
-        } else {
-            $file_id = null; // Nenhum arquivo enviado
+            $file_url = wp_get_attachment_url($file_id);
         }
 
-        // Cria o post após a validação do arquivo
+        // ===============================
+        // Criação do post
+        // ===============================
         $post_id = wp_insert_post([
-            'post_title'  => sanitize_text_field(($data['lead_name'] ?? '') . ' - ' . ($data['post_title'] ?? '')),
+            'post_title'  => sanitize_text_field(($data['lead_name'] ?? '') . ' - Capítulo'),
             'post_status' => 'pending',
             'post_type'   => 'crossref_chapters',
             'post_author' => 0,
@@ -390,19 +499,44 @@ Form::make('create_chapter', 'Criar capítulo')
             wp_send_json_error([
                 'message' => $post_id->get_error_message(),
             ]);
-            return; // Interrompe o processo caso o post não seja criado
+            return;
         }
 
-        // Salva os metadados do post, incluindo o ID do arquivo
+        // ===============================
+        // Salva metadados
+        // ===============================
         foreach ($data as $meta_key => $value) {
-            carbon_set_post_meta($post_id, $meta_key, $value);
+            if ($meta_key !== 'chapter_file') {
+                carbon_set_post_meta($post_id, $meta_key, $value);
+            }
         }
 
-        // Salva o ID do arquivo, se houver
         if ($file_id) {
-            carbon_set_post_meta($post_id, 'chapter_file', $file_id);
+            carbon_set_post_meta($post_id, 'lead_file', $file_id);
         }
 
+        // ===============================
+        // Envio de e-mail
+        // ===============================
+        $email_fields = [
+            'Título do Capítulo' => $data['post_title'] ?? '',
+            'Nome'      => $data['lead_name']   ?? '',
+            'Email'     => $data['lead_email']  ?? '',
+            'Telefone'  => $data['lead_phone']  ?? '',
+            'CPF'       => $data['lead_cpf']    ?? '',
+            'Lattes'    => $data['lead_lattes'] ?? '',
+            'Editar Capítulo'   => get_edit_post_link($post_id),
+            'Arquivo enviado'   => $file_url,
+        ];
+
+        send_generic_notification([
+            'subject' => 'Novo lead - Publicação de Capítulo',
+            'message' => build_lead_email($email_fields),
+        ]);
+
+        // ===============================
+        // Retorno AJAX
+        // ===============================
         wp_send_json_success([
             'message' => 'Capítulo criado com sucesso.',
         ]);
@@ -415,53 +549,76 @@ Form::make('create_submission_call', 'Criar chamada')
 
         $data = $data['carbon_fields_frontend'];
 
-        // Verifica se o arquivo foi enviado
-        if (!empty($_FILES['submission_file']) && $_FILES['submission_file']['error'] === 0) {
+        $file_id  = null;
+        $file_url = '';
 
-            $file_ext = strtolower(pathinfo($_FILES['submission_file']['name'], PATHINFO_EXTENSION));
+        // Remover debug que interrompe o fluxo:
+        // wp_send_json_error(['message' => $_FILES]);
+        // return;
 
-            // Valida a extensão do arquivo
+        // determina a chave real presente no upload
+        $fieldKey = null;
+        if (isset($_FILES['carbon_fields_frontend']['name']['lead_file'])) {
+            $fieldKey = 'lead_file';
+        }
+
+        if (
+            $fieldKey !== null &&
+            isset($_FILES['carbon_fields_frontend']['error'][$fieldKey]) &&
+            $_FILES['carbon_fields_frontend']['error'][$fieldKey] === UPLOAD_ERR_OK
+        ) {
+            $file = [
+                'name'     => $_FILES['carbon_fields_frontend']['name'][$fieldKey],
+                'type'     => $_FILES['carbon_fields_frontend']['type'][$fieldKey],
+                'tmp_name' => $_FILES['carbon_fields_frontend']['tmp_name'][$fieldKey],
+                'error'    => $_FILES['carbon_fields_frontend']['error'][$fieldKey],
+                'size'     => $_FILES['carbon_fields_frontend']['size'][$fieldKey],
+            ];
+
+            $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             if ($file_ext !== 'docx') {
                 wp_send_json_error(['message' => 'Apenas arquivos .docx são permitidos.']);
-                return; // Interrompe o processo se o arquivo for inválido
+                return;
             }
 
-            // Realiza o upload do arquivo
-            require_once(ABSPATH . 'wp-admin/includes/file.php');
-            require_once(ABSPATH . 'wp-admin/includes/media.php');
-            require_once(ABSPATH . 'wp-admin/includes/image.php');
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            require_once ABSPATH . 'wp-admin/includes/media.php';
+            require_once ABSPATH . 'wp-admin/includes/image.php';
 
-            $uploaded = wp_handle_upload($_FILES['submission_file'], ['test_form' => false]);
+            // wp_handle_upload aceita o array com name,tmp_name,...
+            $uploaded = wp_handle_upload($file, ['test_form' => false]);
 
-            // Verifica se houve erro no upload
             if (isset($uploaded['error'])) {
                 wp_send_json_error(['message' => $uploaded['error']]);
-                return; // Interrompe o processo caso o upload falhe
+                return;
             }
 
-            // Cria o anexo para salvar no banco de dados
             $attachment = [
                 'post_mime_type' => $uploaded['type'],
-                'post_title'     => sanitize_file_name($_FILES['submission_file']['name']),
+                'post_title'     => sanitize_file_name($file['name']),
                 'post_content'   => '',
                 'post_status'    => 'inherit',
             ];
 
-            $attach_id = wp_insert_attachment($attachment, $uploaded['file']);
+            $file_id = wp_insert_attachment($attachment, $uploaded['file']);
+            if (is_wp_error($file_id) || !$file_id) {
+                wp_send_json_error(['message' => 'Erro ao inserir attachment.']);
+                return;
+            }
 
-            // Gera os metadados do arquivo
-            wp_generate_attachment_metadata($attach_id, $uploaded['file']);
-            wp_update_attachment_metadata($attach_id, $attach_data);
+            $meta = wp_generate_attachment_metadata($file_id, $uploaded['file']);
+            if (!is_wp_error($meta)) {
+                wp_update_attachment_metadata($file_id, $meta);
+            }
 
-            // Salva o ID do anexo no campo meta
-            $file_id = $attach_id; // Salva o ID do anexo para posterior uso
-        } else {
-            $file_id = null; // Nenhum arquivo enviado
+            $file_url = wp_get_attachment_url($file_id);
         }
 
-        // Cria o post após a validação do arquivo
+        // ===============================
+        // Criação do post
+        // ===============================
         $post_id = wp_insert_post([
-            'post_title'  => sanitize_text_field(($data['lead_name'] ?? '') . ' - ' . ($data['post_title'] ?? '')),
+            'post_title'  => sanitize_text_field(($data['lead_name'] ?? '') . ' - Chamada'),
             'post_status' => 'pending',
             'post_type'   => 'submission_calls',
             'post_author' => 0,
@@ -471,19 +628,44 @@ Form::make('create_submission_call', 'Criar chamada')
             wp_send_json_error([
                 'message' => $post_id->get_error_message(),
             ]);
-            return; // Interrompe o processo caso o post não seja criado
+            return;
         }
 
-        // Salva os metadados do post, incluindo o ID do arquivo
+        // ===============================
+        // Salva metadados
+        // ===============================
         foreach ($data as $meta_key => $value) {
-            carbon_set_post_meta($post_id, $meta_key, $value);
+            if ($meta_key !== 'submission_file') {
+                carbon_set_post_meta($post_id, $meta_key, $value);
+            }
         }
 
-        // Salva o ID do arquivo, se houver
         if ($file_id) {
-            carbon_set_post_meta($post_id, 'submission_file', $file_id);
+            carbon_set_post_meta($post_id, 'lead_file', $file_id);
         }
 
+        // ===============================
+        // Envio de e-mail
+        // ===============================
+        $email_fields = [
+            'Tema da chamada' => $data['post_title'] ?? '',
+            'Nome'      => $data['lead_name']   ?? '',
+            'Email'     => $data['lead_email']  ?? '',
+            'Telefone'  => $data['lead_phone']  ?? '',
+            'CPF'       => $data['lead_cpf']    ?? '',
+            'Lattes'    => $data['lead_lattes'] ?? '',
+            'Editar Chamada'   => get_edit_post_link($post_id),
+            'Arquivo enviado'   => $file_url,
+        ];
+
+        send_generic_notification([
+            'subject' => 'Novo lead - Publicação de Chamada',
+            'message' => build_lead_email($email_fields),
+        ]);
+
+        // ===============================
+        // Retorno AJAX
+        // ===============================
         wp_send_json_success([
             'message' => 'Chamada criada com sucesso.',
         ]);
@@ -532,7 +714,6 @@ Container::make('form', 'Organizadores')
                     ->set_required(true)
                     ->set_width(30),
                 Field::make('email', 'organizer_email', 'Email')
-                    ->set_required(true)
                     ->set_width(30),
                 Field::make('url', 'organizer_lattes', 'Lattes')
                     ->set_width(30),
@@ -540,3 +721,51 @@ Container::make('form', 'Organizadores')
             ->set_help_text('Artigos, livros e outros conteúdos citados neste capítulo.')
             ->set_min(1),
     ]);
+
+
+function send_generic_notification(array $args = [])
+{
+    $defaults = [
+        'to'        => get_option('admin_email'),
+        'subject'   => 'Novo Lead',
+        'message'   => '',
+        'headers'   => ['Content-Type: text/html; charset=UTF-8'],
+    ];
+
+    $args = wp_parse_args($args, $defaults);
+
+    if (empty($args['message'])) {
+        return false;
+    }
+
+    return wp_mail(
+        $args['to'],
+        $args['subject'],
+        $args['message'],
+        $args['headers']
+    );
+}
+
+
+function build_lead_email(array $fields): string
+{
+    $rows = '';
+
+    foreach ($fields as $name => $value) {
+        if (empty($value)) {
+            continue;
+        }
+
+        $rows .= sprintf(
+            '<p><strong>%s:</strong> %s</p>',
+            esc_html($name),
+            esc_html($value)
+        );
+    }
+
+    return "
+        <h3><strong>Dados do Lead:</strong></h3>
+
+        {$rows}
+    ";
+}

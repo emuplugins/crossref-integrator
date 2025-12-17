@@ -1,18 +1,54 @@
 function startTinyMce() {
-    console.log('oi')
-    if (typeof tinymce !== 'undefined') {
+    if (typeof tinymce === 'undefined') return;
+
+    document.querySelectorAll('textarea.frontend-richtext').forEach(function (textarea) {
+
+        if (textarea.dataset.tinymceInitialized) return;
+        textarea.dataset.tinymceInitialized = '1';
+
         tinymce.init({
-            selector: 'textarea.frontend-richtext',
+            target: textarea,
             toolbar: 'bold italic underline | bullist numlist | link unlink',
             menubar: false,
             plugins: 'lists link',
             setup: function (editor) {
-                editor.on('change', function () {
-                    editor.save(); // garante que o textarea seja atualizado
-                });
+
+                const sync = () => {
+                    editor.save();
+                    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+                };
+
+                editor.on('change keyup paste undo redo', sync);
             }
         });
+    });
+}
+
+
+// helper: retorna array de índices dos itens ancestrais (do mais externo para o mais interno)
+function getParentIndexes(repeater) {
+    const indexes = [];
+    // começa no item que contém esse repeater (se houver)
+    let item = repeater.closest('.carbon-fields-frontend-complex-item');
+    while (item) {
+        if (item.dataset && typeof item.dataset.index !== 'undefined') {
+            // push no array (vai acumular do mais interno para o mais externo)
+            indexes.push(Number(item.dataset.index));
+        }
+        // sobe: encontra o próximo item ancestral acima do item atual
+        const parentCandidate = item.parentElement ? item.parentElement.closest('.carbon-fields-frontend-complex-item') : null;
+        item = parentCandidate;
     }
+    // queremos do mais externo para o mais interno
+    return indexes.reverse();
+}
+
+
+
+function stripHtml(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
 }
 
 
@@ -114,6 +150,48 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form.carbon-fields-frontend-form');
     if (!form) return;
 
+    /* ===== envio via AJAX (com validação de arquivo) ===== */
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formEl = e.target;
+        const data = new FormData(form);
+        const newId = formEl.id.startsWith('form_') ? formEl.id.slice(5) : formEl.id;
+
+
+        formEl.classList.add('submitting');
+
+        /* ---------- action do WordPress ---------- */
+        data.append('action', 'carbon_fields_frontend_form_' + newId);
+
+        /* ---------- envio ---------- */
+        fetch('/wp-admin/admin-ajax.php', {
+            method: 'POST',
+            body: data
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    formEl.reset();
+                    addNotice('success', 'Enviado', 'Formulário enviado com sucesso.');
+                } else {
+                    addNotice(
+                        'error',
+                        'Erro no envio',
+                        res.data?.message || 'Erro ao enviar o formulário.'
+                    );
+
+                    console.log(res.data?.message)
+                }
+                formEl.classList.remove('submitting');
+            })
+            .catch((err) => {
+                addNotice('error', 'Erro', 'Erro de rede. Tente novamente.' + err);
+                formEl.classList.remove('submitting');
+            });
+    });
+
     /* ---------- controle de abertura de aba por tentativa de envio --------- */
     form._openedInvalidTabHandled = false;
 
@@ -193,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (addBtn) {
             const repeater = addBtn.closest('.carbon-fields-frontend-complex-field');
             if (repeater) {
-                addRepeaterItem(repeater);
+                addRepeaterItem(repeater, addBtn.dataset.depth);
                 // aviso de confirmação
                 addNotice('success', 'Item adicionado', 'Novo item adicionado.');
             }
@@ -225,15 +303,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const tab = repeater.querySelector('.carbon-fields-frontend-complex-tab[data-index="' + index + '"]');
         if (!tab) return;
 
-        const value = input.value.trim();
+        const raw = input.value || '';
+        const value = stripHtml(raw).trim();
+
         tab.textContent = value !== '' ? value : (parseInt(index, 10) + 1);
+
     });
 
     /* ===== FUNÇÕES ===== */
 
-    function addRepeaterItem(repeater) {
-
-
+    function addRepeaterItem(repeater, depth = 0) {
         const itemsWrap = repeater.querySelector(':scope > .carbon-fields-frontend-complex-items');
         if (!itemsWrap) return;
 
@@ -288,7 +367,9 @@ document.addEventListener('DOMContentLoaded', function () {
             input.classList.remove('required');
         });
 
-        reindexRepeater(repeater);
+        // calcula hierarquia de índices dos pais e passa para reindex
+        const parentIndexes = getParentIndexes(repeater);
+        reindexRepeater(repeater, depth, parentIndexes);
 
         const realItems = Array.from(itemsWrap.children).filter(child =>
             child.classList && child.classList.contains('carbon-fields-frontend-complex-item') &&
@@ -297,12 +378,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const last = realItems[realItems.length - 1];
         if (last) activateTab(repeater, String(last.dataset.index));
 
-        startTinyMce()
+        startTinyMce();
     }
 
     function removeRepeaterItem(button) {
         const item = button.closest('.carbon-fields-frontend-complex-item');
         const repeater = button.closest('.carbon-fields-frontend-complex-field');
+
+        const depth = item?.dataset?.depth;
+
         if (!item || !repeater) return;
 
         const itemsWrap = repeater.querySelector(':scope > .carbon-fields-frontend-complex-items');
@@ -316,8 +400,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const minAttr = repeater.getAttribute('data-complex-min');
         const min = minAttr ? parseInt(minAttr, 10) : 0;
         if (realItems.length <= min) {
-
-            // aviso visual + notice explicativa
             const blinkTimes = 2;
             const interval = 150;
             let count = 0;
@@ -337,9 +419,18 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // pega índice e tab (se existir) antes de remover o item do DOM
+        const itemIndex = item.dataset.index;
+        const tabSelector = '.carbon-fields-frontend-complex-tab[data-index="' + itemIndex + '"]';
+        const tabItem = repeater.querySelector(':scope > .carbon-fields-frontend-complex-tabs > .carbon-fields-frontend-complex-tab-list ' + tabSelector);
+
+        // remove elemento e sua aba (se encontrada)
+        if (tabItem) tabItem.remove();
         item.remove();
 
-        reindexRepeater(repeater);
+        // recalcula parentIndexes e reindex completo (reconstrói abas)
+        const parentIndexes = getParentIndexes(repeater);
+        reindexRepeater(repeater, depth, parentIndexes);
 
         const firstItem = Array.from(itemsWrap.children).find(child =>
             child.classList && child.classList.contains('carbon-fields-frontend-complex-item') &&
@@ -347,11 +438,11 @@ document.addEventListener('DOMContentLoaded', function () {
         );
         if (firstItem) activateTab(repeater, String(firstItem.dataset.index));
 
-        // aviso de remoção
         addNotice('success', 'Item removido', 'Item removido com sucesso.');
     }
 
-    function reindexRepeater(repeater) {
+
+    function reindexRepeater(repeater, depth = 0, parentIndexes = []) {
         const itemsWrap = repeater.querySelector(':scope > .carbon-fields-frontend-complex-items');
         if (!itemsWrap) return;
 
@@ -361,52 +452,69 @@ document.addEventListener('DOMContentLoaded', function () {
         );
 
         const tabsWrap = repeater.querySelector(':scope > .carbon-fields-frontend-complex-tabs > .carbon-fields-frontend-complex-tab-list');
-        if (!tabsWrap) return;
-        const tabAdd = tabsWrap.querySelector('[data-action="add"]');
+        const tabAdd = tabsWrap?.querySelector('[data-action="add"]');
+
+        // --- importante: limpar abas existentes (exceto o botão de add) e reconstruir ---
+        if (tabsWrap) {
+            Array.from(tabsWrap.querySelectorAll(':scope > .carbon-fields-frontend-complex-tab:not([data-action="add"])'))
+                .forEach(t => t.remove());
+        }
 
         items.forEach((item, i) => {
+            // Atualiza índice local
             item.dataset.index = i;
-            item.setAttribute('data-index', i);
+            item.dataset.depth = depth;
 
+            // hierarquia completa até aqui (parentIndexes já contém índices dos níveis acima deste repeater)
+            const currentIndexes = [...parentIndexes, i];
+
+            // Atualiza nomes dos inputs (mesma lógica sua)
             item.querySelectorAll('input, textarea, select').forEach(input => {
                 if (!input.name) return;
 
-                if (input.name.indexOf('__INDEX__') !== -1) {
-                    input.name = input.name.replace(/__INDEX__/g, i);
-                } else {
-                    input.name = input.name.replace(/\[\d+\]/, '[' + i + ']');
+                let name = input.name;
+
+                const matches = [...name.matchAll(/\[(\d+)\]/g)];
+                if (matches.length) {
+                    let newName = name;
+                    for (let m = matches.length - 1, k = currentIndexes.length - 1; m >= 0 && k >= 0; m--, k--) {
+                        const match = matches[m];
+                        const start = match.index;
+                        const end = start + match[0].length;
+                        newName = newName.slice(0, start) + `[${currentIndexes[k]}]` + newName.slice(end);
+                    }
+                    name = newName;
                 }
+
+                input.name = name;
             });
 
-            let tab = tabsWrap.querySelector(`:scope > .carbon-fields-frontend-complex-tab[data-index="${i}"]`);
-            if (!tab) {
+            // cria a aba correspondente (agora partimos de uma lista limpa)
+            let tab;
+            if (tabsWrap) {
                 tab = document.createElement('li');
                 tab.className = 'carbon-fields-frontend-complex-tab';
                 tabsWrap.insertBefore(tab, tabAdd || null);
+                tab.dataset.index = i;
             }
-            tab.dataset.index = i;
 
+            // Título do tab
             const headerTemplate = repeater.getAttribute('header-template');
             let title = String(i + 1);
-
             if (headerTemplate) {
                 const bindInput = item.querySelector(`[name*="[${headerTemplate}]"]`);
-                const val = bindInput ? String(bindInput.value || '').trim() : '';
+                const raw = bindInput ? String(bindInput.value || '') : '';
+                const val = stripHtml(raw).trim();
                 title = val !== '' ? val : String(i + 1);
             }
+            if (tab) tab.textContent = title;
 
-            tab.textContent = title;
-        });
-
-        Array.from(tabsWrap.querySelectorAll(':scope > .carbon-fields-frontend-complex-tab:not([data-action="add"])'))
-            .filter(tab => parseInt(tab.dataset.index || -1, 10) >= items.length)
-            .forEach(tab => tab.remove());
-
-        items.forEach(item => {
-            const innerRepeaters = Array.from(item.querySelectorAll('.carbon-fields-frontend-complex-field'));
-            innerRepeaters.forEach(inner => reindexRepeater(inner));
+            // Chamada recursiva para filhos, passando a hierarquia de índices
+            const innerRepeaters = Array.from(item.querySelectorAll(':scope > .carbon-fields-frontend-complex-field'));
+            innerRepeaters.forEach(inner => reindexRepeater(inner, depth + 1, currentIndexes));
         });
     }
+
 
     function activateTab(repeater, index) {
         if (!repeater) return;
@@ -433,35 +541,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    /* ===== envio via AJAX (notices em success / error) ===== */
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
 
-        const data = new FormData(form);
-        const newId = form.id.startsWith('form_') ? form.id.slice(5) : form.id;
 
-        e.target.classList.add('submitting');
-
-        data.append('action', 'carbon_fields_frontend_form_' + newId);
-
-        fetch('/wp-admin/admin-ajax.php', {
-            method: 'POST',
-            body: data
-        })
-            .then(res => res.json())
-            .then(res => {
-                if (res.success) {
-                    form.reset();
-                    addNotice('success', 'Enviado', 'Formulário enviado com sucesso.');
-                } else {
-                    addNotice('error', 'Erro no envio', res.data?.message || 'Erro ao enviar o formulário.');
-                }
-                e.target.classList.remove('submitting');
-            })
-            .catch(() => {
-                addNotice('error', 'Erro', 'Erro de rede. Tente novamente.');
-                e.target.classList.remove('submitting');
-            });
-    });
 
 });
+

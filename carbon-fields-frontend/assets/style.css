@@ -162,7 +162,7 @@
 /* ===== Tabs ===== */
 .carbon-fields-frontend-complex-tab-list {
     display: flex;
-    gap: 0 var(--tab-gap);
+    gap: var(--tab-gap) .2em;
     padding: 0;
     list-style: none;
     margin: 0;
@@ -408,7 +408,7 @@ button.carbon-fields-frontend-btn {
 
     font-size: 1em;
     display: none;
-
+    z-index: 999;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -599,13 +599,19 @@ button.carbon-fields-frontend-btn {
     }
 
     .carbon-fields-frontend-containers {
+
+        & .carbon-fields-frontend-container {
+            padding: 0 1.2em 1.2em 1.2em !important;
+            background: var(--container-bg);
+            padding-block: 0;
+        }
+
         & .carbon-fields-frontend-field {
-            gap: .5em;
             min-width: 40%;
             min-width: 40%;
 
             & label {
-                margin: 0
+                margin: 0 0 1em 0
             }
         }
     }
@@ -626,4 +632,61 @@ button.carbon-fields-frontend-btn {
     line-height: 1.3em;
 
     margin-top: .9em;
+}
+
+
+.mce-branding {
+    display: none !important;
+}
+
+
+
+
+.carbon-fields-frontend-field input[type="file"] {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    border: 1px solid #999;
+    background-color: #fff;
+    color: #333;
+    box-sizing: border-box;
+    height: fit-content;
+}
+
+.carbon-fields-frontend-field input[type="file"]::-webkit-file-upload-button {
+    all: unset;
+    margin-right: 10px;
+
+    padding: 0 var(--field-padding) !important;
+    height: var(--field-height) !important;
+    width: fit-content !important;
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: var(--field-border-radius) !important;
+
+
+}
+
+.carbon-fields-frontend-field input[type="file"]::-webkit-file-upload-button:hover {
+    border-color: var(--primary-color) !important;
+    background-color: color-mix(in srgb, var(--primary-color) 80%, black 20%) !important;
+    color: white !important;
+}
+
+/* Firefox */
+.carbon-fields-frontend-field input[type="file"]::file-selector-button {
+    padding: 6px 12px;
+    margin-right: 10px;
+    border: 1px solid #999;
+    background: #f2f2f2;
+    color: #333;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+}
+
+.carbon-fields-frontend-field input[type="file"]::file-selector-button:hover {
+    background: #e6e6e6;
 }

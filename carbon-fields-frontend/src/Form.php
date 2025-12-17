@@ -40,7 +40,7 @@ class Form
     {
         // CSS
         wp_enqueue_style(
-            'carbon-fields-frontend',
+            'carbon-fields-frontend-css',
             CARBON_FIELDS_FRONTEND_URL . 'assets/style.css',
             [],
             filemtime(CARBON_FIELDS_FRONTEND_PATH . 'assets/style.css'),
@@ -49,10 +49,18 @@ class Form
 
         // JS
         wp_enqueue_script(
-            'carbon-fields-frontend',
+            'carbon-fields-frontend-js',
            CARBON_FIELDS_FRONTEND_URL . 'assets/script.js',
-            ['jquery'], // ou [] se não depender de jQuery
+            [], // ou [] se não depender de jQuery
             filemtime(CARBON_FIELDS_FRONTEND_PATH . 'assets/script.js'),
+            true // carregar no footer
+        );
+
+        wp_enqueue_script(
+            'masky-js',
+           CARBON_FIELDS_FRONTEND_URL . 'assets/masky.js',
+            ['jquery'], // ou [] se não depender de jQuery
+            filemtime(CARBON_FIELDS_FRONTEND_PATH . 'assets/masky.js'),
             true // carregar no footer
         );
     }
@@ -62,7 +70,7 @@ class Form
 
         $containers = Container::forForm($this->id);
 
-        $html  = '<form method="post" id="form_'.$this->id.'" class="carbon-fields-frontend-form">';
+        $html  = '<form method="post" id="form_'.$this->id.'" class="carbon-fields-frontend-form" enctype="multipart/form-data">';
 
         $html .= '<div class="carbon-fields-frontend-containers">';
 

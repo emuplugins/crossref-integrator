@@ -29,6 +29,9 @@ class Field
     protected string $layout = 'tabbed-horizontal';
     protected bool $required = false;
     protected int $width = 100;
+    protected string $mask = '';
+    protected string $mimeTypes = '';
+    protected string $maskValidation = '';
     protected int $depth = 0;
     protected int $index = 0;
     protected mixed $header_template = false;
@@ -62,9 +65,9 @@ class Field
         return $this;
     }
 
-    public function set_default_values(array $values): self
+    public function set_default_values($values): self
     {
-        $this->initial_values = $values;
+        $this->initial_values = $values ?: [];
         return $this;
     }
 
@@ -86,6 +89,28 @@ class Field
         return $this;
     }
 
+    public function set_mime_types($value = false)
+    {
+        $this->mimeTypes = $value;
+        return $this;
+    }
+
+    public function set_mask($value = false)
+    {
+        if (is_string($value)) {
+            $value = str_replace("'", '"', $value);
+        }
+
+        $this->mask = $value;
+        return $this;
+    }
+
+
+    public function set_mask_validation($value = false)
+    {
+        $this->maskValidation = $value;
+        return $this;
+    }
 
     public function set_options(callable|array $options): self
     {
@@ -156,15 +181,14 @@ class Field
 
     public function render(): string
     {
-        
+
         $help_text = !empty($this->help_text) ? ('<small class="carbon-fields-frontend-help">' . htmlspecialchars($this->help_text, ENT_QUOTES, 'UTF-8')) . '</small>' : '';
         $html = '<div class="carbon-fields-frontend-field" style="width:' . $this->width . '%">';
-        
+
         if ($this->type === 'complex') {
 
             // Estrutura inicial diferente
             $html = $this->fieldComplex($help_text);
-
         } elseif ($this->type === 'rich_text') {
             $html .= $this->fieldRichText();
             $html .= $help_text;
@@ -194,7 +218,7 @@ class Field
             . '</label>';
 
         // Textarea simples
-        $html .= '<textarea name="' . esc_attr($name) . '" class="frontend-richtext" rows="8" ' . $required . '>'
+        $html .= '<textarea name="carbon_fields_frontend' . esc_attr($name) . '" class="frontend-richtext" rows="8" ' . $required . '>'
             . esc_textarea($value)
             . '</textarea>';
 
@@ -256,7 +280,7 @@ class Field
             $tabIndex++;
         }
         $html .= '</ul>';
-        $html .= '<div class="carbon-fields-frontend-complex-tab-add" data-action="add">+</div>';
+        $html .= '<div class="carbon-fields-frontend-complex-tab-add" data-action="add" data-depth="' . ($this->depth) . '">+</div>';
         $html .= '</div>';
 
         /* ITENS */
@@ -265,25 +289,26 @@ class Field
         foreach ($items as $item) {
             $activeClass = $tabIndex === 0 ? ' active' : '';
             $html .= '<div class="carbon-fields-frontend-complex-item' . $activeClass . '" data-index="' . $tabIndex . '" data-depth="' . $this->depth . '">';
+
+            // aplica valores iniciais recursivamente
+            $this->applyInitialValues($item);
+
             foreach ($this->fields as $subField) {
-                if (isset($item[$subField->name])) {
-                    $subField->set_default_value($item[$subField->name]);
-                }
-
+                $subField->set_depth($this->depth + 1);
                 $isLast = empty($subField->fields);
-
-                $subField->set_index($tabIndex); // ainda mantém para o path
+                $subField->set_index($tabIndex);
                 $subField->set_path($this->path, $isLast);
                 $html .= $subField->render();
             }
-            $html .= '<div class="carbon-fields-frontend-complex-remove-wrapper"><svg class="carbon-fields-frontend-complex-remove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><title>Remover</title><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" /></svg></div>';
 
+            $html .= '<div class="carbon-fields-frontend-complex-remove-wrapper"><svg class="carbon-fields-frontend-complex-remove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><title>Remover</title><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" /></svg></div>';
             $html .= '</div>';
             $tabIndex++;
         }
 
+
         // TEMPLATE INVISÍVEL
-        $html .= '<template class="carbon-fields-frontend-complex-item carbon-fields-frontend-template" data-index="__INDEX__" data-template-for="' . htmlspecialchars($dataComplexID, ENT_QUOTES, 'UTF-8') . '" data-depth="' . ($this->depth + 1) . '">';
+        $html .= '<template class="carbon-fields-frontend-complex-item carbon-fields-frontend-template" data-index="__INDEX__" data-template-for="' . htmlspecialchars($dataComplexID, ENT_QUOTES, 'UTF-8') . '" data-depth="' . ($this->depth) . '">';
 
         foreach ($this->fields as $subField) {
 
@@ -310,7 +335,7 @@ class Field
         // Apenas exibe a mensagem de "nenhum item" 
         $html .= '<div class="carbon-fields-frontend-complex-add-first">
             <p>Este item ainda não tem nenhum registro.</p>
-            <button type="button" class="carbon-fields-frontend-btn" data-action="add">Adicionar ' . (isset($this->singular_name) ? $this->singular_name : '') . '</button>
+            <button type="button" class="carbon-fields-frontend-btn" data-action="add" data-depth="' . ($this->depth) . '">Adicionar ' . (isset($this->singular_name) ? $this->singular_name : '') . '</button>
         </div>';
 
         $html .= $help_text;
@@ -358,9 +383,13 @@ class Field
                 '</textarea>';
         }
 
+        $mask = $this->mask ? (" data-mask='" . $this->mask . "' ") : "";
+        $validation = $this->maskValidation ? (" data-mask-validation='" . $this->maskValidation . "'") : "";
+        $mimeTypes = $this->mimeTypes ? (' accept="' . $this->mimeTypes . '" ') : '';
+
         // Campos de input normais (text, number, date, etc.)
         return '<label class="carbon-fields-frontend-label">' . htmlspecialchars($this->label) .  ($required ? '<span style="color:red"> *</span>' : '')  . '</label>' .
-            '<input type="' . htmlspecialchars($this->type) . '" name="carbon_fields_frontend' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" ' . $required . ' ' . $attrStr . '>';
+            '<input type="' . htmlspecialchars($this->type) . '" name="carbon_fields_frontend' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" ' . $required . ' ' . $attrStr . '" ' . $mask . $validation . $mimeTypes . ' >';
     }
 
 
@@ -376,5 +405,19 @@ class Field
             'min' => $this->min,
             'layout' => $this->layout ?? '',
         ];
+    }
+
+    protected function applyInitialValues(array $itemValues): void
+    {
+        foreach ($this->fields as $subField) {
+            if (isset($itemValues[$subField->name])) {
+                if ($subField->type === 'complex') {
+                    // Complex: set default_values recursivamente
+                    $subField->set_default_values($itemValues[$subField->name]);
+                } else {
+                    $subField->set_default_value($itemValues[$subField->name]);
+                }
+            }
+        }
     }
 }

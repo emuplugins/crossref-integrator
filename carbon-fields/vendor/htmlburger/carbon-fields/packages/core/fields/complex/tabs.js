@@ -1,3 +1,5 @@
+
+
 /**
  * External dependencies.
  */
@@ -46,7 +48,7 @@ function ComplexTabs( {
 									? (
 										<span
 											className="cf-complex__tabs-title"
-											dangerouslySetInnerHTML={ { __html: item.label } }
+											dangerouslySetInnerHTML={ { __html: stripHtml(e.label).trim() } }
 										></span>
 									)
 									: (

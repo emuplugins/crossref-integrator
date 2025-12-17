@@ -309,7 +309,7 @@ add_action('carbon_fields_register_fields', function () {
             Field::make('complex', 'citations', ' ')
                 ->set_layout('tabbed-horizontal')
                 ->add_fields([
-                    Field::make('text', 'unstructured_citation', __('Citation', 'crossref-integrator'))
+                    Field::make('rich_text', 'unstructured_citation', __('Citation', 'crossref-integrator'))
                         ->set_required(true)->set_width(25),
 
                     Field::make('text', 'doi', __('Work DOI', 'crossref-integrator'))->set_width(25),
